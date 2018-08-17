@@ -1,2 +1,2 @@
-# Zigny IDE
+# Signy IDE
 ### Integrate development environment
