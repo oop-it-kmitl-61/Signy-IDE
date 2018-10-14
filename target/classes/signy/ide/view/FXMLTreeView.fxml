@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<TreeView xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.kmitl.signy.ide.FXMLDocumentController" />
+	<!-- TODO Add Nodes -->

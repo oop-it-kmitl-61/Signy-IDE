@@ -1,0 +1,77 @@
+.tab-pane {
+
+
+
+}
+
+.tab-pane:top *.tab-header-area {
+
+    -fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;   
+
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+
+    -fx-background-color: #262626;
+
+}
+
+.tab {
+
+	-fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-padding: 0.0em 0.5em 0.3em 2.0em;
+
+	-fx-text-base-color: #e0e0e0;
+	-fx-background-radius: 0.0;
+    -fx-background-color: #303030;
+    -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
+    -fx-border-color: #1e1e1e #1e1e1e #686868 #1e1e1e
+
+}
+
+.tab:selected  {
+
+	-fx-text-base-color: white;
+    -fx-background-insets: 0.0;
+    -fx-background-color: #1e1e1e;
+    -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
+    -fx-border-color: #1e1e1e #1e1e1e #7289da #1e1e1e
+
+}
+
+.tab-label { 
+
+    -fx-padding: 0.0em 5.0em 0.0em 0.0em;
+
+}
+
+.tab-close-button {
+
+   -fx-background-color: #c2c2c2;
+
+}
+
+.tab-close-button:hover{
+
+	-fx-background-color: #7289da;
+
+}
+
+.text-area {
+
+    text-area-background: #1e1e1e;
+    -fx-box-border: text-area-background;
+    -fx-control-inner-background: text-area-background;
+    -fx-background-color: text-area-background;
+    -fx-background-insets: 0.0px, 0.0px, 0.0px, 0.0px;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+
+}
+
+.text-area .content {
+
+    -fx-background-color: text-area-background;
+
+}

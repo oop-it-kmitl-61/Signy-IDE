@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+
+<?import java.net.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.web.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import org.fxmisc.richtext.*?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity"
+	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="800.0" prefWidth="600.0"
+	xmlns="http://javafx.com/javafx/8.0.40"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="signy.ide.FXMLDocumentController">
+
+	<center>
+		<BorderPane>
+			<center>
+				<BorderPane>
+					<top>
+						<HBox fx:id="headBar" styleClass="head-bar" prefHeight="20.0"
+							prefWidth="1920.0">
+						</HBox>
+					</top>
+					<center>
+						<BorderPane fx:id="workspacePane">
+							<left>
+								<BorderPane fx:id="treeviewPane"
+									styleClass="treeview-pane" prefHeight="925.0" prefWidth="365.0">
+								</BorderPane>
+							</left>
+
+							<center>
+								<BorderPane>
+									<center>
+										<BorderPane fx:id="editorPane"
+											styleClass="editor-pane">
+										</BorderPane>
+									</center>
+
+									<bottom>
+										<BorderPane fx:id="terminalPane">
+											<center>
+											<TabPane prefHeight="350.0" prefWidth="1520.0"
+												tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+												<tabs>
+													<Tab text="Problem">
+
+														<content>
+
+														</content>
+
+													</Tab>
+													<Tab text="Console">
+
+														<content>
+
+														</content>
+
+													</Tab>
+												</tabs>
+											</TabPane>
+											</center>
+										</BorderPane>
+									</bottom>
+								</BorderPane>
+							</center>
+						</BorderPane>
+					</center>
+				</BorderPane>
+			</center>
+			<right>
+				<BorderPane fx:id="profileBar" styleClass="profile-bar"
+					prefHeight="950.0" prefWidth="30.0" minWidth="30.0">
+
+				</BorderPane>
+			</right>
+		</BorderPane>
+	</center>
+	<bottom>
+		<BorderPane fx:id="statusBar" styleClass="status-bar"
+			prefHeight="20.0" prefWidth="1920.0" minHeight="20.0">
+
+		</BorderPane>
+	</bottom>
+
+</BorderPane>

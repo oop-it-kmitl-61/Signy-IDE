@@ -1,0 +1,19 @@
+.treeview-pane {
+
+	-fx-background-color: #2e2e2e;
+	-fx-padding: 0.0em 0.4em 0.0em 0.0em;
+
+}
+
+.tree-view {
+
+	-fx-background-color: #1e1e1e;
+
+}
+
+.tree-view .tree-cell {
+
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: white;
+
+}

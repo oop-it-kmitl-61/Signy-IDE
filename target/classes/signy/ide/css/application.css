@@ -1,0 +1,30 @@
+.root {
+
+
+
+}
+
+BorderPane, AnchorPane {
+
+	-fx-background-color: #1e1e1e;
+
+}
+
+.head-bar, .profile-bar {
+
+	-fx-background-color: #2e2e2e;
+
+}
+
+.status-bar {
+	
+	-fx-background-color: #7289da;
+
+}
+
+.head-bar > .label {
+
+	-fx-text-fill: #7289da;
+	-fx-padding: 0em 0em 0em 1em;
+
+}
