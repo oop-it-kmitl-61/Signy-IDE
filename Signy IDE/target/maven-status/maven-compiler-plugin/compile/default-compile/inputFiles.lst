@@ -1,6 +1,8 @@
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\src\main\java\edu\kmitl\signy\ide\Main.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\src\main\java\edu\kmitl\signy\ide\module\SignyMenuBar.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\src\main\java\edu\kmitl\signy\ide\module\EditorTab.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\src\main\java\edu\kmitl\signy\ide\FXMLSplashController.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\src\main\java\edu\kmitl\signy\ide\module\Editor.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\src\main\java\edu\kmitl\signy\ide\FXMLDocumentController.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SEditor.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\Main.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\FXMLDocumentController.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SashPane.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\STreeView.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\FXMLSplashController.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SMenuBar.java
+T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SEditorTab.java

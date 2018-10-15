@@ -1,4 +1,4 @@
-package signy.ide.module;
+package signy.ide.core.module;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +23,7 @@ public class SEditorTab {
 	private boolean modified = false;
 	private String fileExtension;
 
-	SEditorTab() {
+	public SEditorTab() {
 
 		this("Untitled", "", null, ".*");
 
@@ -52,7 +52,7 @@ public class SEditorTab {
 
 	}
 
-	SEditorTab(File file) {
+	public SEditorTab(File file) {
 
 		this(file.getName(), fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
 				file.getName().substring(file.getName().lastIndexOf(".")));
@@ -60,7 +60,7 @@ public class SEditorTab {
 
 	}
 
-	Tab getTab() {
+	public Tab getTab() {
 		return this.tab;
 	}
 
@@ -68,11 +68,11 @@ public class SEditorTab {
 		return this.textArea;
 	}
 
-	File getFile() {
+	public File getFile() {
 		return this.file;
 	}
 
-	Path getPath() {
+	public Path getPath() {
 		return this.path;
 	}
 
@@ -80,19 +80,19 @@ public class SEditorTab {
 		this.path = path;
 	}
 
-	String getFileName() {
+	public String getFileName() {
 		return this.fileName;
 	}
 
-	String getContent() {
+	public String getContent() {
 		return textArea.getText();
 	}
 
-	String getFileExtension() {
+	public String getFileExtension() {
 		return this.fileExtension;
 	}
 
-	boolean isModified() {
+	public boolean isModified() {
 		return this.modified;
 	}
 
@@ -106,7 +106,7 @@ public class SEditorTab {
 		this.modified = modified;
 	}
 
-	void updateReference(File file) {
+	public void updateReference(File file) {
 		this.file = file;
 		this.fileName = file.getName();
 		this.path = file.toPath();

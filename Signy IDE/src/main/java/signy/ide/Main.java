@@ -58,6 +58,9 @@ public class Main extends Application {
 			stage = primaryStage;
 			primaryStage.initStyle(StageStyle.DECORATED);
 			primaryStage.setScene(scene);
+			primaryStage.sizeToScene();
+			primaryStage.setMinWidth(235);
+	        primaryStage.setMinHeight(155);
 //			primaryStage.getIcons().add(new Image(""));
 			setTitle(null);
 

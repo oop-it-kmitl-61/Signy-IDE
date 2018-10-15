@@ -1,4 +1,4 @@
-package signy.ide.module;
+package signy.ide.controls.panes;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -17,9 +17,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import signy.ide.Main;
-import signy.ide.module.SEditorTab;
+import signy.ide.core.module.SEditorTab;
 
-public class SEditor {
+public class SEditorPane {
 
 	private Main mainApp;
 	private TabPane tabPane;
@@ -36,7 +36,7 @@ public class SEditor {
 	@FXML
 	private BorderPane treeviewPane;
 
-	public SEditor(Main main) {
+	public SEditorPane(Main main) {
 
 		this.mainApp = main;
 
@@ -84,7 +84,7 @@ public class SEditor {
 		createNewEditorTab(null);
 	}
 
-	void handleOpenFiles() {
+	public void handleOpenFiles() {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.getExtensionFilters().addAll(javaExtensionFilter, txtExtensionFilter, allExtensionFilter);
 		if (recentFile != null) {
@@ -101,15 +101,15 @@ public class SEditor {
 		}
 	}
 
-	void handleSaveFile() {
+	public void handleSaveFile() {
 		saveFile(getCurrentActiveTab());
 	}
 
-	void handleSaveAs() {
+	public void handleSaveAs() {
 		saveFile(getCurrentActiveTab(), true);
 	}
 
-	void handleSaveAllFiles() {
+	public void handleSaveAllFiles() {
 		if (getCurrentActiveTab() == null) {
 			return;
 		}

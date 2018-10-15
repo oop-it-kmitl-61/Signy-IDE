@@ -27,7 +27,7 @@
 	-fx-background-radius: 0.0;
     -fx-background-color: #303030;
     -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
-    -fx-border-color: #1e1e1e #1e1e1e #686868 #1e1e1e
+    -fx-border-color: #1e1e1e #1e1e1e #686868 #1e1e1e;
 
 }
 
@@ -37,7 +37,7 @@
     -fx-background-insets: 0.0;
     -fx-background-color: #1e1e1e;
     -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
-    -fx-border-color: #1e1e1e #1e1e1e #7289da #1e1e1e
+    -fx-border-color: #1e1e1e #1e1e1e #7289da #1e1e1e;
 
 }
 

@@ -1,4 +1,4 @@
-package signy.ide.module;
+package signy.ide.controls.panes;
 
 import java.util.Stack;
 
@@ -11,22 +11,32 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
+import javafx.geometry.Side;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 
 public class STreeView {
+
+	private TabPane tabPane;
 
 	private Stack<?> i;
 	private static TreeItem<String> rootItem;
 
 	public STreeView() {
 
-		
+		this.tabPane = new TabPane();
+		tabPane.setSide(Side.LEFT);
+		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
+		tabPane.getTabs().add(new Tab("Files"));
+		tabPane.getTabs().add(new Tab("AST View"));
+		tabPane.getTabs().add(new Tab("Search"));
 
 	}
 
-	public TreeView<String> getTreeView() {
-		return new TreeView<String> (null);
+	public TabPane getTabPane() {
+		return this.tabPane;
 	}
 
 	public static void createOutline(String input) {

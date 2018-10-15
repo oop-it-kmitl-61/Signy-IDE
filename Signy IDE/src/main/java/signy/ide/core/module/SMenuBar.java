@@ -1,4 +1,4 @@
-package signy.ide.module;
+package signy.ide.core.module;
 
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -8,19 +8,19 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import signy.ide.Main;
-import signy.ide.module.SEditor;
+import signy.ide.controls.panes.SEditorPane;
 
 public class SMenuBar {
 
 	private Main mainApp;
-	private SEditor editor;
+	private SEditorPane editor;
 
 	private Menu fileMenu, editMenu, selectionMenu, viewMenu, goMenu, helpMenu;
 
-	public SMenuBar(Main main, SEditor sEditor) {
+	public SMenuBar(Main main, SEditorPane sEditorPane) {
 
 		this.mainApp = main;
-		this.editor = sEditor;
+		this.editor = sEditorPane;
 
 		// 1. File Menu
 		Menu fileMenu = new Menu("_File");
