@@ -75,9 +75,11 @@
     -fx-text-fill: white;
 }
 
-.list-cell:even {
+.list-cell {
     -fx-background-color: #1e1e1e;
+    -fx-text-fill: white;
 }
+
 
 .list-cell:filled:hover {
     -fx-background-color: #7289da;

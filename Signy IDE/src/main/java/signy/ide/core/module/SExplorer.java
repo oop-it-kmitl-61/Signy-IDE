@@ -33,16 +33,17 @@ public class SExplorer {
 	
 	public ListView<String> getList(String path){
 		list = new ListView<String>();
-		if (new File(path).getParentFile() != null) {
-			ObservableList<String> dir = FXCollections.observableArrayList(" < Back ");
-			dir.addAll(FXCollections.observableArrayList(directories));
-			dir.addAll(FXCollections.observableArrayList(files));
-			list.setItems(dir);
-		}else {
-			ObservableList<String> dir = FXCollections.observableArrayList(directories);
-			dir.addAll(FXCollections.observableArrayList(files));
-			list.setItems(dir);
+		ArrayList<String> drives = new ArrayList<String>();
+		for (File f : File.listRoots()) {
+			drives.add(">> " + f.getAbsolutePath());
 		}
+		ObservableList<String> dir = FXCollections.observableArrayList(drives);
+		if (new File(path).getParentFile() != null) {
+			dir.addAll(FXCollections.observableArrayList(" < Back "));
+		}
+		dir.addAll(FXCollections.observableArrayList(directories));
+		dir.addAll(FXCollections.observableArrayList(files));
+		list.setItems(dir);
 		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
 
 			@Override
@@ -59,8 +60,18 @@ public class SExplorer {
 					list = getList(CurrentPath);
 					
 					tab.setContent(list);
+				}else if(selected.startsWith(">> ")) {
+					CurrentPath = selected.substring(3);
+					
+					System.out.println(CurrentPath);
+					
+					getDirectory(CurrentPath);
+					
+					list = getList(CurrentPath);
+					
+					tab.setContent(list);
 				}else if(selected.startsWith(" < ")) {
-					 CurrentPath = new File(CurrentPath).getParent();
+					CurrentPath = new File(CurrentPath).getParent();
 					
 					System.out.println(CurrentPath);
 					
