@@ -15,6 +15,7 @@ import javafx.geometry.Side;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TreeItem;
+import signy.ide.core.module.SExplorer;
 import javafx.scene.control.TabPane.TabClosingPolicy;
 
 public class STreeView {
@@ -29,7 +30,7 @@ public class STreeView {
 		this.tabPane = new TabPane();
 		tabPane.setSide(Side.LEFT);
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
-		tabPane.getTabs().add(new Tab("Files"));
+		tabPane.getTabs().add(new SExplorer().getTab());
 		tabPane.getTabs().add(new Tab("AST View"));
 		tabPane.getTabs().add(new Tab("Search"));
 
