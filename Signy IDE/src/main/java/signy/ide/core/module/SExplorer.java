@@ -23,42 +23,12 @@ public class SExplorer {
 	
 	public SExplorer(String path) {
 		tab = new Tab();
-		getDirectory(path);
-		list = getList(path);
 		CurrentPath = path;
+		getDirectory(CurrentPath);
+		list = getList(CurrentPath);
 		tab.setContent(list);
 		tab.setText("Explorer " + CurrentPath);
 		
-		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-			@Override
-			public void handle(MouseEvent event) {
-				String selected = list.getSelectionModel().getSelectedItem();
-				System.out.println(selected);
-				if(selected.startsWith(" > ")) {
-					CurrentPath = CurrentPath + selected.substring(3);
-					
-					System.out.println(CurrentPath);
-					
-					getDirectory(CurrentPath);
-					
-					list = getList(CurrentPath);
-					
-					tab.setContent(list);
-				}else if(selected.startsWith(" < ")) {
-					 CurrentPath = new File(CurrentPath).getParent();
-					
-					System.out.println(CurrentPath);
-					
-					getDirectory(CurrentPath);
-					
-					list = getList(CurrentPath);
-					
-					tab.setContent(list);
-				}
-			}
-			
-		});
 	}
 	
 	public ListView<String> getList(String path){
@@ -80,7 +50,7 @@ public class SExplorer {
 				String selected = list.getSelectionModel().getSelectedItem();
 				System.out.println(selected);
 				if(selected.startsWith(" > ")) {
-					CurrentPath = CurrentPath + selected.substring(3);
+					CurrentPath = CurrentPath + "\\" + selected.substring(3);
 					
 					System.out.println(CurrentPath);
 					
