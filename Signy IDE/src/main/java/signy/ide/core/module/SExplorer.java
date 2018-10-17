@@ -27,7 +27,7 @@ public class SExplorer {
 		getDirectory(CurrentPath);
 		list = getList(CurrentPath);
 		tab.setContent(list);
-		tab.setText("Explorer " + CurrentPath);
+		tab.setText("Explorer");
 		
 	}
 	
