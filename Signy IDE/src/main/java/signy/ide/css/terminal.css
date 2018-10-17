@@ -70,6 +70,17 @@
 
 }
 
+.text-field {
+
+    text-area-background: #262626;
+    -fx-box-border: text-area-background;
+    -fx-control-inner-background: text-area-background;
+    -fx-background-color: text-area-background;
+    -fx-background-insets: 0.0px, 0.0px, 0.0px, 0.0px;
+    -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+
+}
+
 .text-area .content {
 
     -fx-background-color: text-area-background;

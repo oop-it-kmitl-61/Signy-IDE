@@ -1,8 +1,9 @@
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SEditor.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\Main.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\FXMLDocumentController.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SashPane.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\STreeView.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\FXMLSplashController.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SMenuBar.java
-T:\Users\Pokdengi\eclipse-workspace\Signy-IDE\Signy IDE\src\main\java\signy\ide\module\SEditorTab.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\core\module\SMenuBar.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\Main.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\FXMLSplashController.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\core\module\SEditorTab.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\FXMLDocumentController.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\controls\panes\SEditorPane.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\controls\panes\STreeView.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\lib\org\eclipse\fx\ui\panes\SashPane.java
+C:\Users\Unixcorn\git\Signy-IDE\Signy-IDE\Signy IDE\src\main\java\signy\ide\controls\panes\STerminalPane.java
