@@ -49,11 +49,8 @@ public class SExplorer {
 			@Override
 			public void handle(MouseEvent event) {
 				String selected = list.getSelectionModel().getSelectedItem();
-				System.out.println(selected);
 				if(selected.startsWith(" > ")) {
 					CurrentPath = CurrentPath + "\\" + selected.substring(3);
-					
-					System.out.println(CurrentPath);
 					
 					getDirectory(CurrentPath);
 					
@@ -62,8 +59,6 @@ public class SExplorer {
 					tab.setContent(list);
 				}else if(selected.startsWith(">> ")) {
 					CurrentPath = selected.substring(3);
-					
-					System.out.println(CurrentPath);
 					
 					getDirectory(CurrentPath);
 					
