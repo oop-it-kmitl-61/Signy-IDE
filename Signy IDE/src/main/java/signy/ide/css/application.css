@@ -28,6 +28,19 @@ BorderPane, AnchorPane {
 
 }
 
+.tool-bar {
+
+	-fx-background-color: #262626;
+
+}
+
+.tool-bar > .label {
+
+	-fx-text-fill: #7289da;
+	-fx-padding: 0.0em 0.0em 0.0em 1.0em;
+
+}
+
 .sash-pane:horizontal > .sash {
 
    -fx-background-color: #2e2e2e;

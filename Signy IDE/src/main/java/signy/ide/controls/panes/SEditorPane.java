@@ -55,6 +55,10 @@ public class SEditorPane {
 		});
 	}
 
+	SEditorPane getThis() {
+		return this;
+	}
+
 	public TabPane getTabPane() {
 		return tabPane;
 	}
@@ -127,7 +131,7 @@ public class SEditorPane {
 		closeFile(getCurrentActiveTab());
 	}
 
-	private void createNewEditorTab(File file) {
+	public void createNewEditorTab(File file) {
 		if (file == null) {
 			sEditorTab = new SEditorTab();
 		} else {

@@ -19,22 +19,31 @@
 			<center>
 				<BorderPane fx:id="test">
 					<top>
-						<HBox fx:id="headBar" maxHeight="30.0" minHeight="30.0"
-							prefHeight="30.0" styleClass="head-bar">
+						<HBox fx:id="headBar" styleClass="head-bar" maxHeight="30.0" minHeight="30.0"
+							prefHeight="30.0">
 						</HBox>
 					</top>
 					<center>
-						<SashPane fx:id="workspacePane">
-							<items>
-								<AnchorPane fx:id="treeviewPane" />
-								<SashPane fx:id="subWorkspacePane">
+						<BorderPane>
+							<top>
+								<HBox fx:id="toolBar" styleClass="tool-bar" maxHeight="33.0" minHeight="33.0"
+									prefHeight="33.0">
+								</HBox>
+							</top>
+							<center>
+								<SashPane fx:id="workspacePane">
 									<items>
-										<AnchorPane fx:id="editorPane" />
-										<AnchorPane fx:id="terminalPane" />
+										<AnchorPane fx:id="treeviewPane" />
+										<SashPane fx:id="subWorkspacePane">
+											<items>
+												<AnchorPane fx:id="editorPane" />
+												<AnchorPane fx:id="terminalPane" />
+											</items>
+										</SashPane>
 									</items>
 								</SashPane>
-							</items>
-						</SashPane>
+							</center>
+						</BorderPane>
 					</center>
 
 

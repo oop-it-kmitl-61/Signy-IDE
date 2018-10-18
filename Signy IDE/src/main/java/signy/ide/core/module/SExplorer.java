@@ -8,100 +8,140 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TreeCell;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
+import signy.ide.controls.panes.SEditorPane;
 
 public class SExplorer {
 	private Tab tab;
-	private ArrayList<String> directories;
-	private ArrayList<String> files;
-	private ListView<String> list;
-	private String CurrentPath;
-	
+	private SEditorPane editor;
+	private static String DefaultPath = "C:\\";
+
 	public SExplorer() {
-		this("C:\\");
+		this(DefaultPath);
 	}
-	
+
 	public SExplorer(String path) {
-		tab = new Tab();
-		CurrentPath = path;
-		getDirectory(CurrentPath);
-		list = getList(CurrentPath);
-		tab.setContent(list);
+		this.tab = new Tab();
+//		VBox vb = new VBox();
+//		File[] drives = File.listRoots();
+//		vb.getChildren().add(getTreeView(DefaultPath));
+//		if (drives != null && drives.length > 0) {
+//		    for (File aDrive : drives) {
+//		    	vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
+//		    }
+//		}
+//		tab.setContent(vb);
+		tab.setContent(getTreeView(DefaultPath));
 		tab.setText("Explorer");
-		
+	}
+
+	public void addListenerToEditor(SEditorPane editor) {
+		this.editor = editor;
 	}
 	
-	public ListView<String> getList(String path){
-		list = new ListView<String>();
-		ArrayList<String> drives = new ArrayList<String>();
-		for (File f : File.listRoots()) {
-			drives.add(">> " + f.getAbsolutePath());
-		}
-		ObservableList<String> dir = FXCollections.observableArrayList(drives);
-		if (new File(path).getParentFile() != null) {
-			dir.addAll(FXCollections.observableArrayList(" < Back "));
-		}
-		dir.addAll(FXCollections.observableArrayList(directories));
-		dir.addAll(FXCollections.observableArrayList(files));
-		list.setItems(dir);
-		list.setOnMouseClicked(new EventHandler<MouseEvent>() {
+	public TreeView<File> getTreeView(String path){
+		TreeItem<File> root = createNode(new File(path));	
+		TreeView<File> treeView = new TreeView<File>(root);
+		treeView.setCellFactory(new Callback<TreeView<File>, TreeCell<File>>() {
+		    public TreeCell<File> call(TreeView<File> tv) {
+		        return new TreeCell<File>() {
+
+		            @Override
+		            protected void updateItem(File item, boolean empty) {
+		                super.updateItem(item, empty);
+
+		                setText((empty || item == null) ? "" : (item.getParent() == null)? item.getAbsolutePath() :item.getName());
+		            }
+
+		        };
+		    }
+		});
+		treeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			private TreeItem<File> previous;
 
 			@Override
 			public void handle(MouseEvent event) {
-				String selected = list.getSelectionModel().getSelectedItem();
-				if(selected.startsWith(" > ")) {
-					CurrentPath = CurrentPath + "\\" + selected.substring(3);
-					
-					getDirectory(CurrentPath);
-					
-					list = getList(CurrentPath);
-					
-					tab.setContent(list);
-				}else if(selected.startsWith(">> ")) {
-					CurrentPath = selected.substring(3);
-					
-					getDirectory(CurrentPath);
-					
-					list = getList(CurrentPath);
-					
-					tab.setContent(list);
-				}else if(selected.startsWith(" < ")) {
-					CurrentPath = new File(CurrentPath).getParent();
-					
-					System.out.println(CurrentPath);
-					
-					getDirectory(CurrentPath);
-					
-					list = getList(CurrentPath);
-					
-					tab.setContent(list);
+				TreeItem<File> tmp = (TreeItem<File>) treeView.getSelectionModel().getSelectedItem();
+				if (previous == tmp && tmp.getValue().isFile()) {
+					editor.createNewEditorTab(tmp.getValue());
+					previous = null;
+				} else {
+					previous = tmp;
 				}
 			}
-			
+
 		});
-		return list;
-		
+		return treeView;
 	}
-	
-	public void getDirectory(String path) {
-		File file = new File(path);
-		directories = new ArrayList<String>();
-		files = new ArrayList<String>();
-		if(file.isDirectory()){
-			
-			for(File f:file.listFiles()){
-				if(f.isDirectory()) {
-					directories.add(" > " + f.getName());
-				}else {
-					files.add(f.getName());
+
+	private TreeItem<File> createNode(final File f) {
+		return new TreeItem<File>(f) {
+
+			private boolean isLeaf;
+			private boolean isFirstTimeChildren = true;
+			private boolean isFirstTimeLeaf = true;
+
+			@Override
+			public ObservableList<TreeItem<File>> getChildren() {
+				if (isFirstTimeChildren) {
+					isFirstTimeChildren = false;
+					super.getChildren().setAll(buildChildren(this));
 				}
+				return super.getChildren();
 			}
-		}
-		
+
+			@Override
+			public boolean isLeaf() {
+				if (isFirstTimeLeaf) {
+					isFirstTimeLeaf = false;
+					File f = (File) getValue();
+					isLeaf = f.isFile();
+				}
+
+				return isLeaf;
+			}
+
+			public String getPath() {
+				return f.getName();
+			}
+
+			private ObservableList<TreeItem<File>> buildChildren(TreeItem<File> TreeItem) {
+				File f = TreeItem.getValue();
+				if (f != null && f.isDirectory()) {
+					File[] files = f.listFiles();
+					if (files != null) {
+						ObservableList<TreeItem<File>> children = FXCollections.observableArrayList();
+						ObservableList<TreeItem<File>> childrenDir = FXCollections.observableArrayList();
+						for (File childFile : files) {
+							if (childFile.isDirectory()) {
+								childrenDir.add(createNode(childFile));
+							} else {
+								children.add(createNode(childFile));
+							}
+						}
+						childrenDir.addAll(children);
+
+						return childrenDir;
+					}
+				}
+
+				return FXCollections.emptyObservableList();
+			}
+		};
 	}
-	
+
 	public Tab getTab() {
-		
+
 		return this.tab;
+	}
+
+	public static void setDefaultPath(String path) {
+		SExplorer.DefaultPath = path;
 	}
 }

@@ -21,7 +21,7 @@ import signy.ide.core.module.SMenuBar;
 public class FXMLDocumentController implements Initializable {
 
 	@FXML
-	private HBox headBar, statusBar;
+	private HBox headBar, toolBar, statusBar;
 	@FXML
 	private VBox profileBar;
 	@FXML
@@ -43,7 +43,10 @@ public class FXMLDocumentController implements Initializable {
 
 		this.mainApp = Main.getMainApp();
 
-		treeview = new STreeView();
+		sEditorPane = new SEditorPane(mainApp);
+		treeview = new STreeView(sEditorPane);
+		sTerminalPane = new STerminalPane();
+
 		treeviewPane.getStylesheets().add(getClass().getResource("css/tree-view.css").toExternalForm());
 		treeviewPane.getChildren().add(treeview.getTabPane());
 		AnchorPane.setTopAnchor(treeview.getTabPane(), 0.0);
@@ -51,7 +54,6 @@ public class FXMLDocumentController implements Initializable {
 		AnchorPane.setBottomAnchor(treeview.getTabPane(), 0.0);
 		AnchorPane.setLeftAnchor(treeview.getTabPane(), 0.0);
 
-		sEditorPane = new SEditorPane(mainApp);
 		editorPane.getStylesheets().add(getClass().getResource("css/editor.css").toExternalForm());
 		editorPane.getChildren().add(sEditorPane.getTabPane());
 		AnchorPane.setTopAnchor(sEditorPane.getTabPane(), 0.0);
@@ -59,7 +61,6 @@ public class FXMLDocumentController implements Initializable {
 		AnchorPane.setBottomAnchor(sEditorPane.getTabPane(), 0.0);
 		AnchorPane.setLeftAnchor(sEditorPane.getTabPane(), 0.0);
 
-		sTerminalPane = new STerminalPane();
 		terminalPane.getStylesheets().add(getClass().getResource("css/terminal.css").toExternalForm());
 		terminalPane.getChildren().add(sTerminalPane.getTabPane());
 		AnchorPane.setTopAnchor(sTerminalPane.getTabPane(), 0.0);
@@ -78,6 +79,9 @@ public class FXMLDocumentController implements Initializable {
 
 		Label label = new Label("LogoBoi");
 		headBar.getChildren().add(label);
+
+		Label label2 = new Label("Tool Bar Boi");
+		toolBar.getChildren().add(label2);
 
 		menuBar = new SMenuBar(mainApp, sEditorPane).getMenuBar();
 		headBar.getChildren().add(menuBar);
