@@ -16,6 +16,7 @@ public class SConsoleTab {
 	private String content = "";
 	private Process p;
 	private ProcessBuilder builder;
+	private Thread thread;
 	public SConsoleTab() {
 		this("Console");
 	}
@@ -38,39 +39,48 @@ public class SConsoleTab {
 			}
 		});
 		this.tab.setText(title);
-		this.textArea.setText(content);
 
 	}
 
 	public void runCommand(String Command) {
-		try {
-			String line = null;
-			builder = new ProcessBuilder("cmd.exe", "/c", Command);
-			builder.redirectErrorStream(true);
-			p = builder.start();
-			content += "\n > " + Command +" \n ";
+		thread = new Thread(new Runnable() {
 
-			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = in.readLine()) != null) {
-				content += line + "\n";
+			@Override
+			public void run() {
+				try {
+					String line = null;
+					builder = new ProcessBuilder("cmd.exe", "/c", Command);
+					builder.redirectErrorStream(true);
+					p = builder.start();
+					content += "\n > " + Command +" \n ";
+
+					BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+					while ((line = in.readLine()) != null) {
+						content += line + "\n";
+						textArea.setText(content);
+					}
+
+					BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+					while ((line = er.readLine()) != null) {
+						content += line + "\n";
+						textArea.setText(content);
+					}
+
+					p.waitFor();
+					p.getInputStream().close();
+					p.getErrorStream().close();
+				} catch (IOException | InterruptedException e) {
+					content += e.getMessage();
+					textArea.setText(content);
+				}
+				p.destroy();
+				commandtf.setText("");
+				
 			}
-
-			BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			while ((line = er.readLine()) != null) {
-				content += line + "\n";
-			}
-
-			p.waitFor();
-			p.getInputStream().close();
-			p.getErrorStream().close();
-		} catch (IOException | InterruptedException e) {
-			content += e.getMessage();
-		} finally {
 			
-			p.destroy();
-			commandtf.setText("");
-			textArea.setText(content);
-		}
+		});
+		thread.start();
+		
 	}
 
 	public Tab getTab() {
