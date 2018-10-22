@@ -37,7 +37,7 @@ public class SExplorer {
 //		    }
 //		}
 //		tab.setContent(vb);
-		tab.setContent(getTreeView(DefaultPath));
+		tab.setContent(getTreeView(path));
 		tab.setText("Explorer");
 	}
 

@@ -15,7 +15,7 @@ import javafx.scene.layout.VBox;
 import lib.org.eclipse.fx.ui.panes.SashPane;
 import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.STerminalPane;
-import signy.ide.controls.panes.STreeView;
+import signy.ide.controls.panes.SViewPane;
 import signy.ide.core.module.SMenuBar;
 
 public class FXMLDocumentController implements Initializable {
@@ -33,7 +33,7 @@ public class FXMLDocumentController implements Initializable {
 
 	private Main mainApp;
 	private MenuBar menuBar;
-	private STreeView treeview;
+	private SViewPane treeview;
 	private static SEditorPane sEditorPane;
 	private static STerminalPane sTerminalPane;
 	private static Thread methodupdate;
@@ -44,7 +44,7 @@ public class FXMLDocumentController implements Initializable {
 		this.mainApp = Main.getMainApp();
 
 		sEditorPane = new SEditorPane(mainApp);
-		treeview = new STreeView(sEditorPane);
+		treeview = new SViewPane(sEditorPane);
 		sTerminalPane = new STerminalPane();
 
 		treeviewPane.getStylesheets().add(getClass().getResource("css/tree-view.css").toExternalForm());
@@ -55,6 +55,7 @@ public class FXMLDocumentController implements Initializable {
 		AnchorPane.setLeftAnchor(treeview.getTabPane(), 0.0);
 
 		editorPane.getStylesheets().add(getClass().getResource("css/editor.css").toExternalForm());
+		editorPane.getStylesheets().add(getClass().getResource("css/document.css").toExternalForm());
 		editorPane.getChildren().add(sEditorPane.getTabPane());
 		AnchorPane.setTopAnchor(sEditorPane.getTabPane(), 0.0);
 		AnchorPane.setRightAnchor(sEditorPane.getTabPane(), 0.0);
@@ -80,8 +81,8 @@ public class FXMLDocumentController implements Initializable {
 		Label label = new Label("LogoBoi");
 		headBar.getChildren().add(label);
 
-		Label label2 = new Label("Tool Bar Boi");
-		toolBar.getChildren().add(label2);
+//		Label label2 = new Label("Tool Bar Boi");
+//		toolBar.getChildren().add(label2);
 
 		menuBar = new SMenuBar(mainApp, sEditorPane).getMenuBar();
 		headBar.getChildren().add(menuBar);

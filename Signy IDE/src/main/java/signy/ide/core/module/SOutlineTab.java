@@ -27,8 +27,6 @@ public class SOutlineTab {
 	private Tab tab;
 	private static TreeView<String> treeView;
 
-	private Stack<?> i;
-
 	private SEditorPane sEditor;
 
 	public SOutlineTab() {
@@ -46,10 +44,11 @@ public class SOutlineTab {
 
 	public void listenToEditor(SEditorPane sEditor) {
 		this.sEditor = sEditor;
-		sEditor.getTabPane().getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
+		this.sEditor.getTabPane().getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 			if (newTab != null) {
-				createOutline(sEditor.getCurrentActiveTab().getTextArea().getText());
-			} else {
+				createOutline(this.sEditor.getCurrentActiveTab().getTextArea().getText());
+			}
+			else {
 
 			}
 		});

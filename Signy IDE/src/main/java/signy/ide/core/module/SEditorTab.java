@@ -8,14 +8,18 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.CodeArea;
+import org.fxmisc.richtext.LineNumberFactory;
+
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextArea;
+import signy.ide.core.dom.JavaDocumentPartitioner;
 
 public class SEditorTab {
 
 	private Tab tab;
 	private String tabTitle;
-	private TextArea textArea;
+	private CodeArea textArea;
 
 	private File file;
 	private String fileName;
@@ -31,24 +35,35 @@ public class SEditorTab {
 
 	SEditorTab(String title, String content, Path path, String fileExtension) {
 
-		this.fileName = title;
+		fileName = title;
 		this.path = path;
 		this.fileExtension = "*" + fileExtension;
 
-		this.tab = new Tab();
-		this.textArea = new TextArea();
+		tab = new Tab();
+		textArea = new CodeArea();
+		textArea.setParagraphGraphicFactory(LineNumberFactory.get(textArea));
 
-		this.textArea.setText(content);
-
-		this.textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
+		textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
 			setModified(true);
+			if (this.fileExtension.equals("*.java")) {
+				SOutlineTab.createOutline(textArea.getText());
+				try {
+					textArea.setStyleSpans(0, JavaDocumentPartitioner.getSyntaxHighlighting(newValue));
+				}
+				catch (StackOverflowError e) {
+					System.err.println("StackOverflowError : Parentheses in text content didn't correctly.");
+				}
+			}
 		}));
 
-		this.tab.setUserData(this);
+		textArea.appendText(content);
+		modified = false;
 
-		this.tabTitle = title;
-		this.tab.setText(tabTitle);
-		this.tab.setContent(textArea);
+		tab.setUserData(this);
+
+		tabTitle = title;
+		tab.setText(tabTitle);
+		tab.setContent(new VirtualizedScrollPane<>(textArea));
 
 	}
 
@@ -64,7 +79,7 @@ public class SEditorTab {
 		return this.tab;
 	}
 
-	public TextArea getTextArea() {
+	public CodeArea getTextArea() {
 		return this.textArea;
 	}
 
@@ -99,8 +114,7 @@ public class SEditorTab {
 	void setModified(boolean modified) {
 		if (this.modified == false && modified == true && this.path != null) {
 			this.tab.setText("> " + tabTitle);
-		}
-		else if (modified == false) {
+		} else if (modified == false) {
 			this.tab.setText(tabTitle);
 		}
 		this.modified = modified;
