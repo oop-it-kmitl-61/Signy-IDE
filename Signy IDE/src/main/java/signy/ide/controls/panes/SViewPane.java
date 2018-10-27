@@ -20,7 +20,7 @@ public class SViewPane {
 		tabPane.setSide(Side.LEFT);
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-		sExplorer = new SExplorer("C:\\C");
+		sExplorer = new SExplorer();
 		sExplorer.addListenerToEditor(sEditor);
 		sOutlineTab = new SOutlineTab();
 		sOutlineTab.listenToEditor(sEditor);
