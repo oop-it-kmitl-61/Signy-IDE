@@ -1,9 +1,6 @@
 package signy.ide.core.module;
 
 import java.io.*;
-
-import javax.swing.JTextArea;
-
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -15,7 +12,7 @@ public class SConsoleTab {
 	private TextArea textArea;
 	private TextField commandtf;
 	private ProcessBuilderCommand pbc;
-	
+
 	public SConsoleTab() {
 		this("Console");
 	}
@@ -33,8 +30,8 @@ public class SConsoleTab {
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (ke.getCode() == KeyCode.ENTER) {
-					
-					if(pbc != null && pbc.isRunning()) {
+
+					if (pbc != null && pbc.isRunning()) {
 						pbc.stop();
 					}
 					runCommand(commandtf.getText());
@@ -43,7 +40,6 @@ public class SConsoleTab {
 				}
 			}
 		});
-		
 
 	}
 
@@ -51,32 +47,33 @@ public class SConsoleTab {
 		try {
 			pbc = new ProcessBuilderCommand(textArea, Command);
 		} catch (InterruptedException | IOException e) {
-			e.printStackTrace();
+			textArea.appendText(" [ERROR] " + e.getMessage() + "\n");
 		}
-		
+
 	}
 
 	public Tab getTab() {
 		return this.tab;
 	}
-	
+
 	public class ProcessBuilderCommand {
 		private Process p;
 		private ProcessBuilder pb;
 		private Thread thread;
 		private boolean running = false;
-		
+
 		public ProcessBuilderCommand(TextArea ta, String Command) throws InterruptedException, IOException {
 			pb = new ProcessBuilder(Command);
-			
+
 			ta.appendText(System.getProperty("user.dir") + " > " + Command + "\n");
 			this.running = true;
 			thread = new Thread(new Runnable() {
+				private String line;
 
 				@Override
 				public void run() {
 					try {
-						String line = null;
+						line = null;
 						p = pb.start();
 
 						BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
@@ -91,22 +88,27 @@ public class SConsoleTab {
 
 						p.getInputStream().close();
 						p.getErrorStream().close();
+
 						p.waitFor();
 					} catch (IOException | InterruptedException e) {
-						System.out.println(e.getMessage());
+						ta.appendText(" [ERROR] " + e.getMessage() + "\n");
+						new SConsoleTab();
 					}
-					
+
 				}
-				
+
 			});
 			thread.start();
-			
+
 		}
+
 		public void stop() {
-			p.destroy();
-			this.running = false;
+			if (p.isAlive() && running) {
+				p.destroy();
+				this.running = false;
+			}
 		}
-		
+
 		public boolean isRunning() {
 			return this.running;
 		}

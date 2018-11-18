@@ -15,7 +15,7 @@ public class STerminalPane {
 		this.tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 		tabPane.getTabs().add(new SConsoleTab().getTab());
-		tabPane.getTabs().add(new SNetstat().getTab());
+		//tabPane.getTabs().add(new SNetstat().getTab());
 		tabPane.getTabs().add(new Tab("Problems"));
 		tabPane.getTabs().add(new Tab("Output"));
 		tabPane.getTabs().add(new Tab("Progress"));
