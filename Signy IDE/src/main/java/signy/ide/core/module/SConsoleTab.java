@@ -14,10 +14,6 @@ public class SConsoleTab {
 	private Tab tab;
 	private TextArea textArea;
 	private TextField commandtf;
-	private String content = "";
-	private Process p;
-	private ProcessBuilder builder;
-	private Thread thread;
 	private ProcessBuilderCommand pbc;
 	
 	public SConsoleTab() {
@@ -95,10 +91,10 @@ public class SConsoleTab {
 
 						p.getInputStream().close();
 						p.getErrorStream().close();
-					} catch (IOException e) {
+						p.waitFor();
+					} catch (IOException | InterruptedException e) {
 						System.out.println(e.getMessage());
 					}
-					p.destroy();
 					
 				}
 				
