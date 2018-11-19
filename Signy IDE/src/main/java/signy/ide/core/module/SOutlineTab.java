@@ -74,6 +74,9 @@ public class SOutlineTab {
 
 			@Override
 			public boolean visit(TypeDeclaration node) {
+				for (FieldDeclaration test : node.getFields()) {
+					System.out.println(test);
+				}
 				String o = node.getName().getFullyQualifiedName();
 				stack.push("> java-class " + o);
 
@@ -101,7 +104,6 @@ public class SOutlineTab {
 			public boolean visit(FieldDeclaration node) {
 				for (Object v : node.fragments()) {
 					if (v instanceof VariableDeclarationFragment) {
-						
 						VariableDeclarationFragment vdf = (VariableDeclarationFragment) v;
 						String o = vdf.getName().getFullyQualifiedName();
 						if (isStaticDeclaration(node.modifiers())) {

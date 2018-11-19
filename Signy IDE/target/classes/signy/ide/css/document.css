@@ -1,0 +1,60 @@
+.styled-text-area .keyword {
+
+	-fx-fill: #569cea;
+
+}
+
+.styled-text-area .primitive {
+
+	-fx-fill: #569cea;
+
+}
+
+
+.styled-text-area .string {
+
+	-fx-fill: #ffad8c;
+
+}
+
+.styled-text-area .annotation {
+
+	-fx-fill: orange;
+
+}
+
+.styled-text-area .paren {
+
+	
+
+}
+
+.styled-text-area .brace {
+
+	
+
+}
+
+.styled-text-area .bracket {
+
+
+
+}
+
+.styled-text-area .semicolon {
+
+	
+
+}
+
+.styled-text-area .comment {
+
+	-fx-fill: #6a9b53;
+
+}
+
+.styled-text-area .numbers {
+
+	-fx-fill: #e1ffd1;
+
+}

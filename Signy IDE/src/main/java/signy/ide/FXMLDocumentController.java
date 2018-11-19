@@ -44,8 +44,8 @@ public class FXMLDocumentController implements Initializable {
 		this.mainApp = Main.getMainApp();
 
 		sEditorPane = new SEditorPane(mainApp);
-		treeview = new SViewPane(sEditorPane);
-		sTerminalPane = new STerminalPane();
+		treeview = new SViewPane(workspacePane, sEditorPane);
+		sTerminalPane = new STerminalPane(subWorkspacePane);
 
 		treeviewPane.getStylesheets().add(getClass().getResource("css/tree-view.css").toExternalForm());
 		treeviewPane.getChildren().add(treeview.getTabPane());
@@ -63,17 +63,17 @@ public class FXMLDocumentController implements Initializable {
 		AnchorPane.setLeftAnchor(sEditorPane.getTabPane(), 0.0);
 
 		terminalPane.getStylesheets().add(getClass().getResource("css/terminal.css").toExternalForm());
-		terminalPane.getChildren().add(sTerminalPane.getTabPane());
-		AnchorPane.setTopAnchor(sTerminalPane.getTabPane(), 0.0);
-		AnchorPane.setRightAnchor(sTerminalPane.getTabPane(), 0.0);
-		AnchorPane.setBottomAnchor(sTerminalPane.getTabPane(), 0.0);
-		AnchorPane.setLeftAnchor(sTerminalPane.getTabPane(), 0.0);
+		terminalPane.getChildren().add(sTerminalPane.getTerminalPane());
+		AnchorPane.setTopAnchor(sTerminalPane.getTerminalPane(), 0.0);
+		AnchorPane.setRightAnchor(sTerminalPane.getTerminalPane(), 0.0);
+		AnchorPane.setBottomAnchor(sTerminalPane.getTerminalPane(), 0.0);
+		AnchorPane.setLeftAnchor(sTerminalPane.getTerminalPane(), 0.0);
 
 		workspacePane.setSashWidth(4);
 		workspacePane.setWeights(new int[] { 20, 80 });
 
 		subWorkspacePane.setHorizontal(false);
-		subWorkspacePane.setSashWidth(4);
+		subWorkspacePane.setSashWidth(1);
 		subWorkspacePane.setWeights(new int[] { 65, 35 });
 
 		headBar.setAlignment(Pos.CENTER_LEFT);

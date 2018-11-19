@@ -37,7 +37,7 @@ public class FXMLSplashController {
 //
 
 		stage = new Stage();
-		stage.initStyle(StageStyle.DECORATED);
+		stage.initStyle(StageStyle.UNDECORATED);
 		stage.setScene(scene);
 		stage.show();
 

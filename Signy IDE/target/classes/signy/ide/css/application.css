@@ -49,7 +49,7 @@ BorderPane, AnchorPane {
 
 .sash-pane:vertical > .sash {
 
-	-fx-background-color: #262626;
+	-fx-background-color: #414141;
 
 }
 

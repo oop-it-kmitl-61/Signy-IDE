@@ -25,6 +25,8 @@ public class Main extends Application {
 	Stage stage;
 	Scene scene;
 
+	private final String APP_NAME = "Signy IDE";
+
 	static {
 
 		FXMLSplashController.showSplashScreen();
@@ -53,7 +55,7 @@ public class Main extends Application {
 			primaryStage.setScene(scene);
 			primaryStage.sizeToScene();
 			primaryStage.setMinWidth(235);
-	        primaryStage.setMinHeight(155);
+			primaryStage.setMinHeight(155);
 //			primaryStage.getIcons().add(new Image(""));
 			setTitle(null);
 
@@ -89,15 +91,19 @@ public class Main extends Application {
 		return this.scene;
 	}
 
+	String getAppName() {
+		return this.APP_NAME;
+	}
+
 	public void exit() {
 		Platform.exit();
 	}
 
 	public void setTitle(Path path) {
 		if (path == null) {
-			stage.setTitle("signy-workspace - Signy IDE [Administrator]");
+			stage.setTitle("signy-workspace - " + getAppName() + " [Administrator]");
 		} else {
-			stage.setTitle("signy-workspace - " + path + " - Signy IDE [Administrator]");
+			stage.setTitle("signy-workspace - " + path + " - " + getAppName() + " [Administrator]");
 		}
 
 	}
