@@ -16,20 +16,21 @@ import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
+import org.fxmisc.richtext.CodeArea;
 
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import signy.ide.controls.panes.SEditorPane;
 
-public class SOutlineTab {
+public class SOutline {
 
 	private Tab tab;
 	private static TreeView<String> treeView;
 
 	private SEditorPane sEditor;
 
-	public SOutlineTab() {
+	public SOutline() {
 
 		tab = new Tab();
 
@@ -46,7 +47,7 @@ public class SOutlineTab {
 		this.sEditor = sEditor;
 		this.sEditor.getTabPane().getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 			if (newTab != null) {
-				createOutline(this.sEditor.getCurrentActiveTab().getTextArea().getText());
+				createOutline(this.sEditor.getCurrentActiveTab().getTextArea().getText(), sEditor.getCurrentActiveTab().getTextArea());
 			}
 			else {
 
@@ -59,7 +60,7 @@ public class SOutlineTab {
 
 	}
 
-	public static void createOutline(String input) {
+	public static void createOutline(String input, CodeArea textArea) {
 		ASTParser parser = ASTParser.newParser(AST.JLS10);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(input.toCharArray());
@@ -74,11 +75,8 @@ public class SOutlineTab {
 
 			@Override
 			public boolean visit(TypeDeclaration node) {
-				for (FieldDeclaration test : node.getFields()) {
-					System.out.println(test);
-				}
 				String o = node.getName().getFullyQualifiedName();
-				stack.push("> java-class " + o);
+				stack.push(o);
 
 				return super.visit(node);
 			}
@@ -107,10 +105,10 @@ public class SOutlineTab {
 						VariableDeclarationFragment vdf = (VariableDeclarationFragment) v;
 						String o = vdf.getName().getFullyQualifiedName();
 						if (isStaticDeclaration(node.modifiers())) {
-							queueStatic.add("> java-field " + node.modifiers() + " " + o);
+							queueStatic.add(o);
 						}
 						else {
-							queue.add("> java-field " + node.modifiers() + " " + o);
+							queue.add(o);
 						}
 
 					}
@@ -122,10 +120,10 @@ public class SOutlineTab {
 			public boolean visit(MethodDeclaration node) {
 				String o = node.getName().getFullyQualifiedName();
 				if (isStaticDeclaration(node.modifiers())) {
-					queueStatic.add("> java-method " + node.modifiers() + " " + o + " : " + node.getReturnType2());
+					queueStatic.add(o);
 				}
 				else {
-					queue.add("> java-method " + node.modifiers() + " " + o + " : " + node.getReturnType2());
+					queue.add(o);
 				}
 	
 

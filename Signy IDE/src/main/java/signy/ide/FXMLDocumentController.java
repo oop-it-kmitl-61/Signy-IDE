@@ -44,7 +44,7 @@ public class FXMLDocumentController implements Initializable {
 		this.mainApp = Main.getMainApp();
 
 		sEditorPane = new SEditorPane(mainApp);
-		treeview = new SViewPane(workspacePane, sEditorPane);
+		treeview = new SViewPane(sEditorPane);
 		sTerminalPane = new STerminalPane(subWorkspacePane);
 
 		treeviewPane.getStylesheets().add(getClass().getResource("css/tree-view.css").toExternalForm());
@@ -69,7 +69,7 @@ public class FXMLDocumentController implements Initializable {
 		AnchorPane.setBottomAnchor(sTerminalPane.getTerminalPane(), 0.0);
 		AnchorPane.setLeftAnchor(sTerminalPane.getTerminalPane(), 0.0);
 
-		workspacePane.setSashWidth(4);
+		workspacePane.setSashWidth(2);
 		workspacePane.setWeights(new int[] { 20, 80 });
 
 		subWorkspacePane.setHorizontal(false);

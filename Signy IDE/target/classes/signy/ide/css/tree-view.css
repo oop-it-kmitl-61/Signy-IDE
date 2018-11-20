@@ -85,17 +85,132 @@
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {
+
     -fx-background-color: #7289da;
     -fx-text-fill: white;
+
 }
 
 .list-cell {
+
     -fx-background-color: #1e1e1e;
     -fx-text-fill: white;
+
 }
 
 
 .list-cell:filled:hover {
+
     -fx-background-color: #7289da;
     -fx-text-fill: white;
+
+}
+
+.search-pane {
+
+
+
+}
+
+.sub-search-pane {
+
+	-fx-padding: 0.0em 0.7em 1.0em 0.2em;
+
+}
+
+.menu-box {
+
+	-fx-padding: 0.7em 1.4em;
+
+}
+
+.menu-box .label {
+
+	-fx-padding: 0.3em 0.0em 0.0em 0.0em;
+	-fx-text-fill: #bbbbbb;
+
+}
+
+.search-pane .button {
+
+	-fx-text-fill: #bbbbbb;
+	-fx-background-color: transparent;
+
+}
+
+.search-pane .button:hover {
+
+	-fx-text-fill: #bbbbbb;
+	-fx-background-color: #3c3c3c;
+
+}
+
+.search-box {
+
+	
+
+}
+
+.search-box .show-replace-button {
+
+	-fx-padding: 0.0em 0.5em;
+	-fx-background-radius: 0.0;
+	-fx-background-insets: 0.0em;
+
+	-fx-background-color: transparent;
+	-fx-border-color: transparent;
+	
+
+}
+
+.search-box .show-replace-button:hover {
+
+	-fx-background-radius: 0.0;
+	-fx-background-insets: 0.0;
+
+	-fx-background-color: #3c3c3c;
+	-fx-border-color: #3c3c3c;
+
+}
+
+.search-box .show-replace-button:focused {
+
+	-fx-border-color: #7289da;
+
+}
+
+.search-box .text-field {
+
+	-fx-background-radius: 0.0;
+	-fx-background-insets: 0.0;
+
+	-fx-background-color: #3c3c3c;
+	-fx-border-color: #3c3c3c;
+	-fx-prompt-text-fill: #a6a6a6;
+	-fx-text-fill: #cccccc;
+
+}
+
+.search-box .text-field:focused {
+
+	-fx-border-color: #7289da;
+
+}
+
+.replace-box {
+
+	-fx-padding: 0.5em 0.0em 0.0em 0.0em;
+
+}
+
+.result-pane {
+
+	-fx-background-color: #1e1e1e;
+
+}
+
+.result-pane:focused {
+
+	-fx-border-color: #7289da;
+
 }

@@ -7,17 +7,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
 
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 
-import javafx.scene.control.IndexRange;
 import javafx.scene.control.Tab;
 import signy.ide.core.dom.JavaDocumentPartitioner;
 
-public class SEditorTab {
+public class SEditor {
 
 	private Tab tab;
 	private String tabTitle;
@@ -29,13 +27,13 @@ public class SEditorTab {
 	private boolean modified = false;
 	private String fileExtension;
 
-	public SEditorTab() {
+	public SEditor() {
 
 		this("Untitled", "", null, ".*");
 
 	}
 
-	SEditorTab(String title, String content, Path path, String fileExtension) {
+	SEditor(String title, String content, Path path, String fileExtension) {
 
 		fileName = title;
 		this.path = path;
@@ -48,7 +46,7 @@ public class SEditorTab {
 		textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
 			setModified(true);
 			if (this.fileExtension.equals("*.java")) {
-				SOutlineTab.createOutline(textArea.getText());
+				SOutline.createOutline(textArea.getText(), textArea);
 				try {
 					textArea.setStyleSpans(0, JavaDocumentPartitioner.getSyntaxHighlighting(newValue));
 				}
@@ -69,7 +67,7 @@ public class SEditorTab {
 
 	}
 
-	public SEditorTab(File file) {
+	public SEditor(File file) {
 
 		this(file.getName(), fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
 				file.getName().substring(file.getName().lastIndexOf(".")));

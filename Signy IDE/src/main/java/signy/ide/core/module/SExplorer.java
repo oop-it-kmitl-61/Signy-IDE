@@ -20,7 +20,7 @@ import signy.ide.controls.panes.SEditorPane;
 public class SExplorer {
 	private Tab tab;
 	private SEditorPane editor;
-	private static String DefaultPath = "C:\\";
+	private static String DefaultPath = System.getProperty("user.dir");
 
 	public SExplorer() {
 		this(DefaultPath);
@@ -28,14 +28,14 @@ public class SExplorer {
 
 	public SExplorer(String path) {
 		this.tab = new Tab();
-//		VBox vb = new VBox();
-//		File[] drives = File.listRoots();
-//		vb.getChildren().add(getTreeView(DefaultPath));
-//		if (drives != null && drives.length > 0) {
-//		    for (File aDrive : drives) {
-//		    	vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
-//		    }
-//		}
+		VBox vb = new VBox();
+		File[] drives = File.listRoots();
+		vb.getChildren().add(getTreeView(DefaultPath));
+		if (drives != null && drives.length > 0) {
+		    for (File aDrive : drives) {
+		    	vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
+		    }
+		}
 //		tab.setContent(vb);
 		tab.setContent(getTreeView(path));
 		tab.setText("Explorer");

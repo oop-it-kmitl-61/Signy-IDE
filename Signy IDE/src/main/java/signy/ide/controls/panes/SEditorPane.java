@@ -17,14 +17,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import signy.ide.Main;
-import signy.ide.core.module.SEditorTab;
+import signy.ide.core.module.SEditor;
 
 public class SEditorPane {
 
 	private Main mainApp;
 	private TabPane tabPane;
-	private SEditorTab sEditorTab;
-	private ReadOnlyObjectWrapper<SEditorTab> currentActiveTab = new ReadOnlyObjectWrapper<>();
+	private SEditor sEditor;
+	private ReadOnlyObjectWrapper<SEditor> currentActiveTab = new ReadOnlyObjectWrapper<>();
 
 	private File recentFile;
 
@@ -45,7 +45,7 @@ public class SEditorPane {
 
 		tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 			if (newTab != null) {
-				currentActiveTab.set((SEditorTab) newTab.getUserData());
+				currentActiveTab.set((SEditor) newTab.getUserData());
 				mainApp.setTitle(currentActiveTab.get().getPath());
 			}
 			else {
@@ -63,15 +63,15 @@ public class SEditorPane {
 		return tabPane;
 	}
 
-	public SEditorTab getCurrentActiveTab() {
+	public SEditor getCurrentActiveTab() {
 		return currentActiveTab.get();
 	}
 
-	private SEditorTab[] getAllEditorTabs() {
+	private SEditor[] getAllEditorTabs() {
 		List<Tab> allOpenTabs = tabPane.getTabs();
-		SEditorTab[] editorTabs = new SEditorTab[allOpenTabs.size()];
+		SEditor[] editorTabs = new SEditor[allOpenTabs.size()];
 		for (int i = 0, j = allOpenTabs.size(); i < j; i++) {
-			editorTabs[i] = (SEditorTab) allOpenTabs.get(i).getUserData();
+			editorTabs[i] = (SEditor) allOpenTabs.get(i).getUserData();
 		}
 		return editorTabs;
 	}
@@ -117,9 +117,9 @@ public class SEditorPane {
 		if (getCurrentActiveTab() == null) {
 			return;
 		}
-		SEditorTab[] allEditorTabs = getAllEditorTabs();
+		SEditor[] allEditorTabs = getAllEditorTabs();
 		saveFile(getCurrentActiveTab());
-		for (SEditorTab editorTab : allEditorTabs) {
+		for (SEditor editorTab : allEditorTabs) {
 			if (!editorTab.equals(getCurrentActiveTab())) {
 				saveFile(editorTab);
 			}
@@ -133,7 +133,7 @@ public class SEditorPane {
 
 	public void createNewEditorTab(File file) {
 		if (file == null) {
-			sEditorTab = new SEditorTab();
+			sEditor = new SEditor();
 		} else {
 
 //			try {
@@ -143,26 +143,26 @@ public class SEditorPane {
 //				return;
 //			}
 
-			sEditorTab = new SEditorTab(file);
+			sEditor = new SEditor(file);
 
 		}
 
-		sEditorTab.getTab().setOnCloseRequest(e -> {
+		sEditor.getTab().setOnCloseRequest(e -> {
 
 		});
 
-		tabPane.getTabs().add(sEditorTab.getTab());
-		tabPane.getSelectionModel().select(sEditorTab.getTab());
+		tabPane.getTabs().add(sEditor.getTab());
+		tabPane.getSelectionModel().select(sEditor.getTab());
 
-		setRecentFile(sEditorTab.getFile());
+		setRecentFile(sEditor.getFile());
 
 	}
 
-	private void saveFile(SEditorTab editorTab) {
+	private void saveFile(SEditor editorTab) {
 		saveFile(editorTab, false);
 	}
 
-	private void saveFile(SEditorTab editorTab, boolean saveAs) {
+	private void saveFile(SEditor editorTab, boolean saveAs) {
 		if (editorTab == null || (saveAs == false && editorTab.isModified() == false && editorTab.getPath() != null)) {
 			return;
 		}
@@ -220,7 +220,7 @@ public class SEditorPane {
 
 	}
 
-	private void closeFile(SEditorTab editorTab) {
+	private void closeFile(SEditor editorTab) {
 		if (editorTab == null) {
 			return;
 		}

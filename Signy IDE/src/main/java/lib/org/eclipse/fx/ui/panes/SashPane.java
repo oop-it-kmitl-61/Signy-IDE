@@ -57,8 +57,10 @@ public class SashPane extends Region {
 	private static final String USER_AGENT_STYLESHEET = SashPane.class.getResource("sash-pane.css").toExternalForm(); //$NON-NLS-1$
 
 	private static final String LAYOUT_KEY = "sashData"; //$NON-NLS-1$
-	static final int DRAG_MINIMUM_HORIZONTAL = 30;
-	static final int DRAG_MINIMUM_VERTICAL = 30;
+	static final int DRAG_MINIMUM_HORIZONTAL_LEFT = 170;
+	static final int DRAG_MINIMUM_HORIZONTAL_RIGHT = 150;
+	static final int DRAG_MINIMUM_VERTICAL_TOP = 70;
+	static final int DRAG_MINIMUM_VERTICAL_BOTTOM = 100;
 
 	private Sash[] sashes = new Sash[0];
 	private BooleanProperty horizontal = new SimpleBooleanProperty(this, "horizontal", true) {//$NON-NLS-1$
@@ -300,14 +302,19 @@ public class SashPane extends Region {
 			long newSize_1 = (long) (this.resize_1 + delta);
 			long newSize_2 = (long) (this.resize_2 - delta);
 
-			if (newSize_1 < DRAG_MINIMUM_HORIZONTAL) {
-				newSize_2 = (long) this.resize_total - DRAG_MINIMUM_HORIZONTAL;
-				newSize_1 = DRAG_MINIMUM_HORIZONTAL;
+			if (newSize_1 < DRAG_MINIMUM_HORIZONTAL_LEFT - 120) {
+				newSize_2 = (long) this.resize_total - 30;
+				newSize_1 = 30;
 			}
 
-			if (newSize_2 < DRAG_MINIMUM_HORIZONTAL) {
-				newSize_1 = (long) this.resize_total - DRAG_MINIMUM_HORIZONTAL;
-				newSize_2 = DRAG_MINIMUM_HORIZONTAL;
+			else if (newSize_1 < DRAG_MINIMUM_HORIZONTAL_LEFT) {
+				newSize_2 = (long) this.resize_total - DRAG_MINIMUM_HORIZONTAL_LEFT;
+				newSize_1 = DRAG_MINIMUM_HORIZONTAL_LEFT;
+			}
+
+			if (newSize_2 < DRAG_MINIMUM_HORIZONTAL_RIGHT ) {
+				newSize_1 = (long) this.resize_total - DRAG_MINIMUM_HORIZONTAL_RIGHT;
+				newSize_2 = DRAG_MINIMUM_HORIZONTAL_RIGHT;
 			}
 
 			Object data1 = this.c1.getProperties().get(LAYOUT_KEY);
@@ -333,14 +340,19 @@ public class SashPane extends Region {
 			long newSize_1 = (long) (this.resize_1 + delta);
 			long newSize_2 = (long) (this.resize_2 - delta);
 
-			if (newSize_1 < DRAG_MINIMUM_VERTICAL) {
-				newSize_2 = (long) this.resize_total - DRAG_MINIMUM_VERTICAL;
-				newSize_1 = DRAG_MINIMUM_VERTICAL;
+			if (newSize_1 < DRAG_MINIMUM_VERTICAL_TOP) {
+				newSize_2 = (long) this.resize_total - DRAG_MINIMUM_VERTICAL_TOP;
+				newSize_1 = DRAG_MINIMUM_VERTICAL_TOP;
 			}
 
-			if (newSize_2 < DRAG_MINIMUM_VERTICAL) {
-				newSize_1 = (long) this.resize_total - DRAG_MINIMUM_VERTICAL;
-				newSize_2 = DRAG_MINIMUM_VERTICAL;
+			if (newSize_2 < DRAG_MINIMUM_VERTICAL_BOTTOM - 60) {
+				newSize_1 = (long) this.resize_total;
+				newSize_2 = 0;
+			}
+
+			else if (newSize_2 < DRAG_MINIMUM_VERTICAL_BOTTOM) {
+				newSize_1 = (long) this.resize_total - DRAG_MINIMUM_VERTICAL_BOTTOM;
+				newSize_2 = DRAG_MINIMUM_VERTICAL_BOTTOM;
 			}
 
 			Object data1 = this.c1.getProperties().get(LAYOUT_KEY);
@@ -533,6 +545,10 @@ public class SashPane extends Region {
 	 */
 	public final void setSashWidth(final int sashWidth) {
 		this.sashWidthProperty().set(sashWidth);
+	}
+
+	public final Sash[] getSashes() {
+		return this.sashes;
 	}
 
 	static class SashFormData {
