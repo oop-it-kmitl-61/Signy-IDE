@@ -26,7 +26,7 @@ public class SConsoleTab {
 		p0.setCenter(textArea);
 		p0.setBottom(commandtf);
 		this.tab.setContent(p0);
-		this.tab.setText(title);
+		this.tab.setText("Console");
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (ke.getCode() == KeyCode.ENTER) {
@@ -34,9 +34,17 @@ public class SConsoleTab {
 					if (pbc != null && pbc.isRunning()) {
 						pbc.stop();
 					}
-					runCommand(commandtf.getText());
-					tab.setText(commandtf.getText());
+					
+					switch(commandtf.getText()) {
+					case "getEnv":
+						getEnvPath();
+						break;
+					default:
+						runCommand(commandtf.getText());
+						break;
+					}
 					commandtf.setText("");
+					
 				}
 			}
 		});
@@ -63,10 +71,10 @@ public class SConsoleTab {
 		private boolean running = false;
 
 		public ProcessBuilderCommand(TextArea ta, String Command) throws InterruptedException, IOException {
-			pb = new ProcessBuilder(Command);
+			String cmd = "C:\\Windows\\System32\\cmd.exe";
+			pb = new ProcessBuilder(cmd, "/c", Command);
+			ta.appendText(System.getProperty("user.dir") + " > " + cmd + " /c " + Command + "\n");
 
-			ta.appendText(System.getProperty("user.dir") + " > " + Command + "\n");
-			this.running = true;
 			thread = new Thread(new Runnable() {
 				private String line;
 
@@ -90,8 +98,10 @@ public class SConsoleTab {
 						p.getErrorStream().close();
 
 						p.waitFor();
+						running = true;
 					} catch (IOException | InterruptedException e) {
 						ta.appendText(" [ERROR] " + e.getMessage() + "\n");
+						running = false;
 						new SConsoleTab();
 					}
 
@@ -103,14 +113,21 @@ public class SConsoleTab {
 		}
 
 		public void stop() {
-			if (p.isAlive() && running) {
-				p.destroy();
+			if (running || p.isAlive()) {
 				this.running = false;
+				p.destroy();
 			}
 		}
 
 		public boolean isRunning() {
 			return this.running;
+		}
+	}
+	
+	public void getEnvPath() {
+		String[] envPaths = System.getenv("path").split(";");
+		for(String envPath: envPaths) {
+			this.textArea.appendText(envPath + "\n");				
 		}
 	}
 
