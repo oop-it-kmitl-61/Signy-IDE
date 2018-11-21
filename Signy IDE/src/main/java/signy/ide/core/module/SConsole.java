@@ -14,7 +14,7 @@ public class SConsole {
 	private ProcessBuilderCommand pbc;
 
 	public SConsole() {
-		this("Console");
+		this("CONSOLE");
 	}
 
 	public SConsole(String title) {
@@ -26,7 +26,7 @@ public class SConsole {
 		p0.setCenter(textArea);
 		p0.setBottom(commandtf);
 		this.tab.setContent(p0);
-		this.tab.setText("Console");
+		this.tab.setText(title);
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (ke.getCode() == KeyCode.ENTER) {
@@ -71,7 +71,7 @@ public class SConsole {
 		private boolean running = false;
 
 		public ProcessBuilderCommand(TextArea ta, String Command) throws InterruptedException, IOException {
-			String cmd = "C:\\Windows\\System32\\cmd.exe";
+			String cmd = "T:\\Windows\\System32\\cmd.exe";
 			pb = new ProcessBuilder(cmd, "/c", Command);
 			ta.appendText(System.getProperty("user.dir") + " > " + cmd + " /c " + Command + "\n");
 

@@ -1,4 +1,4 @@
-package signy.ide.controls.button;
+package signy.ide.controls.buttons;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

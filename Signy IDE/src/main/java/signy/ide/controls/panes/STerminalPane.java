@@ -9,9 +9,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import lib.org.eclipse.fx.ui.panes.SashPane;
-import signy.ide.controls.button.CloseButton;
-import signy.ide.controls.button.DropDownButton;
-import signy.ide.controls.button.ResizeButton;
+import signy.ide.FXMLDocumentController;
+import signy.ide.controls.buttons.CloseButton;
+import signy.ide.controls.buttons.DropDownButton;
+import signy.ide.controls.buttons.ResizeButton;
 import signy.ide.core.module.SConsole;
 
 public class STerminalPane {
@@ -24,14 +25,13 @@ public class STerminalPane {
 	private ResizeButton btnResize;
 	private MenuButton btnDropDown;
 
-	public STerminalPane(SashPane root) {
+	public STerminalPane(FXMLDocumentController controller) {
 
-		this.root = root;
+		this.root = controller.getSubWorkspacePane();
 		terminalPane = new AnchorPane();
 		tabPane = new TabPane();
 
 		Tab consoleTab = new SConsole().getTab();
-		consoleTab.setText("CONSOLE");
 		tabPane.getTabs().add(consoleTab);
 
 		tabPane.getTabs().add(new Tab("PROBLEMS"));
