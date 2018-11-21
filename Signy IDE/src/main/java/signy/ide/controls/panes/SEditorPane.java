@@ -16,11 +16,14 @@ import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import signy.ide.FXMLDocumentController;
 import signy.ide.Main;
+import signy.ide.core.dom.JavaDocumentPartitioner;
 import signy.ide.core.module.SEditor;
 
 public class SEditorPane {
 
+	private FXMLDocumentController controller;
 	private Main mainApp;
 	private TabPane tabPane;
 	private SEditor sEditor;
@@ -36,9 +39,10 @@ public class SEditorPane {
 	@FXML
 	private BorderPane treeviewPane;
 
-	public SEditorPane(Main main) {
+	public SEditorPane(FXMLDocumentController controller) {
 
-		this.mainApp = main;
+		this.controller = controller;
+		this.mainApp = controller.getMainApp();
 
 		tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
@@ -47,16 +51,24 @@ public class SEditorPane {
 			if (newTab != null) {
 				currentActiveTab.set((SEditor) newTab.getUserData());
 				mainApp.setTitle(currentActiveTab.get().getPath());
-			}
-			else {
+				SEditor editor = currentActiveTab.get();
+				if (editor.getFileExtension().equals("*.java")) {
+					controller.getViewPane().getOutlineTab().createOutline(editor.getContent());
+					if (!editor.isListened()) {
+						editor.getTextArea().textProperty().addListener(((observable2, oldValue, newValue) -> {
+							controller.getViewPane().getOutlineTab().createOutline(editor.getContent());
+						}));
+						editor.setListened(true);
+					}
+				} else {
+					controller.getViewPane().getOutlineTab().createOutline(null);
+				}
+			} else {
 				currentActiveTab.set(null);
 				mainApp.setTitle(null);
+				controller.getViewPane().getOutlineTab().createOutline(null);
 			}
 		});
-	}
-
-	SEditorPane getThis() {
-		return this;
 	}
 
 	public TabPane getTabPane() {

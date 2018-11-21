@@ -14,141 +14,160 @@ import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
+import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
-import org.fxmisc.richtext.CodeArea;
 
+import javafx.event.EventHandler;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.input.MouseEvent;
+import org.fxmisc.richtext.CodeArea;
+import signy.ide.FXMLDocumentController;
+import signy.ide.controls.items.OutlineItem;
 import signy.ide.controls.panes.SEditorPane;
 
 public class SOutline {
 
 	private Tab tab;
-	private static TreeView<String> treeView;
+	private TreeView treeView;
+	private TreeItem treeRoot;
 
-	private SEditorPane sEditor;
-
-	public SOutline() {
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public SOutline(FXMLDocumentController controller) {
 
 		tab = new Tab();
 
-		TreeItem<String> rootItem = new TreeItem<String>("Inbox");
-		rootItem.setExpanded(true);
-		treeView = new TreeView<String>();
+		treeRoot = new TreeItem();
+		treeView = new TreeView(treeRoot);
+		treeView.setShowRoot(false);
+
+		treeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (mouseEvent.getClickCount() == 2) {
+					OutlineItem item = (OutlineItem) treeView.getSelectionModel().getSelectedItem();
+					if (item == null) {
+						return;
+					}
+					if (item.getNode() instanceof TypeDeclaration) {
+						item.setExpanded(true);
+		
+					}
+					int startPos = ((ASTNode) item.getNode()).getStartPosition();
+					int length = ((ASTNode) item.getNode()).getLength();
+					CodeArea textArea = controller.getEditorPane().getCurrentActiveTab().getTextArea();
+					textArea.moveTo(startPos);
+					textArea.selectRange(startPos + length, startPos);
+					textArea.requestFollowCaret();
+					textArea.requestFocus();
+				}
+			}
+		});
 
 		tab.setText("Outline");
 		tab.setContent(treeView);
 
 	}
 
-	public void listenToEditor(SEditorPane sEditor) {
-		this.sEditor = sEditor;
-		this.sEditor.getTabPane().getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
-			if (newTab != null) {
-				createOutline(this.sEditor.getCurrentActiveTab().getTextArea().getText(), sEditor.getCurrentActiveTab().getTextArea());
-			}
-			else {
-
-			}
-		});
-	}
-
 	public Tab getTab() {
-		return this.tab;
-
+		return tab;
 	}
 
-	public static void createOutline(String input, CodeArea textArea) {
+	@SuppressWarnings("rawtypes")
+	public void createOutline(String input) {
+
+		treeRoot.getChildren().clear();
+
+		if (input == null) {
+			return;
+		}
 		ASTParser parser = ASTParser.newParser(AST.JLS10);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(input.toCharArray());
 		ASTNode cu = parser.createAST(null);
 
-		TreeItem<String> rootClass = new TreeItem<String>();
-		Stack<String> stack = new Stack<>();
-		Queue<String> queue = new LinkedList<>();
-		Queue<String> queueStatic = new LinkedList<>();
+		Stack<PackageDeclaration> stackPackage = new Stack<PackageDeclaration>();
+		Stack<TypeDeclaration> stackType = new Stack<TypeDeclaration>();
+//		Queue<OutlineItem> queue = new LinkedList<>();
+//		Queue<OutlineItem> queueStatic = new LinkedList<>();
 
 		cu.accept(new ASTVisitor() {
 
 			@Override
-			public boolean visit(TypeDeclaration node) {
-				String o = node.getName().getFullyQualifiedName();
-				stack.push(o);
-
+			public boolean visit(PackageDeclaration node) {
+				stackPackage.push(node);
+				OutlineItem packageItem = new OutlineItem(node);
+				treeRoot.getChildren().add(packageItem);
 				return super.visit(node);
 			}
 
 			@Override
-			public void endVisit(TypeDeclaration node) {
-				rootClass.setValue(stack.peek());
-				while (!queueStatic.isEmpty()) {
-					TreeItem<String> nodeClass = new TreeItem<String>(queueStatic.peek());
-					rootClass.getChildren().add(nodeClass);
-					queueStatic.remove();
-				}
-				while (!queue.isEmpty()) {
-					TreeItem<String> nodeClass = new TreeItem<String>(queue.peek());
-					rootClass.getChildren().add(nodeClass);
-					queue.remove();
-				}
+			public boolean visit(TypeDeclaration node) {
+				stackType.push(node);
+				return super.visit(node);
+			}
 
+			@SuppressWarnings("unchecked")
+			@Override
+			public void endVisit(TypeDeclaration node) {
+				for (TypeDeclaration rootClass : stackType) {
+					OutlineItem rootClassItem = new OutlineItem(rootClass);
+					for (FieldDeclaration field : rootClass.getFields()) {
+						OutlineItem nodeClass = new OutlineItem(field);
+						rootClassItem.getChildren().add(nodeClass);
+					}
+
+					for (MethodDeclaration method : rootClass.getMethods()) {
+						OutlineItem nodeClass = new OutlineItem(method);
+						rootClassItem.getChildren().add(nodeClass);
+					}
+
+					treeRoot.getChildren().add(rootClassItem);
+					rootClassItem.setExpanded(true);
+
+				}
 				super.endVisit(node);
 			}
 
-			@Override
-			public boolean visit(FieldDeclaration node) {
-				for (Object v : node.fragments()) {
-					if (v instanceof VariableDeclarationFragment) {
-						VariableDeclarationFragment vdf = (VariableDeclarationFragment) v;
-						String o = vdf.getName().getFullyQualifiedName();
-						if (isStaticDeclaration(node.modifiers())) {
-							queueStatic.add(o);
-						}
-						else {
-							queue.add(o);
-						}
+//			@Override
+//			public boolean visit(FieldDeclaration node) {
+//				for (Object v : node.fragments()) {
+//					if (v instanceof VariableDeclarationFragment) {
+//						VariableDeclarationFragment vdf = (VariableDeclarationFragment) v;
+//						String o = vdf.getName().getFullyQualifiedName();
+//						OutlineItem<VariableDeclarationFragment> item = new OutlineItem<VariableDeclarationFragment>(
+//								vdf);
+//						if (isStaticDeclaration(node.modifiers())) {
+//							queueStatic.add(item);
+//						} else {
+//							queue.add(item);
+//						}
+//
+//					}
+//				}
+//				return super.visit(node);
+//			}
 
-					}
-				}
-				return super.visit(node);
-			}
-
-			@Override
-			public boolean visit(MethodDeclaration node) {
-				String o = node.getName().getFullyQualifiedName();
-				if (isStaticDeclaration(node.modifiers())) {
-					queueStatic.add(o);
-				}
-				else {
-					queue.add(o);
-				}
-	
-
-				return super.visit(node);
-			}
+//			@Override
+//			public boolean visit(MethodDeclaration node) {
+//				String o = node.getName().getFullyQualifiedName();
+//				OutlineItem item = new OutlineItem(node);
+//				if (isStaticDeclaration(node.modifiers())) {
+//					queueStatic.add(item);
+//				} else {
+//					queue.add(item);
+//				}
+//
+//				return super.visit(node);
+//			}
 
 		});
 
-		if (rootClass != null && !stack.isEmpty()) {
-			treeView.setRoot(rootClass);
-			rootClass.setExpanded(true);
-		} else {
-			treeView.setRoot(null);
-		}
-
 	}
 
-	public static void updateTreeView() {
-
-		TreeItem<String> rootclass = new TreeItem<String>("Test");
-		treeView.setRoot(rootclass);
-
-	}
-
-	public static String parseJavaFile(String filePath) throws IOException {
+	public String parseJavaFile(String filePath) throws IOException {
 		StringBuilder fileData = new StringBuilder(1000);
 		BufferedReader reader = new BufferedReader(new FileReader(filePath));
 
@@ -165,13 +184,13 @@ public class SOutline {
 		return fileData.toString();
 	}
 
-	static boolean isStaticDeclaration(List<?> modifiers) {
-		for (Object item : modifiers) {
-			if (item.toString().equals("static")) {
-				return true;
-			}
-		}
-		return false;
-	}
+//	static boolean isStaticDeclaration(List<?> modifiers) {
+//		for (Object item : modifiers) {
+//			if (item.toString().equals("static")) {
+//				return true;
+//			}
+//		}
+//		return false;
+//	}
 
 }

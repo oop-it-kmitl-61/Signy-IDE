@@ -11,8 +11,11 @@ import java.nio.file.Paths;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.SelectionPath;
 
 import javafx.scene.control.Tab;
+import javafx.scene.paint.Color;
+import signy.ide.FXMLDocumentController;
 import signy.ide.core.dom.JavaDocumentPartitioner;
 
 public class SEditor {
@@ -27,9 +30,19 @@ public class SEditor {
 	private boolean modified = false;
 	private String fileExtension;
 
+	private boolean listened = false;
+
 	public SEditor() {
 
 		this("Untitled", "", null, ".*");
+
+	}
+
+	public SEditor(File file) {
+
+		this(file.getName(), fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
+				file.getName().substring(file.getName().lastIndexOf(".")));
+		this.file = file;
 
 	}
 
@@ -46,11 +59,9 @@ public class SEditor {
 		textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
 			setModified(true);
 			if (this.fileExtension.equals("*.java")) {
-				SOutline.createOutline(textArea.getText(), textArea);
 				try {
 					textArea.setStyleSpans(0, JavaDocumentPartitioner.getSyntaxHighlighting(newValue));
-				}
-				catch (StackOverflowError e) {
+				} catch (StackOverflowError e) {
 					System.err.println("StackOverflowError : Parentheses in text content didn't correctly.");
 				}
 			}
@@ -64,14 +75,6 @@ public class SEditor {
 		tabTitle = title;
 		tab.setText(tabTitle);
 		tab.setContent(new VirtualizedScrollPane<>(textArea));
-
-	}
-
-	public SEditor(File file) {
-
-		this(file.getName(), fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
-				file.getName().substring(file.getName().lastIndexOf(".")));
-		this.file = file;
 
 	}
 
@@ -107,17 +110,25 @@ public class SEditor {
 		return this.fileExtension;
 	}
 
-	public boolean isModified() {
-		return this.modified;
+	public void setListened(boolean listened) {
+		this.listened = listened;
 	}
 
-	void setModified(boolean modified) {
+	public boolean isListened() {
+		return listened;
+	}
+
+	public void setModified(boolean modified) {
 		if (this.modified == false && modified == true && this.path != null) {
 			this.tab.setText("> " + tabTitle);
 		} else if (modified == false) {
 			this.tab.setText(tabTitle);
 		}
 		this.modified = modified;
+	}
+
+	public boolean isModified() {
+		return this.modified;
 	}
 
 	public void updateReference(File file) {

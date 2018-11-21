@@ -26,6 +26,7 @@ public class Main extends Application {
 	Scene scene;
 
 	private final String APP_NAME = "Signy IDE";
+	private String USERNAME;
 
 	static {
 
@@ -39,6 +40,8 @@ public class Main extends Application {
 		try {
 
 			mainApp = this;
+
+			USERNAME = "Administrator";
 
 			Parent root = FXMLLoader.load(getClass().getResource("view/FXMLDocument.fxml"));
 
@@ -58,9 +61,9 @@ public class Main extends Application {
 			primaryStage.setMinHeight(155);
 //			primaryStage.getIcons().add(new Image(""));
 			setTitle(null);
+			primaryStage.show();
 
 			FXMLDocumentController.init();
-			primaryStage.show();
 
 			FXMLSplashController.hideSplashScreen();
 
@@ -101,9 +104,9 @@ public class Main extends Application {
 
 	public void setTitle(Path path) {
 		if (path == null) {
-			stage.setTitle("signy-workspace - " + getAppName() + " [Administrator]");
+			stage.setTitle("signy-workspace - " + getAppName() + " [" + USERNAME + "]");
 		} else {
-			stage.setTitle("signy-workspace - " + path + " - " + getAppName() + " [Administrator]");
+			stage.setTitle("signy-workspace - " + path + " - " + getAppName() + " [" + USERNAME + "]");
 		}
 
 	}

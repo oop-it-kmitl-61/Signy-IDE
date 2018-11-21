@@ -11,7 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import signy.ide.controls.button.ShowReplaceButton;
+import signy.ide.controls.buttons.ShowReplaceButton;
 
 public class SSearch {
 

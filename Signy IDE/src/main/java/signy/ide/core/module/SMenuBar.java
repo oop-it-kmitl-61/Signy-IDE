@@ -7,6 +7,7 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
+import signy.ide.FXMLDocumentController;
 import signy.ide.Main;
 import signy.ide.controls.panes.SEditorPane;
 
@@ -17,10 +18,10 @@ public class SMenuBar {
 
 	private Menu fileMenu, editMenu, selectionMenu, viewMenu, goMenu, helpMenu;
 
-	public SMenuBar(Main main, SEditorPane sEditorPane) {
+	public SMenuBar(FXMLDocumentController controller) {
 
-		this.mainApp = main;
-		this.editor = sEditorPane;
+		this.mainApp = controller.getMainApp();
+		this.editor = controller.getEditorPane();
 
 		// 1. File Menu
 		Menu fileMenu = new Menu("_File");

@@ -29,13 +29,13 @@ public class FXMLDocumentController implements Initializable {
 	@FXML
 	private SashPane workspacePane, subWorkspacePane;
 	@FXML
-	private AnchorPane treeviewPane, editorPane, terminalPane;
+	private AnchorPane viewAnchor, editorAnchor, terminalAnchor;
 
 	private Main mainApp;
 	private MenuBar menuBar;
-	private SViewPane treeview;
-	private static SEditorPane sEditorPane;
-	private static STerminalPane sTerminalPane;
+	private SViewPane viewPane;
+	private static SEditorPane editorPane;
+	private STerminalPane terminalPane;
 	private static Thread methodupdate;
 
 	@Override
@@ -43,31 +43,31 @@ public class FXMLDocumentController implements Initializable {
 
 		this.mainApp = Main.getMainApp();
 
-		sEditorPane = new SEditorPane(mainApp);
-		treeview = new SViewPane(sEditorPane);
-		sTerminalPane = new STerminalPane(subWorkspacePane);
+		editorPane = new SEditorPane(this);
+		viewPane = new SViewPane(this);
+		terminalPane = new STerminalPane(this);
 
-		treeviewPane.getStylesheets().add(getClass().getResource("css/tree-view.css").toExternalForm());
-		treeviewPane.getChildren().add(treeview.getTabPane());
-		AnchorPane.setTopAnchor(treeview.getTabPane(), 0.0);
-		AnchorPane.setRightAnchor(treeview.getTabPane(), 0.0);
-		AnchorPane.setBottomAnchor(treeview.getTabPane(), 0.0);
-		AnchorPane.setLeftAnchor(treeview.getTabPane(), 0.0);
+		viewAnchor.getStylesheets().add(getClass().getResource("css/tree-view.css").toExternalForm());
+		viewAnchor.getChildren().add(viewPane.getTabPane());
+		AnchorPane.setTopAnchor(viewPane.getTabPane(), 0.0);
+		AnchorPane.setRightAnchor(viewPane.getTabPane(), 0.0);
+		AnchorPane.setBottomAnchor(viewPane.getTabPane(), 0.0);
+		AnchorPane.setLeftAnchor(viewPane.getTabPane(), 0.0);
 
-		editorPane.getStylesheets().add(getClass().getResource("css/editor.css").toExternalForm());
-		editorPane.getStylesheets().add(getClass().getResource("css/document.css").toExternalForm());
-		editorPane.getChildren().add(sEditorPane.getTabPane());
-		AnchorPane.setTopAnchor(sEditorPane.getTabPane(), 0.0);
-		AnchorPane.setRightAnchor(sEditorPane.getTabPane(), 0.0);
-		AnchorPane.setBottomAnchor(sEditorPane.getTabPane(), 0.0);
-		AnchorPane.setLeftAnchor(sEditorPane.getTabPane(), 0.0);
+		editorAnchor.getStylesheets().add(getClass().getResource("css/editor.css").toExternalForm());
+		editorAnchor.getStylesheets().add(getClass().getResource("css/document.css").toExternalForm());
+		editorAnchor.getChildren().add(editorPane.getTabPane());
+		AnchorPane.setTopAnchor(editorPane.getTabPane(), 0.0);
+		AnchorPane.setRightAnchor(editorPane.getTabPane(), 0.0);
+		AnchorPane.setBottomAnchor(editorPane.getTabPane(), 0.0);
+		AnchorPane.setLeftAnchor(editorPane.getTabPane(), 0.0);
 
-		terminalPane.getStylesheets().add(getClass().getResource("css/terminal.css").toExternalForm());
-		terminalPane.getChildren().add(sTerminalPane.getTerminalPane());
-		AnchorPane.setTopAnchor(sTerminalPane.getTerminalPane(), 0.0);
-		AnchorPane.setRightAnchor(sTerminalPane.getTerminalPane(), 0.0);
-		AnchorPane.setBottomAnchor(sTerminalPane.getTerminalPane(), 0.0);
-		AnchorPane.setLeftAnchor(sTerminalPane.getTerminalPane(), 0.0);
+		terminalAnchor.getStylesheets().add(getClass().getResource("css/terminal.css").toExternalForm());
+		terminalAnchor.getChildren().add(terminalPane.getTerminalPane());
+		AnchorPane.setTopAnchor(terminalPane.getTerminalPane(), 0.0);
+		AnchorPane.setRightAnchor(terminalPane.getTerminalPane(), 0.0);
+		AnchorPane.setBottomAnchor(terminalPane.getTerminalPane(), 0.0);
+		AnchorPane.setLeftAnchor(terminalPane.getTerminalPane(), 0.0);
 
 		workspacePane.setSashWidth(2);
 		workspacePane.setWeights(new int[] { 20, 80 });
@@ -84,18 +84,42 @@ public class FXMLDocumentController implements Initializable {
 //		Label label2 = new Label("Tool Bar Boi");
 //		toolBar.getChildren().add(label2);
 
-		menuBar = new SMenuBar(mainApp, sEditorPane).getMenuBar();
+		menuBar = new SMenuBar(this).getMenuBar();
 		headBar.getChildren().add(menuBar);
 		menuBar.getStylesheets().add(getClass().getResource("css/menu-bar.css").toExternalForm());
 
 	}
 
 	static void init() {
-		sEditorPane.handleNewFile();
+		editorPane.handleNewFile();
 	}
 
 	public static void methodupdateInterrupt() {
 		methodupdate.interrupt();
+	}
+
+	public Main getMainApp() {
+		return mainApp;
+	}
+
+	public SashPane getWorkspacePane() {
+		return workspacePane;
+	}
+
+	public SashPane getSubWorkspacePane() {
+		return subWorkspacePane;
+	}
+
+	public SViewPane getViewPane() {
+		return viewPane;
+	}
+
+	public SEditorPane getEditorPane() {
+		return editorPane;
+	}
+
+	public STerminalPane getTerminalPane() {
+		return terminalPane;
 	}
 
 }

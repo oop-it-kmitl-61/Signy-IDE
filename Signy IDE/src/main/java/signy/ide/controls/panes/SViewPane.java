@@ -2,6 +2,7 @@ package signy.ide.controls.panes;
 
 import javafx.geometry.Side;
 import javafx.scene.control.TabPane;
+import signy.ide.FXMLDocumentController;
 import signy.ide.core.module.SExplorer;
 import signy.ide.core.module.SOutline;
 import signy.ide.core.module.SSearch;
@@ -11,35 +12,41 @@ public class SViewPane {
 
 	private TabPane tabPane;
 
-	private SExplorer sExplorer;
-	private SOutline sOutline;
-	private SSearch sSearch;
+	private SExplorer explorer;
+	private SOutline outline;
+	private SSearch search;
 
-	public SViewPane(SEditorPane sEditor) {
+	public SViewPane(FXMLDocumentController controller) {
 
 		this.tabPane = new TabPane();
 
 		tabPane.setSide(Side.LEFT);
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-		sExplorer = new SExplorer();
-		sExplorer.addListenerToEditor(sEditor);
+		explorer = new SExplorer(controller);
+		outline = new SOutline(controller);
+		search = new SSearch();
 
-		sOutline = new SOutline();
-		sOutline.listenToEditor(sEditor);
-
-		sSearch = new SSearch();
-
-		tabPane.getTabs().add(sExplorer.getTab());
-		tabPane.getTabs().add(sOutline.getTab());
-		tabPane.getTabs().add(sSearch.getTab());
-
-		tabPane.getSelectionModel().select(sSearch.getTab());
+		tabPane.getTabs().add(explorer.getTab());
+		tabPane.getTabs().add(outline.getTab());
+		tabPane.getTabs().add(search.getTab());
 
 	}
 
 	public TabPane getTabPane() {
-		return this.tabPane;
+		return tabPane;
+	}
+
+	public SExplorer getExplorerTab() {
+		return explorer;
+	}
+
+	public SOutline getOutlineTab() {
+		return outline;
+	}
+
+	public SSearch getSearchTab() {
+		return search;
 	}
 
 }

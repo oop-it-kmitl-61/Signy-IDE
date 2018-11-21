@@ -33,11 +33,11 @@
 							<center>
 								<SashPane fx:id="workspacePane">
 									<items>
-										<AnchorPane fx:id="treeviewPane" />
+										<AnchorPane fx:id="viewAnchor" />
 										<SashPane fx:id="subWorkspacePane">
 											<items>
-												<AnchorPane fx:id="editorPane" />
-												<AnchorPane fx:id="terminalPane" />
+												<AnchorPane fx:id="editorAnchor" />
+												<AnchorPane fx:id="terminalAnchor" />
 											</items>
 										</SashPane>
 									</items>

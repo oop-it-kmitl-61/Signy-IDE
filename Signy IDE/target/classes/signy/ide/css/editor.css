@@ -86,9 +86,9 @@
 
 }
 
-.corner {
+.scroll-pane > .corner {
 
-	-fx-background-color: transparent;
+	-fx-background-color: red;
 
 }
 
@@ -197,6 +197,7 @@
 
 }
 
+
 .lineno {
 
 	-fx-background-color: #1e1e1e;
@@ -222,8 +223,8 @@
 
 .paragraph-box {
 
-	-fx-padding: 0em 0em 0.2em 0em;
-	-fx-border-width: 2px 0px 2px 2px;
+	-fx-padding: 0.0em 0.0em 0.2em 0.0em;
+	-fx-border-width: 2.0px 0.0px 2.0px 2.0px;
 	-fx-border-color: transparent;
 
 }
@@ -234,3 +235,12 @@
 
 }
 
+
+.text-input {
+    -fx-highlight-fill: paleturquoise;
+    -fx-highlight-text-fill: blue;
+}
+.text-input:focused {
+    -fx-highlight-fill: palegreen;
+    -fx-highlight-text-fill: fuchsia;
+}
