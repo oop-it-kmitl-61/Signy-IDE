@@ -32,9 +32,9 @@ public class SExplorer {
 		File[] drives = File.listRoots();
 		vb.getChildren().add(getTreeView(DefaultPath));
 		if (drives != null && drives.length > 0) {
-		    for (File aDrive : drives) {
-		    	vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
-		    }
+			for (File aDrive : drives) {
+				vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
+			}
 		}
 //		tab.setContent(vb);
 		tab.setContent(getTreeView(path));
@@ -44,23 +44,24 @@ public class SExplorer {
 	public void addListenerToEditor(SEditorPane editor) {
 		this.editor = editor;
 	}
-	
-	public TreeView<File> getTreeView(String path){
-		TreeItem<File> root = createNode(new File(path));	
+
+	public TreeView<File> getTreeView(String path) {
+		TreeItem<File> root = createNode(new File(path));
 		TreeView<File> treeView = new TreeView<File>(root);
 		treeView.setCellFactory(new Callback<TreeView<File>, TreeCell<File>>() {
-		    public TreeCell<File> call(TreeView<File> tv) {
-		        return new TreeCell<File>() {
+			public TreeCell<File> call(TreeView<File> tv) {
+				return new TreeCell<File>() {
 
-		            @Override
-		            protected void updateItem(File item, boolean empty) {
-		                super.updateItem(item, empty);
+					@Override
+					protected void updateItem(File item, boolean empty) {
+						super.updateItem(item, empty);
 
-		                setText((empty || item == null) ? "" : (item.getParent() == null)? item.getAbsolutePath() :item.getName());
-		            }
+						setText((empty || item == null) ? ""
+								: (item.getParent() == null) ? item.getAbsolutePath() : item.getName());
+					}
 
-		        };
-		    }
+				};
+			}
 		});
 		treeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			private TreeItem<File> previous;
@@ -68,12 +69,14 @@ public class SExplorer {
 			@Override
 			public void handle(MouseEvent event) {
 				TreeItem<File> tmp = (TreeItem<File>) treeView.getSelectionModel().getSelectedItem();
-				if (previous == tmp && tmp.getValue().isFile()) {
+				if (previous == tmp && tmp.getValue().isFile() && event.getPickResult().getIntersectedNode()
+						.accessibleTextProperty().getBean().toString().startsWith("Text")) {
 					editor.createNewEditorTab(tmp.getValue());
 					previous = null;
 				} else {
 					previous = tmp;
 				}
+
 			}
 
 		});
