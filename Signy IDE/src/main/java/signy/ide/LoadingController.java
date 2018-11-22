@@ -2,8 +2,6 @@ package signy.ide;
 
 import java.util.HashMap;
 
-import signy.ide.core.SJavaDevelopmentKit;
-
 public final class LoadingController {
 
 	private static String consolePath;

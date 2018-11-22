@@ -11,6 +11,7 @@ import java.util.List;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.fxml.FXML;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
@@ -63,6 +64,11 @@ public class SEditorPane {
 			}
 		});
 
+	}
+
+	private void requestFocus() {
+		SingleSelectionModel<Tab> selectionModel = tabPane.getSelectionModel();
+		selectionModel.selectLast();
 	}
 
 	public TabPane getTabPane() {
@@ -142,13 +148,6 @@ public class SEditorPane {
 			sEditor = new SEditor();
 		} else {
 
-//			try {
-//				STreeView.createOutline(parseJavaFile(file.getAbsolutePath()));
-//			} catch (IOException e) {
-//				e.printStackTrace();
-//				return;
-//			}
-
 			sEditor = new SEditor(file);
 
 		}
@@ -158,7 +157,7 @@ public class SEditorPane {
 		});
 
 		tabPane.getTabs().add(sEditor.getTab());
-		tabPane.getSelectionModel().select(sEditor.getTab());
+		requestFocus();
 
 		setRecentFile(sEditor.getFile());
 

@@ -9,23 +9,33 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.Map.Entry;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import org.fxmisc.flowless.ScaledVirtualized;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.wellbehaved.event.InputMap;
+import org.fxmisc.wellbehaved.event.Nodes;
 
+import javafx.event.Event;
+import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
+import javafx.scene.input.ScrollEvent;
+import javafx.scene.transform.Scale;
 import signy.ide.LoadingController;
 import signy.ide.Utils;
+import signy.ide.controls.nodes.SCodeArea;
 import signy.ide.core.dom.JavaDocumentPartitioner;
+
+import static javafx.scene.input.KeyCode.*;
+import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;
+import static org.fxmisc.wellbehaved.event.EventPattern.keyPressed;
 
 public class SEditor {
 
 	private Tab tab;
 	private String tabTitle;
-	private CodeArea textArea;
+	private SCodeArea textArea;
 
 	private File file;
 	private String fileName;
@@ -56,68 +66,32 @@ public class SEditor {
 		this.fileExtension = "*" + fileExtension;
 
 		tab = new Tab();
-		textArea = new CodeArea();
-		
-		textArea.setParagraphGraphicFactory(LineNumberFactory.get(textArea));
+		textArea = new SCodeArea(title, this.fileExtension, content);
+		ScaledVirtualized<SCodeArea> scaleVirtualized = new ScaledVirtualized<>(textArea);
+
+		textArea.addEventFilter(ScrollEvent.ANY, e -> {
+			if (e.isControlDown()) {
+				double scaleAmount = 0.9;
+				Scale zoom = scaleVirtualized.getZoom();
+
+				double scale = e.getDeltaY() < 0 ? zoom.getY() * scaleAmount : zoom.getY() / scaleAmount;
+				zoom.setX(scale);
+				zoom.setY(scale);
+			}
+		});
 
 		textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
 			setModified(true);
-
-			if (this.fileExtension.equals("*.java")) {
-				try {
-					textArea.setStyleSpans(0, JavaDocumentPartitioner.getSyntaxHighlighting(newValue));
-				} catch (StackOverflowError e) {
-					System.err.println("StackOverflowError : Parentheses in text content didn't correctly.");
-				}
-				SOutline.createOutline(newValue);
-
-//				if (!(tab.getId().contains("inter"))) {
-//					Utils.findMainClass(textArea.getText());
-//				}
-
-				if (Utils.getClassName(textArea.getText()).length() <= 0 && !(tab.getId().contains("inter"))) {
-
-				} else {
-
-					Iterator<Entry<String, String>> it = LoadingController.getClassCode().entrySet().iterator();
-
-					while (it.hasNext()) {
-						Entry<String, String> pair = it.next();
-						if (pair.getKey().toString().equals(tab.getId())) {
-							tab.setText(Utils.getClassName(textArea.getText()));
-							LoadingController.setClassCode(pair.getKey().toString(), textArea.getText());
-						}
-					}
-
-				}
-
-//				if (Utils.getInterName(textArea.getText()).length() <= 0 && !(tab.getId().contains("tab"))) {
-//
-//				} else {
-
-					Iterator<Entry<String, String>> inter = LoadingController.getInter().entrySet().iterator();
-
-					while (inter.hasNext()) {
-						Entry<String, String> pair = inter.next();
-						if (pair.getKey().toString().equals(tab.getId())) {
-							tab.setText(Utils.getInterName(textArea.getText()));
-							LoadingController.setInter(pair.getKey().toString(), textArea.getText());
-						}
-					}
-
-//				}
-
-			}
 		}));
 
-		textArea.appendText(content);
 		modified = false;
 
 		tab.setUserData(this);
 
 		tabTitle = title;
 		tab.setText(tabTitle);
-		tab.setContent(new VirtualizedScrollPane<>(textArea));
+		VirtualizedScrollPane<ScaledVirtualized<SCodeArea>> virtualizedScrollPane = new VirtualizedScrollPane<>(scaleVirtualized);
+		tab.setContent(virtualizedScrollPane);
 
 	}
 

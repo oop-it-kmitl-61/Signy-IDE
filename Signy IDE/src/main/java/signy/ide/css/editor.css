@@ -175,13 +175,6 @@
 
 }
 
-.scroll-bar:vertical:focused,
-.scroll-bar:horizontal:focused {
-
-    -fx-background-color: -fx-box-border,-fx-box-border,white;
-
-}
-
 .styled-text-area {
 
 	text-area-background: #1e1e1e;

@@ -138,25 +138,18 @@
 
 }
 
-.text-area {
-
-    text-area-background: #1e1e1e;
-    -fx-box-border: text-area-background;
-    -fx-control-inner-background: text-area-background;
-    -fx-background-color: text-area-background;
-    -fx-background-insets: 0.0px, 0.0px, 0.0px, 0.0px;
-    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
-
-}
-
 .text-field {
 
     text-area-background: #262626;
     -fx-box-border: text-area-background;
     -fx-control-inner-background: text-area-background;
     -fx-background-color: text-area-background;
-    -fx-background-insets: 0.0px, 0.0px, 0.0px, 0.0px;
-    -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+    -fx-background-insets: 0.0px;
+    -fx-padding: 0.3em;
+
+	-fx-fill: #e0e0e0;
+	-fx-font-size: 13.0px;
+	-fx-font-family: Lucida;
 
 }
 
@@ -268,42 +261,18 @@
 
 }
 
-.scroll-bar:vertical:focused,
-.scroll-bar:horizontal:focused {
-
-    -fx-background-color: -fx-box-border,-fx-box-border,white;
-
-}
-
 .styled-text-area {
 
 	text-area-background: #1e1e1e;
-	-fx-background-color: red;
+	-fx-background-color: text-area-background;
 
 }
 
 .styled-text-area .text {
 
 	-fx-fill: #e0e0e0;
-	-fx-font-size: 14.0px;
-	-fx-font-family: Consolas;
-
-}
-
-
-.lineno {
-
-	-fx-background-color: #1e1e1e;
-	-fx-padding: 0.0 25.0 0.0 50.0;
-
-
-}
-
-.lineno .text {
-
-	-fx-font-size: 14.0px;
-	-fx-font-family: Consolas;
-	-fx-fill: #858585;
+	-fx-font-size: 13.0px;
+	-fx-font-family: Lucida;
 
 }
 
@@ -313,17 +282,3 @@
 
 }
 
-
-.paragraph-box {
-
-	-fx-padding: 0.0em 0.0em 0.2em 0.0em;
-	-fx-border-width: 2.0px 0.0px 2.0px 2.0px;
-	-fx-border-color: transparent;
-
-}
-
-.paragraph-box:has-caret {
-
-	-fx-border-color: #282828;
-
-}

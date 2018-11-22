@@ -96,22 +96,12 @@ public class FXMLDocumentController implements Initializable {
 
 //		if (LoadingController.isLoadedOneTime() == false) {
 //
-////			outlineUpdate();
+//			outlineUpdate();
 //
 //			if (scanJdkInEnvPath() == true) {
-////				LoadingController.setJdkPathFound(true);
+//				LoadingController.setJdkPathFound(true);
 //			} else {
-////				// ask the user for jdk path
-////				if (inputDialog() == true) {
-////					// path input success
-////					Consts.setJdkPath(true);
-////				} else {
-////					Consts.setJdkPath(true);
-////					// no jdk was given
-////					// disable build and run buttons
-////					buildbutton.setDisable(true);
-////					runbutton.setDisable(true);
-////				}
+//				
 //
 //			}
 //
@@ -191,18 +181,6 @@ public class FXMLDocumentController implements Initializable {
 
 		return false;
 
-	}
-
-	private String getOutputText() {
-		return outputPane.getText();
-	}
-
-	private void println(String text) {
-		outputPane.println(text);
-	}
-
-	private void clearOutputArea() {
-		outputPane.clearOutputArea();
 	}
 
 }
