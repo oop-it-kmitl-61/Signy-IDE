@@ -3,6 +3,7 @@ package signy.ide;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -17,6 +18,8 @@ import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.STerminalPane;
 import signy.ide.controls.panes.SViewPane;
 import signy.ide.core.module.SMenuBar;
+import signy.ide.core.module.SOutline;
+import signy.ide.core.module.SOutput;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -36,7 +39,8 @@ public class FXMLDocumentController implements Initializable {
 	private SViewPane viewPane;
 	private static SEditorPane editorPane;
 	private STerminalPane terminalPane;
-	private static Thread methodupdate;
+
+	private SOutput outputPane;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -88,14 +92,37 @@ public class FXMLDocumentController implements Initializable {
 		headBar.getChildren().add(menuBar);
 		menuBar.getStylesheets().add(getClass().getResource("css/menu-bar.css").toExternalForm());
 
+		outputPane = terminalPane.getOutputPane();
+
+		if (LoadingController.isLoadedOneTime() == false) {
+
+//			outlineUpdate();
+
+			if (scanJdkInEnvPath() == true) {
+				LoadingController.setJdkPathFound(true);
+			} else {
+//				// ask the user for jdk path
+//				if (inputDialog() == true) {
+//					// path input success
+//					Consts.setJdkPath(true);
+//				} else {
+//					Consts.setJdkPath(true);
+//					// no jdk was given
+//					// disable build and run buttons
+//					buildbutton.setDisable(true);
+//					runbutton.setDisable(true);
+//				}
+
+			}
+
+			LoadingController.setLoadOneTime(true);
+
+		}
+
 	}
 
 	static void init() {
 		editorPane.handleNewFile();
-	}
-
-	public static void methodupdateInterrupt() {
-		methodupdate.interrupt();
 	}
 
 	public Main getMainApp() {
@@ -120,6 +147,122 @@ public class FXMLDocumentController implements Initializable {
 
 	public STerminalPane getTerminalPane() {
 		return terminalPane;
+	}
+
+	public boolean scanJdkInEnvPath() {
+		try {
+			LoadingController.setStateProcess(true);
+			LoadingController.setJdkPath();
+
+			while (LoadingController.isStateProcessRunning() == true) {
+				try {
+					Thread.sleep(150);
+				} catch (InterruptedException e) {
+
+					e.printStackTrace();
+				} finally {
+
+				}
+			}
+
+			String s[] = LoadingController.getResults().split("\n");
+			String temp = null;
+
+			for (String ss : s) {
+				if (ss.contains("jdk")) {
+					temp = ss;
+				}
+			}
+
+			String t[] = temp.split(" ");
+
+			for (String ss : t) {
+				if (ss.contains("jdk")) {
+					LoadingController.setPath("C:/Program Files/Java/" + ss);
+					return true;
+				}
+			}
+
+		} catch (NullPointerException ex) {
+			return false;
+		} finally {
+
+		}
+
+		return false;
+
+	}
+
+	public void build() {
+		LoadingController.setBuild();
+	}
+
+	public void run() {
+		LoadingController.setRun();
+	}
+
+	public void buildAndRun() {
+
+		clearOutputArea();
+		LoadingController.setResults(" ");
+		LoadingController.setStateProcess(true);
+
+		Utils.saveToFile();
+		build();
+
+		while (LoadingController.isStateProcessRunning() == true) {
+			try {
+				Thread.currentThread();
+				Thread.sleep(150);
+
+			} catch (InterruptedException e) {
+				Thread.currentThread().interrupt();
+				e.printStackTrace();
+			} finally {
+
+			}
+
+		}
+
+		if (LoadingController.getResults().contains("Error") || LoadingController.getResults().contains("Exception")
+				|| LoadingController.getResults().contains("error")) {
+			println(LoadingController.getResults());
+		} else {
+			LoadingController.setStateProcess(true);
+			run();
+
+			while (LoadingController.isStateProcessRunning() == true) {
+				try {
+					Thread.currentThread();
+					Thread.sleep(150);
+
+					if (LoadingController.getResults().equals(getOutputText())) {
+
+					} else {
+						clearOutputArea();
+						println(LoadingController.getResults());
+					}
+
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+					e.printStackTrace();
+				}
+			}
+
+		}
+
+	}
+
+	private String getOutputText() {
+		return outputPane.getText();
+	}
+
+	private void println(String text) {
+		outputPane.println(text);
+	}
+
+	private void clearOutputArea() {
+		outputPane.clearOutputArea();
 	}
 
 }

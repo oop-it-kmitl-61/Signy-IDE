@@ -3,9 +3,6 @@ package signy.ide.core.module;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
 import java.util.Stack;
 
 import org.eclipse.jdt.core.dom.AST;
@@ -16,7 +13,6 @@ import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Tab;
@@ -26,13 +22,12 @@ import javafx.scene.input.MouseEvent;
 import org.fxmisc.richtext.CodeArea;
 import signy.ide.FXMLDocumentController;
 import signy.ide.controls.items.OutlineItem;
-import signy.ide.controls.panes.SEditorPane;
 
 public class SOutline {
 
 	private Tab tab;
 	private TreeView treeView;
-	private TreeItem treeRoot;
+	private static TreeItem treeRoot;
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public SOutline(FXMLDocumentController controller) {
@@ -76,13 +71,14 @@ public class SOutline {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public void createOutline(String input) {
+	public static void createOutline(String input) {
 
 		treeRoot.getChildren().clear();
 
 		if (input == null) {
 			return;
 		}
+
 		ASTParser parser = ASTParser.newParser(AST.JLS10);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
 		parser.setSource(input.toCharArray());
@@ -95,6 +91,7 @@ public class SOutline {
 
 		cu.accept(new ASTVisitor() {
 
+			@SuppressWarnings("unchecked")
 			@Override
 			public boolean visit(PackageDeclaration node) {
 				stackPackage.push(node);

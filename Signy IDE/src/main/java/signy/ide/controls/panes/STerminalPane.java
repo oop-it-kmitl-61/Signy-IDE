@@ -14,6 +14,7 @@ import signy.ide.controls.buttons.CloseButton;
 import signy.ide.controls.buttons.DropDownButton;
 import signy.ide.controls.buttons.ResizeButton;
 import signy.ide.core.module.SConsole;
+import signy.ide.core.module.SOutput;
 
 public class STerminalPane {
 
@@ -25,17 +26,22 @@ public class STerminalPane {
 	private ResizeButton btnResize;
 	private MenuButton btnDropDown;
 
+	SConsole consolePane;
+	SOutput outputPane;
+
 	public STerminalPane(FXMLDocumentController controller) {
 
 		this.root = controller.getSubWorkspacePane();
 		terminalPane = new AnchorPane();
 		tabPane = new TabPane();
 
-		Tab consoleTab = new SConsole().getTab();
-		tabPane.getTabs().add(consoleTab);
+		consolePane = new SConsole(controller);
+		tabPane.getTabs().add(consolePane.getTab());
 
 		tabPane.getTabs().add(new Tab("PROBLEMS"));
-		tabPane.getTabs().add(new Tab("OUTPUT"));
+
+		outputPane = new SOutput();
+		tabPane.getTabs().add(outputPane.getTab());
 		tabPane.getTabs().add(new Tab("PROGRESS"));
 
 		hbox = new HBox();
@@ -66,8 +72,20 @@ public class STerminalPane {
 
 	}
 
+	public TabPane getTabPane() {
+		return tabPane;
+	}
+
 	public AnchorPane getTerminalPane() {
 		return terminalPane;
+	}
+
+	public SConsole getConsolePane() {
+		return consolePane;
+	}
+
+	public SOutput getOutputPane() {
+		return outputPane;
 	}
 
 }

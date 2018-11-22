@@ -7,15 +7,18 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.Map.Entry;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.richtext.SelectionPath;
 
 import javafx.scene.control.Tab;
-import javafx.scene.paint.Color;
-import signy.ide.FXMLDocumentController;
+import signy.ide.LoadingController;
+import signy.ide.Utils;
 import signy.ide.core.dom.JavaDocumentPartitioner;
 
 public class SEditor {
@@ -58,12 +61,51 @@ public class SEditor {
 
 		textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
 			setModified(true);
+
 			if (this.fileExtension.equals("*.java")) {
 				try {
 					textArea.setStyleSpans(0, JavaDocumentPartitioner.getSyntaxHighlighting(newValue));
 				} catch (StackOverflowError e) {
 					System.err.println("StackOverflowError : Parentheses in text content didn't correctly.");
 				}
+				SOutline.createOutline(newValue);
+
+//				if (!(tab.getId().contains("inter"))) {
+//					Utils.findMainClass(textArea.getText());
+//				}
+
+				if (Utils.getClassName(textArea.getText()).length() <= 0 && !(tab.getId().contains("inter"))) {
+
+				} else {
+
+					Iterator<Entry<String, String>> it = LoadingController.getClassCode().entrySet().iterator();
+
+					while (it.hasNext()) {
+						Entry<String, String> pair = it.next();
+						if (pair.getKey().toString().equals(tab.getId())) {
+							tab.setText(Utils.getClassName(textArea.getText()));
+							LoadingController.setClassCode(pair.getKey().toString(), textArea.getText());
+						}
+					}
+
+				}
+
+//				if (Utils.getInterName(textArea.getText()).length() <= 0 && !(tab.getId().contains("tab"))) {
+//
+//				} else {
+
+					Iterator<Entry<String, String>> inter = LoadingController.getInter().entrySet().iterator();
+
+					while (inter.hasNext()) {
+						Entry<String, String> pair = inter.next();
+						if (pair.getKey().toString().equals(tab.getId())) {
+							tab.setText(Utils.getInterName(textArea.getText()));
+							LoadingController.setInter(pair.getKey().toString(), textArea.getText());
+						}
+					}
+
+//				}
+
 			}
 		}));
 
@@ -102,7 +144,7 @@ public class SEditor {
 		return this.fileName;
 	}
 
-	public String getContent() {
+	public String getText() {
 		return textArea.getText();
 	}
 

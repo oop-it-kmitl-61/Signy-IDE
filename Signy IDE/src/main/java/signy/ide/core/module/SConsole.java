@@ -5,19 +5,26 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import signy.ide.FXMLDocumentController;
+import signy.ide.LoadingController;
+import signy.ide.Utils;
 import javafx.event.*;
 
 public class SConsole {
+
+	private FXMLDocumentController controller;
+
 	private Tab tab;
 	private TextArea textArea;
 	private TextField commandtf;
 	private ProcessBuilderCommand pbc;
 
-	public SConsole() {
-		this("CONSOLE");
+	public SConsole(FXMLDocumentController controller) {
+		this("CONSOLE", controller);
 	}
 
-	public SConsole(String title) {
+	public SConsole(String title, FXMLDocumentController controller) {
+		this.controller = controller;
 		this.tab = new Tab();
 		this.textArea = new TextArea();
 		this.commandtf = new TextField();
@@ -38,6 +45,11 @@ public class SConsole {
 					switch (commandtf.getText()) {
 					case "getEnv":
 						getEnvPath();
+						break;
+					case "buildAndRun":
+						controller.buildAndRun();
+						controller.getTerminalPane().getTabPane().getSelectionModel()
+								.select(controller.getTerminalPane().getOutputPane().getTab());
 						break;
 					default:
 						runCommand(commandtf.getText());
@@ -103,7 +115,7 @@ public class SConsole {
 						ta.appendText(" [ERROR] " + e.getMessage() + "\n");
 
 						running = false;
-						new SConsole();
+						new SConsole(controller);
 					}
 
 				}

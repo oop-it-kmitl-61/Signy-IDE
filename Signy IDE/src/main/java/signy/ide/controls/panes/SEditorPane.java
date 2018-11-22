@@ -18,8 +18,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import signy.ide.FXMLDocumentController;
 import signy.ide.Main;
-import signy.ide.core.dom.JavaDocumentPartitioner;
 import signy.ide.core.module.SEditor;
+import signy.ide.core.module.SOutline;
 
 public class SEditorPane {
 
@@ -51,24 +51,18 @@ public class SEditorPane {
 			if (newTab != null) {
 				currentActiveTab.set((SEditor) newTab.getUserData());
 				mainApp.setTitle(currentActiveTab.get().getPath());
-				SEditor editor = currentActiveTab.get();
-				if (editor.getFileExtension().equals("*.java")) {
-					controller.getViewPane().getOutlineTab().createOutline(editor.getContent());
-					if (!editor.isListened()) {
-						editor.getTextArea().textProperty().addListener(((observable2, oldValue, newValue) -> {
-							controller.getViewPane().getOutlineTab().createOutline(editor.getContent());
-						}));
-						editor.setListened(true);
-					}
+
+				if (currentActiveTab.get().getFileExtension().equals("*.java")) {
+					SOutline.createOutline(currentActiveTab.get().getText());
 				} else {
-					controller.getViewPane().getOutlineTab().createOutline(null);
+					SOutline.createOutline(null);
 				}
 			} else {
 				currentActiveTab.set(null);
 				mainApp.setTitle(null);
-				controller.getViewPane().getOutlineTab().createOutline(null);
 			}
 		});
+
 	}
 
 	public TabPane getTabPane() {
@@ -224,7 +218,7 @@ public class SEditorPane {
 			editorTab.updateReference(editorTab.getFile());
 		}
 
-		String contentToWrite = editorTab.getContent();
+		String contentToWrite = editorTab.getText();
 		writeToFile(contentToWrite, pathToSaveFile);
 
 		setRecentFile(editorTab.getFile());
