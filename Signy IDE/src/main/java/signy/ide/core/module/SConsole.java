@@ -1,6 +1,8 @@
 package signy.ide.core.module;
 
 import java.io.*;
+import java.util.ArrayList;
+
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -12,19 +14,23 @@ import javafx.event.*;
 
 public class SConsole {
 
-	private FXMLDocumentController controller;
-
 	private Tab tab;
 	private TextArea textArea;
 	private TextField commandtf;
-	private ProcessBuilderCommand pbc;
 
-	public SConsole(FXMLDocumentController controller) {
-		this("CONSOLE", controller);
+	private Thread thread;
+	private Process p;
+	private ProcessBuilder pb;
+	private ProcessBuilderCommand pbc = null;
+
+	private String workingDir = System.getProperty("user.dir");
+	private ArrayList<String> envPaths;
+
+	public SConsole() {
+		this("Console");
 	}
 
-	public SConsole(String title, FXMLDocumentController controller) {
-		this.controller = controller;
+	public SConsole(String titl) {
 		this.tab = new Tab();
 		this.textArea = new TextArea();
 		this.commandtf = new TextField();
@@ -32,24 +38,48 @@ public class SConsole {
 		BorderPane p0 = new BorderPane();
 		p0.setCenter(textArea);
 		p0.setBottom(commandtf);
+		envPaths = getEnvPath();
 		this.tab.setContent(p0);
-		this.tab.setText(title);
+		this.tab.setText("Console");
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (ke.getCode() == KeyCode.ENTER) {
 
-					if (pbc != null && pbc.isRunning()) {
-						pbc.stop();
-					}
+//					if(pbc.isRun()) {
+//						try {
+//							thread.wait();
+//							pbc.stop();
+//							p.wait();
+//							p.destroy();
+//						} catch (InterruptedException e) {
+//							// TODO Auto-generated catch block
+//							System.out.println(e.getMessage());
+//						}
+//					}
+					String[] input = commandtf.getText().split(" ");
+//					System.out.println(input[0]);
 
-					switch (commandtf.getText()) {
+					switch (input[0]) {
 					case "getEnv":
-						getEnvPath();
+						for (String envPath : envPaths) {
+							textArea.appendText(envPath + "\n");
+						}
 						break;
-					case "buildAndRun":
-						controller.buildAndRun();
-						controller.getTerminalPane().getTabPane().getSelectionModel()
-								.select(controller.getTerminalPane().getOutputPane().getTab());
+					case "EnvSearch":
+						if (input.length > 1) {
+							textArea.appendText(EnvSearch(input[1]) != null ? " Found " + EnvSearch(input[1]) + "\n"
+									: " Not Found ");
+						} else {
+							textArea.appendText(" [ERROR] Invalid argument : EnvSearch [argument] \n");
+						}
+						break;
+					case "JavaSearch":
+						textArea.appendText(EnvSearch("java") + "\n");
+						break;
+					case "killProcess":
+					case "KillProcess":
+					case "EndProc":
+						pbc.stop();
 						break;
 					default:
 						runCommand(commandtf.getText());
@@ -65,6 +95,9 @@ public class SConsole {
 
 	public void runCommand(String Command) {
 		try {
+			if (pbc != null && pbc.isRun()) {
+				pbc.stop();
+			}
 			pbc = new ProcessBuilderCommand(textArea, Command);
 		} catch (InterruptedException | IOException e) {
 			textArea.appendText(" [ERROR] " + e.getMessage() + "\n");
@@ -76,16 +109,25 @@ public class SConsole {
 		return this.tab;
 	}
 
+	public String EnvSearch(String command) {
+		envPaths = getEnvPath();
+		File file;
+		for (String envPath : envPaths) {
+			file = new File(envPath + "\\" + command + ".exe");
+			if (file.exists()) {
+				return file.getAbsolutePath();
+			}
+		}
+		return null;
+	}
+
 	public class ProcessBuilderCommand {
-		private Process p;
-		private ProcessBuilder pb;
-		private Thread thread;
-		private boolean running = false;
+		private boolean state = false;
 
 		public ProcessBuilderCommand(TextArea ta, String Command) throws InterruptedException, IOException {
-			String cmd = "T:\\Windows\\System32\\cmd.exe";
-			pb = new ProcessBuilder(cmd, "/c", Command);
-			ta.appendText(System.getProperty("user.dir") + " > " + cmd + " /c " + Command + "\n");
+			String cmd = EnvSearch(Command);
+			pb = new ProcessBuilder(cmd);
+			ta.appendText(workingDir + " > " + cmd + "\n");
 
 			thread = new Thread(new Runnable() {
 				private String line;
@@ -110,12 +152,12 @@ public class SConsole {
 						p.getErrorStream().close();
 
 						p.waitFor();
-						running = true;
+						state = true;
 					} catch (IOException | InterruptedException e) {
 						ta.appendText(" [ERROR] " + e.getMessage() + "\n");
 
-						running = false;
-						new SConsole(controller);
+						state = false;
+						new SConsole();
 					}
 
 				}
@@ -126,22 +168,29 @@ public class SConsole {
 		}
 
 		public void stop() {
-			if (running || p.isAlive()) {
-				this.running = false;
+			try {
 				p.destroy();
+				this.state = false;
+				pbc = null;
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+				this.state = true;
 			}
+
 		}
 
-		public boolean isRunning() {
-			return this.running;
+		public boolean isRun() {
+			return this.state;
 		}
 	}
 
-	public void getEnvPath() {
+	public ArrayList<String> getEnvPath() {
+		ArrayList<String> envList = new ArrayList<String>();
 		String[] envPaths = System.getenv("path").split(";");
 		for (String envPath : envPaths) {
-			this.textArea.appendText(envPath + "\n");
+			envList.add(envPath);
 		}
+		return envList;
 	}
 
 }

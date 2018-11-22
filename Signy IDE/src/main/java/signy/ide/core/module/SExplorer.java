@@ -3,8 +3,6 @@ package signy.ide.core.module;
 import java.io.File;
 import java.util.ArrayList;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
@@ -17,26 +15,18 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
-import org.fxmisc.richtext.CodeArea;
-import signy.ide.FXMLDocumentController;
-import signy.ide.controls.items.OutlineItem;
 import signy.ide.controls.panes.SEditorPane;
 
 public class SExplorer {
-
-	private FXMLDocumentController controller;
-
-	private SEditorPane editor;
-
 	private Tab tab;
+	private SEditorPane editor;
 	private static String DefaultPath = System.getProperty("user.dir");
 
-	public SExplorer(FXMLDocumentController controller) {
-		this.editor = controller.getEditorPane();
-		init(DefaultPath);
+	public SExplorer() {
+		this(DefaultPath);
 	}
 
-	private void init(String path) {
+	public SExplorer(String path) {
 		this.tab = new Tab();
 		VBox vb = new VBox();
 		File[] drives = File.listRoots();
@@ -49,6 +39,10 @@ public class SExplorer {
 //		tab.setContent(vb);
 		tab.setContent(getTreeView(path));
 		tab.setText("Explorer");
+	}
+
+	public void addListenerToEditor(SEditorPane editor) {
+		this.editor = editor;
 	}
 
 	public TreeView<File> getTreeView(String path) {
@@ -70,13 +64,21 @@ public class SExplorer {
 			}
 		});
 		treeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			private TreeItem<File> previous;
+
 			@Override
-			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 2) {
-					TreeItem<File> tmp = (TreeItem<File>) treeView.getSelectionModel().getSelectedItem();
+			public void handle(MouseEvent event) {
+				TreeItem<File> tmp = (TreeItem<File>) treeView.getSelectionModel().getSelectedItem();
+				if (previous == tmp && tmp.getValue().isFile() && event.getPickResult().getIntersectedNode()
+						.accessibleTextProperty().getBean().toString().startsWith("Text")) {
 					editor.createNewEditorTab(tmp.getValue());
+					previous = null;
+				} else {
+					previous = tmp;
 				}
+
 			}
+
 		});
 		return treeView;
 	}
