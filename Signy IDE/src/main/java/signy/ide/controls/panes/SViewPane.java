@@ -23,7 +23,7 @@ public class SViewPane {
 		tabPane.setSide(Side.LEFT);
 		tabPane.setTabClosingPolicy(TabClosingPolicy.UNAVAILABLE);
 
-		explorer = new SExplorer();
+		explorer = new SExplorer(controller);
 		outline = new SOutline(controller);
 		search = new SSearch();
 

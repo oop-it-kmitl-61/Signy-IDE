@@ -3,16 +3,22 @@ package signy.ide.core.module;
 import java.io.*;
 import java.util.ArrayList;
 
+import org.fxmisc.flowless.VirtualizedScrollPane;
+import org.fxmisc.richtext.LineNumberFactory;
+import org.fxmisc.richtext.StyleClassedTextArea;
+
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
-import signy.ide.Utils;
+import javafx.application.Platform;
 import javafx.event.*;
 
 public class SConsole {
+
+	private FXMLDocumentController controller;
 
 	private Tab tab;
 	private TextArea textArea;
@@ -26,11 +32,12 @@ public class SConsole {
 	private String workingDir = System.getProperty("user.dir");
 	private ArrayList<String> envPaths;
 
-	public SConsole() {
-		this("Console");
+	public SConsole(FXMLDocumentController controller) {
+		this(controller, "CONSOLE");
 	}
 
-	public SConsole(String titl) {
+	public SConsole(FXMLDocumentController controller, String title) {
+
 		this.tab = new Tab();
 		this.textArea = new TextArea();
 		this.commandtf = new TextField();
@@ -40,7 +47,7 @@ public class SConsole {
 		p0.setBottom(commandtf);
 		envPaths = getEnvPath();
 		this.tab.setContent(p0);
-		this.tab.setText("Console");
+		this.tab.setText(title);
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (ke.getCode() == KeyCode.ENTER) {
@@ -57,13 +64,16 @@ public class SConsole {
 //						}
 //					}
 					String[] input = commandtf.getText().split(" ");
-//					System.out.println(input[0]);
 
 					switch (input[0]) {
 					case "getEnv":
 						for (String envPath : envPaths) {
 							textArea.appendText(envPath + "\n");
 						}
+						break;
+					case "clr":
+					case "clear":
+						textArea.clear();
 						break;
 					case "EnvSearch":
 						if (input.length > 1) {
@@ -94,6 +104,7 @@ public class SConsole {
 	}
 
 	public void runCommand(String Command) {
+
 		try {
 			if (pbc != null && pbc.isRun()) {
 				pbc.stop();
@@ -121,43 +132,51 @@ public class SConsole {
 		return null;
 	}
 
-	public class ProcessBuilderCommand {
+	private class ProcessBuilderCommand {
 		private boolean state = false;
 
 		public ProcessBuilderCommand(TextArea ta, String Command) throws InterruptedException, IOException {
 			String cmd = EnvSearch(Command);
-			pb = new ProcessBuilder(cmd);
-			ta.appendText(workingDir + " > " + cmd + "\n");
+
+			if (cmd != null) {
+				pb = new ProcessBuilder(cmd);
+			} else {
+				pb = new ProcessBuilder(EnvSearch("cmd"), "/c", Command);
+			}
+			ta.appendText(workingDir + " > " + Command + "\n");
 
 			thread = new Thread(new Runnable() {
 				private String line;
 
 				@Override
 				public void run() {
+//					if(terminate == true) {
+//						terminate = false;
+//						return;
+//					}
+					System.out.println(Thread.currentThread());
 					try {
 						line = null;
 						p = pb.start();
 
 						BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 						while ((line = in.readLine()) != null) {
-							ta.appendText("    " + line + "\n");
+							appendText(ta, "    " + line + "\n");
 						}
 
 						BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 						while ((line = er.readLine()) != null) {
-							ta.appendText(" [ERROR] " + line + "\n");
+							appendText(ta, " [ERROR] " + line + "\n");
 						}
-
-						p.getInputStream().close();
-						p.getErrorStream().close();
-
 						p.waitFor();
+//						p.getInputStream().close(); ปิดไป้ปด้วยสัส
+//						p.getErrorStream().close(); ปิดไป้ปด้วยสัส
 						state = true;
 					} catch (IOException | InterruptedException e) {
-						ta.appendText(" [ERROR] " + e.getMessage() + "\n");
+						appendText(ta, " [ERROR] " + e.getMessage() + "\n");
+
 
 						state = false;
-						new SConsole();
 					}
 
 				}
@@ -167,13 +186,15 @@ public class SConsole {
 
 		}
 
+		void appendText(TextArea ta, String text) {
+			Platform.runLater(() -> ta.appendText(text));
+		}
+
 		public void stop() {
 			try {
 				p.destroy();
 				this.state = false;
-				pbc = null;
 			} catch (Exception e) {
-				System.out.println(e.getMessage());
 				this.state = true;
 			}
 
@@ -182,6 +203,7 @@ public class SConsole {
 		public boolean isRun() {
 			return this.state;
 		}
+
 	}
 
 	public ArrayList<String> getEnvPath() {

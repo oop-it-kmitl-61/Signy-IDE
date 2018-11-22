@@ -94,30 +94,30 @@ public class FXMLDocumentController implements Initializable {
 
 		outputPane = terminalPane.getOutputPane();
 
-		if (LoadingController.isLoadedOneTime() == false) {
-
-//			outlineUpdate();
-
-			if (scanJdkInEnvPath() == true) {
-				LoadingController.setJdkPathFound(true);
-			} else {
-//				// ask the user for jdk path
-//				if (inputDialog() == true) {
-//					// path input success
-//					Consts.setJdkPath(true);
-//				} else {
-//					Consts.setJdkPath(true);
-//					// no jdk was given
-//					// disable build and run buttons
-//					buildbutton.setDisable(true);
-//					runbutton.setDisable(true);
-//				}
-
-			}
-
-			LoadingController.setLoadOneTime(true);
-
-		}
+//		if (LoadingController.isLoadedOneTime() == false) {
+//
+////			outlineUpdate();
+//
+//			if (scanJdkInEnvPath() == true) {
+////				LoadingController.setJdkPathFound(true);
+//			} else {
+////				// ask the user for jdk path
+////				if (inputDialog() == true) {
+////					// path input success
+////					Consts.setJdkPath(true);
+////				} else {
+////					Consts.setJdkPath(true);
+////					// no jdk was given
+////					// disable build and run buttons
+////					buildbutton.setDisable(true);
+////					runbutton.setDisable(true);
+////				}
+//
+//			}
+//
+//			LoadingController.setLoadOneTime(true);
+//
+//		}
 
 	}
 
@@ -152,7 +152,7 @@ public class FXMLDocumentController implements Initializable {
 	public boolean scanJdkInEnvPath() {
 		try {
 			LoadingController.setStateProcess(true);
-			LoadingController.setJdkPath();
+//			LoadingController.setJdkPath();
 
 			while (LoadingController.isStateProcessRunning() == true) {
 				try {
@@ -178,7 +178,7 @@ public class FXMLDocumentController implements Initializable {
 
 			for (String ss : t) {
 				if (ss.contains("jdk")) {
-					LoadingController.setPath("C:/Program Files/Java/" + ss);
+//					LoadingController.setPath("C:/Program Files/Java/" + ss);
 					return true;
 				}
 			}
@@ -190,66 +190,6 @@ public class FXMLDocumentController implements Initializable {
 		}
 
 		return false;
-
-	}
-
-	public void build() {
-		LoadingController.setBuild();
-	}
-
-	public void run() {
-		LoadingController.setRun();
-	}
-
-	public void buildAndRun() {
-
-		clearOutputArea();
-		LoadingController.setResults(" ");
-		LoadingController.setStateProcess(true);
-
-		Utils.saveToFile();
-		build();
-
-		while (LoadingController.isStateProcessRunning() == true) {
-			try {
-				Thread.currentThread();
-				Thread.sleep(150);
-
-			} catch (InterruptedException e) {
-				Thread.currentThread().interrupt();
-				e.printStackTrace();
-			} finally {
-
-			}
-
-		}
-
-		if (LoadingController.getResults().contains("Error") || LoadingController.getResults().contains("Exception")
-				|| LoadingController.getResults().contains("error")) {
-			println(LoadingController.getResults());
-		} else {
-			LoadingController.setStateProcess(true);
-			run();
-
-			while (LoadingController.isStateProcessRunning() == true) {
-				try {
-					Thread.currentThread();
-					Thread.sleep(150);
-
-					if (LoadingController.getResults().equals(getOutputText())) {
-
-					} else {
-						clearOutputArea();
-						println(LoadingController.getResults());
-					}
-
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-					e.printStackTrace();
-				}
-			}
-
-		}
 
 	}
 

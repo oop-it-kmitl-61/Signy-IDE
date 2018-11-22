@@ -2,23 +2,19 @@ package signy.ide;
 
 import java.util.HashMap;
 
-import signy.ide.core.SBuild;
 import signy.ide.core.SJavaDevelopmentKit;
-import signy.ide.core.SRun;
 
 public final class LoadingController {
 
-	private static String console = "cmd /C dir C:\\\"Program Files\"\\Java\\*";
+	private static String consolePath;
 
-	private static String path = "";
+	private static String jdkPath;
 
 	private static boolean jdkPathFound = false;
 
 	private static boolean stateProcessRun = false;
 
 	private static String results = "";
-
-	private static Thread buildAndRunThread;
 
 	private static String mainClass = "";
 
@@ -74,37 +70,6 @@ public final class LoadingController {
 		mainClass = s;
 	}
 
-	public synchronized static void setBuild() {
-		buildAndRunThread = new Thread(new SBuild());
-		buildAndRunThread.start();
-	}
-
-	public synchronized static void setRun() {
-		buildAndRunThread = new Thread(new SRun());
-		buildAndRunThread.start();
-	}
-
-	public synchronized static void setJdkPath() {
-		buildAndRunThread = new Thread(new SJavaDevelopmentKit());
-		buildAndRunThread.start();
-	}
-
-	public synchronized static void setJdkPathFound(boolean found) {
-		jdkPathFound = found;
-	}
-
-	public synchronized static String getConsole() {
-		return console;
-	}
-
-	public synchronized static String getPath() {
-		return path;
-	}
-
-	public synchronized static void setPath(String path) {
-		LoadingController.path = path;
-	}
-
 	public synchronized static boolean isStateProcessRunning() {
 		return stateProcessRun;
 	}
@@ -127,6 +92,14 @@ public final class LoadingController {
 
 	public synchronized static void setResults(String results) {
 		LoadingController.results = results;
+	}
+
+	public synchronized static void appendResults(String results) {
+		LoadingController.results += results;
+	}
+
+	public static String getConsole() {
+		return null;
 	}
 
 }

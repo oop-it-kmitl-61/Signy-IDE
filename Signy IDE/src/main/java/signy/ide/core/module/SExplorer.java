@@ -15,18 +15,26 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
+import signy.ide.FXMLDocumentController;
 import signy.ide.controls.panes.SEditorPane;
 
 public class SExplorer {
+
+	private FXMLDocumentController controller;
+
 	private Tab tab;
 	private SEditorPane editor;
 	private static String DefaultPath = System.getProperty("user.dir");
 
-	public SExplorer() {
-		this(DefaultPath);
+	public SExplorer(FXMLDocumentController controller) {
+		this(controller, DefaultPath);
 	}
 
-	public SExplorer(String path) {
+	SExplorer(FXMLDocumentController controller, String path) {
+
+		this.controller = controller;
+		this.editor = controller.getEditorPane();
+
 		this.tab = new Tab();
 		VBox vb = new VBox();
 		File[] drives = File.listRoots();
@@ -39,10 +47,7 @@ public class SExplorer {
 //		tab.setContent(vb);
 		tab.setContent(getTreeView(path));
 		tab.setText("Explorer");
-	}
 
-	public void addListenerToEditor(SEditorPane editor) {
-		this.editor = editor;
 	}
 
 	public TreeView<File> getTreeView(String path) {
@@ -69,12 +74,8 @@ public class SExplorer {
 			@Override
 			public void handle(MouseEvent event) {
 				TreeItem<File> tmp = (TreeItem<File>) treeView.getSelectionModel().getSelectedItem();
-				if (previous == tmp && tmp.getValue().isFile() && event.getPickResult().getIntersectedNode()
-						.accessibleTextProperty().getBean().toString().startsWith("Text")) {
+				if (event.getClickCount() == 2 && tmp.getValue().isFile() && !tmp.getValue().isDirectory()) {
 					editor.createNewEditorTab(tmp.getValue());
-					previous = null;
-				} else {
-					previous = tmp;
 				}
 
 			}

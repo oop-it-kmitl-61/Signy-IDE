@@ -48,7 +48,7 @@ public class SOutline {
 					}
 					if (item.getNode() instanceof TypeDeclaration) {
 						item.setExpanded(true);
-		
+
 					}
 					int startPos = ((ASTNode) item.getNode()).getStartPosition();
 					int length = ((ASTNode) item.getNode()).getLength();

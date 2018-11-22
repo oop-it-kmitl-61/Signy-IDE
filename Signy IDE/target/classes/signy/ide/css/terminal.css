@@ -278,7 +278,7 @@
 .styled-text-area {
 
 	text-area-background: #1e1e1e;
-	-fx-background-color: text-area-background;
+	-fx-background-color: red;
 
 }
 

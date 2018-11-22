@@ -57,6 +57,7 @@ public class SEditor {
 
 		tab = new Tab();
 		textArea = new CodeArea();
+		
 		textArea.setParagraphGraphicFactory(LineNumberFactory.get(textArea));
 
 		textArea.textProperty().addListener(((observable, oldValue, newValue) -> {
