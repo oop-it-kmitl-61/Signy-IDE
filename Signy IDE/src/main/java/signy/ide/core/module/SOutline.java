@@ -50,7 +50,7 @@ public class SOutline {
 		treeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 2) {
+				if (mouseEvent.getClickCount() == 1) {
 					OutlineItem item = (OutlineItem) treeView.getSelectionModel().getSelectedItem();
 					if (item == null) {
 						return;
