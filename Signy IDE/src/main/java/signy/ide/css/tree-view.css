@@ -96,16 +96,20 @@
 
 }
 
-.tree-cell > .tree-disclosure-node > .arrow  {
+.tree-cell > .tree-disclosure-node > .arrow,
+.tree-table-row-cell > .tree-disclosure-node > .arrow {
 
-    -fx-background-color: #838383;
+	-fx-background-color: #838383;
+    -fx-rotate: 0;
 
 }
 
-.tree-cell:expanded > .tree-disclosure-node > .arrow {
+.tree-cell:expanded > .tree-disclosure-node > .arrow,
+.tree-table-row-cell:expanded > .tree-disclosure-node > .arrow {
 
-    -fx-background-color: #e0e0e0;
-    
+	-fx-background-color: #e0e0e0;
+    -fx-rotate: 90;
+
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {

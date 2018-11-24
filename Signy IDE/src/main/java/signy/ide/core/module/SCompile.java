@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 
 import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
-import signy.ide.controls.nodes.SConsoleArea;
 import signy.ide.controls.nodes.SOutputArea;
 
 public class SCompile {

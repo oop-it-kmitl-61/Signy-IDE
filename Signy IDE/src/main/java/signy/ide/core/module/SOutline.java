@@ -16,7 +16,6 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.fxmisc.richtext.CodeArea;
 
 import javafx.event.EventHandler;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
@@ -26,8 +25,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import signy.ide.FXMLDocumentController;
 import signy.ide.controls.items.OutlineItem;
 

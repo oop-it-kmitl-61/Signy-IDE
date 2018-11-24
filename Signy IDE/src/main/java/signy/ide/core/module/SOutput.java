@@ -2,12 +2,10 @@ package signy.ide.core.module;
 
 import org.fxmisc.flowless.ScaledVirtualized;
 import org.fxmisc.flowless.VirtualizedScrollPane;
-import org.fxmisc.richtext.StyleClassedTextArea;
 
 import javafx.scene.control.Tab;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
-import signy.ide.controls.nodes.SConsoleArea;
 import signy.ide.controls.nodes.SOutputArea;
 
 public class SOutput {
