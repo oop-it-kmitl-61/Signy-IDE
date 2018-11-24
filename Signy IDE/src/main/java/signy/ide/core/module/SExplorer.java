@@ -76,6 +76,7 @@ public class SExplorer {
 
 	public TreeView<File> getTreeView(String path) {
 		TreeItem<File> root = createNode(new File(path));
+		root.setExpanded(true);
 		TreeView<File> treeView = new TreeView<File>(root);
 		treeView.setCellFactory(new Callback<TreeView<File>, TreeCell<File>>() {
 			public TreeCell<File> call(TreeView<File> tv) {

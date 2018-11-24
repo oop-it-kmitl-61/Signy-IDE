@@ -1,13 +1,6 @@
 package signy.ide.core.module;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.text.BadLocationException;
-
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.TypeDeclaration;
-import org.fxmisc.richtext.CodeArea;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,9 +22,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import signy.ide.FXMLDocumentController;
 import signy.ide.controls.buttons.ShowReplaceButton;
-import signy.ide.controls.items.OutlineItem;
 import signy.ide.controls.items.SearchItem;
-import signy.ide.controls.nodes.SCodeArea;
 import signy.ide.controls.panes.SEditorPane;
 
 public class SSearch {

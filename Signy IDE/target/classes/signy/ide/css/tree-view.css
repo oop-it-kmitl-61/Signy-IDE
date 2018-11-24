@@ -112,25 +112,35 @@
 
 }
 
-.list-cell:filled:selected:focused, .list-cell:filled:selected {
+.tree-view {
 
-    -fx-background-color: #7289da;
-    -fx-text-fill: white;
+	-fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
 
 }
 
-.list-cell {
+.tree-view:focused {
+
+
+
+}
+
+.list-view .list-cell {
 
     -fx-background-color: #1e1e1e;
     -fx-text-fill: white;
 
 }
 
+.list-view .list-cell:filled:hover {
 
-.list-cell:filled:hover {
+	-fx-background-color: #2a2d2e;
 
-    -fx-background-color: #7289da;
-    -fx-text-fill: white;
+}
+
+.list-view .list-cell:selected {
+
+	-fx-background-color: #2a2d2e;
 
 }
 
