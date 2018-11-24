@@ -33,7 +33,7 @@ public final class LoadingController {
 	private static Thread backgroundThread;
 
 	public LoadingController() {
-
+		
 	}
 
 	public synchronized static void setJdkPath() {
@@ -110,6 +110,9 @@ public final class LoadingController {
 	}
 
 	public static String getPath() {
+		if(jdkPath == null) {
+			FXMLDocumentController.scanJdkInEnvPath();
+		}
 		return jdkPath;
 	}
 

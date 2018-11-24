@@ -23,21 +23,21 @@ public class SExplorer {
 
 	private Tab tab;
 	private SEditorPane editor;
-	private static String DefaultPath = System.getProperty("user.dir");
+	private String defaultPath;
 
 	public SExplorer(FXMLDocumentController controller) {
-		this(controller, DefaultPath);
+		this(controller, controller.getRootDirectory());
 	}
 
 	SExplorer(FXMLDocumentController controller, String path) {
 
 		this.controller = controller;
 		this.editor = controller.getEditorPane();
-
+		this.defaultPath = controller.getRootDirectory();
 		this.tab = new Tab();
 		VBox vb = new VBox();
 		File[] drives = File.listRoots();
-		vb.getChildren().add(getTreeView(DefaultPath));
+		vb.getChildren().add(getTreeView(defaultPath));
 		if (drives != null && drives.length > 0) {
 			for (File aDrive : drives) {
 				vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
@@ -146,7 +146,7 @@ public class SExplorer {
 		return this.tab;
 	}
 
-	public static void setDefaultPath(String path) {
-		SExplorer.DefaultPath = path;
+	public void setDefaultPath(String path) {
+		defaultPath = path;
 	}
 }

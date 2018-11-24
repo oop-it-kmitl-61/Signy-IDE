@@ -1,5 +1,7 @@
 package signy.ide;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -42,6 +44,7 @@ public class FXMLDocumentController implements Initializable {
 
 	private static SConsole consolePane;
 	private static SOutput outputPane;
+	private static String rootDirectory = "C:\\Users\\Unixcorn\\git\\Signy-IDE\\Signy IDE\\test";
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -140,6 +143,10 @@ public class FXMLDocumentController implements Initializable {
 	public STerminalPane getTerminalPane() {
 		return terminalPane;
 	}
+	
+	public String getRootDirectory() {
+		return rootDirectory;
+	}
 
 	public static boolean scanJdkInEnvPath() {
 		try {
@@ -177,5 +184,18 @@ public class FXMLDocumentController implements Initializable {
 	static void endProcess() {
 		consolePane.endProcess();
 	}
-
+	
+	public static Process compile(String projectDirectory) {
+		Process pro = null;
+		try {
+			pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/javac -d bin src/*.java", null, new File(projectDirectory));
+			
+		} catch (IOException e) {
+			System.out.println("  Compile Failed! print stacktrace  ");
+			for(StackTraceElement a: e.getStackTrace()) {
+				consolePane.getConsoleArea().println("  [ERROR]  " + a.toString());				
+			}
+		}
+		return pro;
+	}
 }

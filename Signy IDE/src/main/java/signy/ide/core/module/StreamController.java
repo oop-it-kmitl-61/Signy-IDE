@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 
 import signy.ide.controls.nodes.SConsoleArea;
 
-public class RunnableImpl implements Runnable {
+class StreamController implements Runnable {
 
 	private boolean isStop = false;
 	private boolean doStop = false;
@@ -27,7 +27,7 @@ public class RunnableImpl implements Runnable {
 		return doStop == false;
 	}
 
-	RunnableImpl(Process p, ProcessBuilder pb, SConsoleArea area) {
+	StreamController(Process p, ProcessBuilder pb, SConsoleArea area) {
 		this.p = p;
 		this.pb = pb;
 		this.area = area;

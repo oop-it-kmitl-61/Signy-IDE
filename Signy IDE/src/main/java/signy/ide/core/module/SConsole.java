@@ -38,16 +38,17 @@ public class SConsole {
 	private Tab tab;
 	private SConsoleArea consoleArea;
 	private TextField commandtf;
+	private SCompile compiler;
 	private List<String> commandLog = new ArrayList<>();
 	private int logPointer = 0;
 
 	private Thread thread;
-	private RunnableImpl runnableImpl;
+	private StreamController streamController;
 	private Process p;
 	private ProcessBuilder pb = new ProcessBuilder();
 	private ProcessBuilderCommand pbc = null;
 
-	private String workingDir = System.getProperty("user.dir");
+	private String workingDir;
 	private ArrayList<String> envPaths;
 
 	public SConsole(FXMLDocumentController controller) {
@@ -57,8 +58,10 @@ public class SConsole {
 	public SConsole(FXMLDocumentController controller, String title) {
 
 		this.controller = controller;
+		this.workingDir = controller.getRootDirectory();
 		this.tab = new Tab();
 		this.consoleArea = new SConsoleArea();
+		
 
 		ScaledVirtualized<SConsoleArea> scaleVirtualized = new ScaledVirtualized<>(consoleArea);
 		consoleArea.addEventFilter(ScrollEvent.ANY, e -> {
@@ -132,7 +135,11 @@ public class SConsole {
 						consoleArea.println(LoadingController.getPath());
 						break;
 					case "compile":
-						compile();
+						compiler = new SCompile(controller);
+						compiler.compile();
+						break;
+					case "run":
+						FXMLDocumentController.compile("C:\\Users\\Unixcorn\\git\\Signy-IDE\\Signy IDE\\test\\");
 						break;
 					default:
 						runCommand(text);
@@ -162,7 +169,6 @@ public class SConsole {
 		});
 
 		init();
-
 	}
 
 	private void init() {
@@ -184,7 +190,7 @@ public class SConsole {
 			if (thread != null) {
 				System.out.println("At Main : " + thread.getName() + " will execute " + "'" + Command + "'");
 			}
-			if (runnableImpl != null) {
+			if (streamController != null) {
 				endProcess();
 			}
 			if (thread != null) {
@@ -229,10 +235,9 @@ public class SConsole {
 			} else {
 				pb = new ProcessBuilder(EnvSearch("cmd"), "/c", Command);
 			}
-			pb.redirectErrorStream(true);
-
-			runnableImpl = new RunnableImpl(p, pb, consoleArea);
-			thread = new Thread(runnableImpl);
+			pb.directory(new File(workingDir));
+			streamController = new StreamController(p, pb, consoleArea);
+			thread = new Thread(streamController);
 			thread.start();
 
 		}
@@ -252,18 +257,18 @@ public class SConsole {
 	public void endProcess() {
 		boolean isInterrupted = false;
 		try {
-			runnableImpl.doStop();
-			while (!runnableImpl.isStop()) {
+			streamController.doStop();
+			while (!streamController.isStop()) {
 				try {
 					System.out.println("Sleep \"Main\" for 100L untill " + thread.getName() + " stop. Is it stopped? : "
-							+ runnableImpl.isStop());
+							+ streamController.isStop());
 					isInterrupted = true;
 					Thread.sleep(100L);
 				} catch (InterruptedException e) {
 					System.err.println(e.getMessage());
 				}
 			}
-			System.out.println(thread.getName() + " Is stop? : " + runnableImpl.isStop());
+			System.out.println(thread.getName() + " Is stop? : " + streamController.isStop());
 
 		} catch (NullPointerException e) {
 
@@ -275,19 +280,15 @@ public class SConsole {
 			}
 			try {
 				thread.stop();
-				thread.destroy();
 			} catch (NullPointerException | NoSuchMethodError e) {
 
 			}
 		}
 	}
-
-	private void compile() {
-		try {
-			Process pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/javac Demo.java", null, new File("C:\\C"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	
+	public SConsoleArea getConsoleArea() {
+		return this.consoleArea;
 	}
-
+	
+	
 }
