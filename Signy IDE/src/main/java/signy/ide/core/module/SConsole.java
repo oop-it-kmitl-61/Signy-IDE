@@ -271,9 +271,6 @@ public class SConsole {
 
 			}
 		}
-		if (isInterrupted == true) {
-//			consoleArea.println("^C");
-		}
 	}
 
 }
