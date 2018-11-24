@@ -43,7 +43,6 @@
     -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
     -fx-border-color: #1e1e1e;
 
-
 }
 
 .tab-label { 
@@ -53,7 +52,9 @@
 }
 
 .tab .image-view {
+
 	-fx-padding: 5.0em;
+
 }
 
 .treeview-pane {
@@ -65,7 +66,8 @@
 
 .tree-view {
 
-
+	-fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
 
 }
 
@@ -78,21 +80,19 @@
 .tree-view .tree-cell {
 
     -fx-background-color: #1e1e1e;
-    -fx-border-color: #1e1e1e;
     -fx-text-fill: white;
 
 }
 
 .tree-view .tree-cell:filled:hover {
 
-	-fx-border-color: #7289da;
+	-fx-background-color: #2a2d2e;
 
 }
 
 .tree-view .tree-cell:selected {
 
 	-fx-background-color: #2a2d2e;
-	-fx-border-color: #7289da;
 
 }
 
@@ -155,14 +155,14 @@
 
 }
 
-.search-pane .button {
+.button {
 
 	-fx-text-fill: #bbbbbb;
 	-fx-background-color: transparent;
 
 }
 
-.search-pane .button:hover {
+.button:hover {
 
 	-fx-text-fill: #bbbbbb;
 	-fx-background-color: #3c3c3c;
@@ -235,7 +235,7 @@
 
 .result-pane:focused {
 
-	-fx-border-color: #7289da;
+
 
 }
 

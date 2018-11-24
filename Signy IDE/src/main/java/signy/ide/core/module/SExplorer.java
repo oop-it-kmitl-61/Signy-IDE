@@ -5,6 +5,8 @@ import java.io.File;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
@@ -12,6 +14,10 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import signy.ide.FXMLDocumentController;
@@ -20,6 +26,11 @@ import signy.ide.controls.panes.SEditorPane;
 public class SExplorer {
 
 	private FXMLDocumentController controller;
+
+	private BorderPane explorerPane;
+	private HBox menuBox;
+	private Button buttonRefresh;
+	private Label labelExplorer;
 
 	private Tab tab;
 	private SEditorPane editor;
@@ -34,6 +45,8 @@ public class SExplorer {
 		this.controller = controller;
 		this.editor = controller.getEditorPane();
 
+		explorerPane = new BorderPane();
+
 		this.tab = new Tab();
 		VBox vb = new VBox();
 		File[] drives = File.listRoots();
@@ -43,8 +56,18 @@ public class SExplorer {
 				vb.getChildren().add(getTreeView(aDrive.getAbsolutePath()));
 			}
 		}
-//		tab.setContent(vb);
-		tab.setContent(getTreeView(path));
+
+		menuBox = new HBox();
+		menuBox.getStyleClass().add("menu-box");
+		labelExplorer = new Label("EXPLORER");
+		Region region = new Region();
+		buttonRefresh = new Button("R");
+		menuBox.getChildren().addAll(labelExplorer, region, buttonRefresh);
+		HBox.setHgrow(region, Priority.ALWAYS);
+
+		explorerPane.setTop(menuBox);
+		explorerPane.setCenter(getTreeView(path));
+		tab.setContent(explorerPane);
 		tab.setText("Explorer");
 		ImageView img = new ImageView(new Image("signy/ide/resources/icons/explorer.png", 14, 16, false, false));
 		tab.setGraphic(img);

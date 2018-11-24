@@ -16,16 +16,26 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 import org.fxmisc.richtext.CodeArea;
 
 import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import signy.ide.FXMLDocumentController;
 import signy.ide.controls.items.OutlineItem;
 
 public class SOutline {
+
+	private BorderPane outlinePane;
+	private HBox menuBox;
+	private Label labelOutline;
 
 	private Tab tab;
 	private TreeView treeView;
@@ -63,8 +73,16 @@ public class SOutline {
 			}
 		});
 
+		outlinePane = new BorderPane();
+		menuBox = new HBox();
+		menuBox.getStyleClass().add("menu-box");
+		labelOutline = new Label("OUTLINE");
+		menuBox.getChildren().addAll(labelOutline);
+
+		outlinePane.setTop(menuBox);
+		outlinePane.setCenter(treeView);
 		tab.setText("Outline");
-		tab.setContent(treeView);
+		tab.setContent(outlinePane);
 		ImageView img = new ImageView(new Image("signy/ide/resources/icons/outline.png", 14, 16, false, false));
 		tab.setGraphic(img);
 
