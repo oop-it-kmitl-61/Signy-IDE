@@ -10,6 +10,8 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -86,8 +88,10 @@ public class FXMLDocumentController implements Initializable {
 
 		headBar.setAlignment(Pos.CENTER_LEFT);
 
-		Label label = new Label("LogoBoi");
-		headBar.getChildren().add(label);
+		
+		Label label = new Label("Signy IDE");
+		headBar.getChildren().addAll(new ImageView(new Image("signy/ide/resources/icons/top-logo.png", 64, 32, false, true)));
+		headBar.getChildren().addAll(label);
 
 //		Label label2 = new Label("Tool Bar Boi");
 //		toolBar.getChildren().add(label2);
@@ -154,7 +158,7 @@ public class FXMLDocumentController implements Initializable {
 			LoadingController.setJdkPath();
 			while (LoadingController.isStateProcessRunning() == true) {
 				try {
-					Thread.sleep(150);
+					Thread.sleep(150L);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} finally {
@@ -171,9 +175,9 @@ public class FXMLDocumentController implements Initializable {
 			for (String ss : t) {
 				if (ss.contains("jdk")) {
 					LoadingController.setPath("C:/Program Files/Java/" + ss);
-					return true;
 				}
 			}
+			
 		} catch (NullPointerException ex) {
 			return false;
 		} finally {

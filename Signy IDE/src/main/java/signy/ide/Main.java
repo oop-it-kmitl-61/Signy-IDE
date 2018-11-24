@@ -9,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -60,7 +61,7 @@ public class Main extends Application {
 			primaryStage.sizeToScene();
 			primaryStage.setMinWidth(235);
 			primaryStage.setMinHeight(155);
-//		  	primaryStage.getIcons().add(new Image(""));
+		  	primaryStage.getIcons().add(new Image("signy/ide/resources/icons/logo.png"));
 			setTitle(null);
 			primaryStage.show();
 

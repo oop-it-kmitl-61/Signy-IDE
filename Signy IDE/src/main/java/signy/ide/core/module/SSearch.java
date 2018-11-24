@@ -136,7 +136,6 @@ public class SSearch {
 			public void handle(ActionEvent event) {
 				textFieldSearch.clear();
 				textFieldReplace.clear();
-				// pos.clear(); li.clear();
 				dataToView.clear();
 				
 			}
@@ -146,7 +145,7 @@ public class SSearch {
 		resultView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 1) {
+				if (mouseEvent.getClickCount() == 1 && resultView.getSelectionModel().getSelectedItem().getLine() >= 0) {
 					SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();
 					if (item == null) {
 						return;
@@ -223,6 +222,9 @@ public class SSearch {
 				index = 0;
 				line += 1;
 			}
+		}
+		if(dataToView.size() <= 0) {
+			dataToView.add(new SearchItem(-1, "Null", 0, 0));
 		}
 	}
 	
