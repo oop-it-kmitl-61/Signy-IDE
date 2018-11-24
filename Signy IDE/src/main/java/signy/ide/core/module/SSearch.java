@@ -21,6 +21,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -118,46 +120,12 @@ public class SSearch {
 		tab.setContent(searchPane);
 		ImageView img = new ImageView(new Image("signy/ide/resources/icons/search.png", 14, 14, false, true));
 		tab.setGraphic(img);
-
+		
 		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
-				dataToView.clear();
-				String find = textFieldSearch.getText().trim();
-				int index = 0, line = 0, l1= 0, l2 = find.length();
-				while (line <= editor.getCurrentActiveTab().getTextArea().getText().split("\n").length) {
-					if (find.equals("")) {
-						break;
-					}
-					
-					if (editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText().indexOf(find, index) != -1) {
-						index = editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText().indexOf(find, index);
-						l1 = editor.getCurrentActiveTab().getTextArea().getText().indexOf(find, l1);
-						pos.add(l1);
-						li.add(line);
-						// line start at 1 when used need to -1
-						
-						String t = editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText();
-						SearchItem showItem = new SearchItem(line, t, l1, l2);
-						dataToView.add(showItem);
-						index += 1; l1 += 1;
-
-					}
-					else if (line + 1 == editor.getCurrentActiveTab().getTextArea().getText().split("\n").length) { 
-						break;
-					}
-					else {
-						index = 0;
-						line += 1;
-					}
-				}
-
-//				if (count != 0) {
-//					for (int i = 0; i < count; i++) {
-//						System.out.println(pos.get(i) + "," + (pos.get(i)+find.length()+" Line = " + li.get(i)));
-//			        }
-//				}
+				Refresh();
 			}
 
 		});
@@ -166,13 +134,7 @@ public class SSearch {
 
 			@Override
 			public void handle(ActionEvent event) {
-				String find = textFieldSearch.getText().trim().toLowerCase();
-				String replace = textFieldReplace.getText().trim();
-				String ta = editor.getCurrentActiveTab().getTextArea().getText().replaceAll(find, replace);
-				editor.getCurrentActiveTab().getTextArea().clear();
-				editor.getCurrentActiveTab().getTextArea().appendText(ta);
-				editor.getCurrentActiveTab().getTextArea().requestFollowCaret();
-				editor.getCurrentActiveTab().getTextArea().requestFocus();
+				Replace();
 			}
 
 		});
@@ -193,7 +155,7 @@ public class SSearch {
 		resultView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-				if (mouseEvent.getClickCount() == 2) {
+				if (mouseEvent.getClickCount() == 1) {
 					SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();
 					if (item == null) {
 						return;
@@ -205,8 +167,74 @@ public class SSearch {
 				}
 			}
 		});
+		
+		textFieldSearch.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent ke) {
+				if (ke.getCode() == KeyCode.ENTER) {
+					Refresh();
+				}
+			}
+		});
+		
+		textFieldReplace.setOnKeyPressed(new EventHandler<KeyEvent>() {
+			public void handle(KeyEvent ke) {
+				if (ke.getCode() == KeyCode.ENTER) {
+					Replace();
+				}
+			}
+		});
+		
 	}
 
+	public void Replace() {
+		if (textFieldReplace.getText().equals("") || textFieldSearch.getText().equals("")) {
+			return;
+		}
+		String find = textFieldSearch.getText().trim().toLowerCase();
+		String replace = textFieldReplace.getText().trim();
+		String ta = editor.getCurrentActiveTab().getTextArea().getText().replaceAll(find, replace);
+		editor.getCurrentActiveTab().getTextArea().clear();
+		editor.getCurrentActiveTab().getTextArea().appendText(ta);
+		editor.getCurrentActiveTab().getTextArea().requestFollowCaret();
+		editor.getCurrentActiveTab().getTextArea().requestFocus();
+		ta = "";
+	}
+	
+	public void Refresh() {
+		dataToView.clear();
+		String find = textFieldSearch.getText().trim().toLowerCase();
+		if (editor.getCurrentActiveTab().getTextArea().getText().equals("") || find.equals("")) {
+			return;
+		}
+		int index = 0, line = 0, l1= 0, l2 = find.length();
+		while (line <= editor.getCurrentActiveTab().getTextArea().getText().split("\n").length) {
+			if (find.equals("") || editor.getCurrentActiveTab().getTextArea().getText().equals("")) {
+				break;
+			}
+			
+			if (editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText().indexOf(find, index) != -1) {
+				index = editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText().toLowerCase().indexOf(find, index);
+				l1 = editor.getCurrentActiveTab().getTextArea().getText().toLowerCase().indexOf(find, l1);
+				pos.add(l1);
+				li.add(line);
+				// line start at 1 when used need to -1
+				
+				String t = editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText();
+				SearchItem showItem = new SearchItem(line, t, l1, l2);
+				dataToView.add(showItem);
+				index += 1; l1 += 1;
+
+			}
+			else if (line + 1 == editor.getCurrentActiveTab().getTextArea().getText().split("\n").length) { 
+				break;
+			}
+			else {
+				index = 0;
+				line += 1;
+			}
+		}
+	}
+	
 	public Tab getTab() {
 		return tab;
 	}
