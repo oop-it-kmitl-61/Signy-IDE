@@ -97,18 +97,7 @@ public class SConsole {
 					commandLog.add(text);
 					logPointer = commandLog.size();
 					commandtf.clear();
-
-//					if(pbc.isRun()) {
-//						try {
-//							thread.wait();
-//							pbc.stop();
-//							p.wait();
-//							p.destroy();
-//						} catch (InterruptedException e) {
-//							// TODO Auto-generated catch block
-//							System.out.println(e.getMessage());
-//						}
-//					}
+					
 					String[] input = text.split(" ");
 
 					switch (input[0]) {
@@ -222,7 +211,6 @@ public class SConsole {
 	}
 
 	private class ProcessBuilderCommand {
-		private boolean state = false;
 
 		public ProcessBuilderCommand(SConsoleArea consoleArea, String Command)
 				throws InterruptedException, IOException {
@@ -237,102 +225,10 @@ public class SConsole {
 
 			runnableImpl = new RunnableImpl(p, pb, consoleArea);
 			thread = new Thread(runnableImpl);
-//			thread = new Thread(new Runnable() {
-//				private String line;
-//
-//				@Override
-//				public void run() {
-////					if(terminate == true) {
-////						terminate = false;
-////						return;
-////					}
-//					System.out.println(Thread.currentThread());
-//					try {
-//						line = null;
-//						p = pb.start();
-//
-//						BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-//						while ((line = in.readLine()) != null) {
-//							System.out.println(line);
-//							consoleArea.println("    " + line);
-//						}
-//
-//						BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-//						while ((line = er.readLine()) != null) {
-//							System.out.println(" [ERROR] " + line);
-//							consoleArea.println(" [ERROR] " + line);
-//						}
-//						System.out.println("Fin");
-//						p.waitFor();
-//						state = true;
-//					} catch (IOException | InterruptedException e) {
-//						consoleArea.println(" [ERROR] " + e.getMessage());
-//
-//						state = false;
-//					} finally {
-//						try {
-//							p.getInputStream().close();
-//							System.out.println("In closed");
-//						} catch (IOException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//						}
-//						try {
-//							p.getErrorStream().close();
-//							System.out.println("Err closed");
-//						} catch (IOException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-//					}
-//
-//				}
-//
-//			});
 			thread.start();
 
 		}
 
-		public void stop() {
-			try {
-				p.destroy();
-				this.state = false;
-			} catch (Exception e) {
-				this.state = true;
-			}
-
-		}
-
-		public boolean isRun() {
-			return this.state;
-		}
-
-	}
-
-	public void netStat() {
-		try {
-			String[] command = { "CMD", "/C", "netstat -ano |findstr :993 |findstr ESTABLISHED" };
-			ProcessBuilder pb = new ProcessBuilder(command);
-			pb.directory(new File("C:/Windows/System32/"));
-			pb.redirectErrorStream(true);
-			System.out.println(Thread.currentThread());
-			Process p = pb.start();
-			String line = null;
-			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-			while ((line = in.readLine()) != null) {
-				consoleArea.println("    " + line);
-			}
-
-			BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-			while ((line = er.readLine()) != null) {
-				consoleArea.println(" [ERROR] " + line);
-			}
-			System.out.println(Thread.currentThread());
-			p.waitFor();
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 
 	public ArrayList<String> getEnvPath() {
@@ -344,21 +240,22 @@ public class SConsole {
 		return envList;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void endProcess() {
 		boolean isInterrupted = false;
 		try {
 			runnableImpl.doStop();
 			while (!runnableImpl.isStop()) {
 				try {
-					System.out.println("Sleep Main for 100L untill " + thread.getName() + " stop. Is it stopped? : "
-							+ runnableImpl.isStop());
+					System.out.println("Sleep \"Main\" for 100L untill " + thread.getName() + " stop. Is it stopped? : " + runnableImpl.isStop());
 					isInterrupted = true;
 					Thread.sleep(100L);
 				} catch (InterruptedException e) {
-					e.printStackTrace();
+					System.err.println(e.getMessage());
 				}
 			}
 			System.out.println(thread.getName() + " Is stop? : " + runnableImpl.isStop());
+			
 		} catch (NullPointerException e) {
 
 		} finally {
