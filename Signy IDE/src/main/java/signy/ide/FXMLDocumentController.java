@@ -3,7 +3,6 @@ package signy.ide;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
@@ -17,8 +16,8 @@ import lib.org.eclipse.fx.ui.panes.SashPane;
 import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.STerminalPane;
 import signy.ide.controls.panes.SViewPane;
+import signy.ide.core.module.SConsole;
 import signy.ide.core.module.SMenuBar;
-import signy.ide.core.module.SOutline;
 import signy.ide.core.module.SOutput;
 
 public class FXMLDocumentController implements Initializable {
@@ -36,11 +35,13 @@ public class FXMLDocumentController implements Initializable {
 
 	private Main mainApp;
 	private MenuBar menuBar;
-	private SViewPane viewPane;
-	private static SEditorPane editorPane;
-	private STerminalPane terminalPane;
 
-	private SOutput outputPane;
+	private static SViewPane viewPane;
+	private static SEditorPane editorPane;
+	private static STerminalPane terminalPane;
+
+	private static SConsole consolePane;
+	private static SOutput outputPane;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -92,6 +93,7 @@ public class FXMLDocumentController implements Initializable {
 		headBar.getChildren().add(menuBar);
 		menuBar.getStylesheets().add(getClass().getResource("css/menu-bar.css").toExternalForm());
 
+		consolePane = terminalPane.getConsolePane();
 		outputPane = terminalPane.getOutputPane();
 
 //		if (LoadingController.isLoadedOneTime() == false) {
@@ -181,6 +183,10 @@ public class FXMLDocumentController implements Initializable {
 
 		return false;
 
+	}
+
+	static void endProcess() {
+		consolePane.endProcess();
 	}
 
 }

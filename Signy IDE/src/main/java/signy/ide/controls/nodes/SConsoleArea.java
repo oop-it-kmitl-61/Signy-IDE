@@ -7,6 +7,7 @@ import javafx.application.Platform;
 public class SConsoleArea extends StyleClassedTextArea {
 
 	public SConsoleArea() {
+		println();
 		setWrapText(true);
 		setEditable(false);
 	}

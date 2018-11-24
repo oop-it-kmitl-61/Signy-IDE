@@ -5,12 +5,13 @@ import java.awt.Toolkit;
 import java.nio.file.Path;
 
 import javafx.application.Application;
-import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 
 /**
  * Hello world!
@@ -59,21 +60,23 @@ public class Main extends Application {
 			primaryStage.sizeToScene();
 			primaryStage.setMinWidth(235);
 			primaryStage.setMinHeight(155);
-//          primaryStage.getIcons().add(new Image(""));
+//		  primaryStage.getIcons().add(new Image(""));
 			setTitle(null);
 			primaryStage.show();
 
+			FXMLDocumentController controller = new FXMLDocumentController();
 			FXMLDocumentController.init();
 
 			FXMLSplashController.hideSplashScreen();
 
-//          primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-//              public void handle(WindowEvent event) {
-//                  event.consume();
-//                  FXMLDocumentController.methodupdateInterrupt();
-//                  System.exit(0);
-//              }
-//          });
+			primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+				public void handle(WindowEvent event) {
+					event.consume();
+					FXMLDocumentController.endProcess();
+					System.exit(0);
+				}
+			});
+			primaryStage.requestFocus();
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,7 +102,7 @@ public class Main extends Application {
 	}
 
 	public void exit() {
-		Platform.exit();
+		stage.close();
 	}
 
 	public void setTitle(Path path) {

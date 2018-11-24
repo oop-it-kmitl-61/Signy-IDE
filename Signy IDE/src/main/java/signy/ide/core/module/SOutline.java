@@ -18,6 +18,8 @@ import javafx.event.EventHandler;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import org.fxmisc.richtext.CodeArea;
 import signy.ide.FXMLDocumentController;
@@ -63,6 +65,8 @@ public class SOutline {
 
 		tab.setText("Outline");
 		tab.setContent(treeView);
+		ImageView img = new ImageView(new Image("signy/ide/resources/icons/outline.png", 14, 16, false, false));
+		tab.setGraphic(img);
 
 	}
 

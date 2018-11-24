@@ -6,14 +6,19 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
+import signy.ide.FXMLDocumentController;
 import signy.ide.controls.buttons.ShowReplaceButton;
 
 public class SSearch {
+
+	private FXMLDocumentController controller;
 
 	private Tab tab;
 
@@ -27,7 +32,9 @@ public class SSearch {
 	private TextField textFieldSearch, textFieldReplace;
 	private ListView<?> resultView;
 
-	public SSearch() {
+	public SSearch(FXMLDocumentController controller) {
+
+		this.controller = controller;
 
 		tab = new Tab("Search");
 
@@ -83,6 +90,8 @@ public class SSearch {
 		searchPane.setCenter(resultView);
 
 		tab.setContent(searchPane);
+		ImageView img = new ImageView(new Image("signy/ide/resources/icons/search.png", 14, 14, false, true));
+		tab.setGraphic(img);
 
 	}
 

@@ -21,6 +21,7 @@ import signy.ide.FXMLDocumentController;
 import signy.ide.Main;
 import signy.ide.core.module.SEditor;
 import signy.ide.core.module.SOutline;
+import signy.ide.lang.symbols.SymbolsType;
 
 public class SEditorPane {
 
@@ -217,7 +218,7 @@ public class SEditorPane {
 			editorTab.updateReference(editorTab.getFile());
 		}
 
-		String contentToWrite = editorTab.getText();
+		String contentToWrite = editorTab.getText().replace(SymbolsType.TAB.toString(), "\t");
 		writeToFile(contentToWrite, pathToSaveFile);
 
 		setRecentFile(editorTab.getFile());

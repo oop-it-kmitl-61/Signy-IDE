@@ -7,29 +7,15 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
-import java.util.Map.Entry;
 
 import org.fxmisc.flowless.ScaledVirtualized;
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
-import org.fxmisc.richtext.LineNumberFactory;
-import org.fxmisc.wellbehaved.event.InputMap;
-import org.fxmisc.wellbehaved.event.Nodes;
 
-import javafx.event.Event;
-import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
-import signy.ide.LoadingController;
-import signy.ide.Utils;
 import signy.ide.controls.nodes.SCodeArea;
-import signy.ide.core.dom.JavaDocumentPartitioner;
-
-import static javafx.scene.input.KeyCode.*;
-import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;
-import static org.fxmisc.wellbehaved.event.EventPattern.keyPressed;
 
 public class SEditor {
 

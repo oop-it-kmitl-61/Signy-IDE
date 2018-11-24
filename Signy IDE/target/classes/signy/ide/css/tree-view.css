@@ -27,9 +27,11 @@
 	-fx-background-radius: 0.0;
     -fx-background-color: #2e2e2e;
     -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
-    -fx-border-color: #2e2e2e #2e2e2e #2e2e2e #2e2e2e;
+    -fx-border-color: #2e2e2e;
     -fx-background-insets: 0.0;
 
+   	-fx-graphic-text-gap: 10.0em;
+   	-fx-label-padding: 5.0 0.0 5.0 5.0;
 
 }
 
@@ -39,7 +41,7 @@
     -fx-background-insets: 0.0;
     -fx-background-color: #1e1e1e;
     -fx-border-width: 1.0px 0.0px 3.0px 0.0px;
-    -fx-border-color: #1e1e1e #1e1e1e #1e1e1e #1e1e1e;
+    -fx-border-color: #1e1e1e;
 
 
 }
@@ -48,6 +50,10 @@
 
 
 
+}
+
+.tab .image-view {
+	-fx-padding: 5.0em;
 }
 
 .treeview-pane {
@@ -72,22 +78,34 @@
 .tree-view .tree-cell {
 
     -fx-background-color: #1e1e1e;
-    -fx-border-color: #1e1e1e #1e1e1e #1e1e1e #1e1e1e;
+    -fx-border-color: #1e1e1e;
     -fx-text-fill: white;
 
 }
 
 .tree-view .tree-cell:filled:hover {
 
-	-fx-border-color: #7289da #7289da #7289da #7289da;
+	-fx-border-color: #7289da;
 
 }
 
 .tree-view .tree-cell:selected {
 
-	-fx-background-color: #7289da;
-	-fx-border-color: #7289da #7289da #7289da #7289da;
+	-fx-background-color: #2a2d2e;
+	-fx-border-color: #7289da;
 
+}
+
+.tree-cell > .tree-disclosure-node > .arrow  {
+
+    -fx-background-color: #838383;
+
+}
+
+.tree-cell:expanded > .tree-disclosure-node > .arrow {
+
+    -fx-background-color: #e0e0e0;
+    
 }
 
 .list-cell:filled:selected:focused, .list-cell:filled:selected {

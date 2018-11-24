@@ -25,7 +25,7 @@ public class SViewPane {
 
 		explorer = new SExplorer(controller);
 		outline = new SOutline(controller);
-		search = new SSearch();
+		search = new SSearch(controller);
 
 		tabPane.getTabs().add(explorer.getTab());
 		tabPane.getTabs().add(outline.getTab());

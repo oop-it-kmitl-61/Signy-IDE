@@ -138,21 +138,6 @@
 
 }
 
-.text-field {
-
-    text-area-background: #262626;
-    -fx-box-border: text-area-background;
-    -fx-control-inner-background: text-area-background;
-    -fx-background-color: text-area-background;
-    -fx-background-insets: 0.0px;
-    -fx-padding: 0.3em;
-
-	-fx-fill: #e0e0e0;
-	-fx-font-size: 13.0px;
-	-fx-font-family: Lucida;
-
-}
-
 .text-area .content {
 
     -fx-background-color: text-area-background;
@@ -272,7 +257,22 @@
 
 	-fx-fill: #e0e0e0;
 	-fx-font-size: 13.0px;
-	-fx-font-family: Lucida;
+	-fx-font-family: Consolas;
+
+}
+
+.text-field {
+
+    text-area-background: #262626;
+    -fx-box-border: text-area-background;
+    -fx-control-inner-background: text-area-background;
+    -fx-background-color: text-area-background;
+    -fx-background-insets: 0.0px;
+    -fx-padding: 0.3em 0.3em 0.3em 0.6em;
+
+	-fx-fill: #e0e0e0;
+	-fx-font-size: 13.0px;
+	-fx-font-family: Consolas;
 
 }
 

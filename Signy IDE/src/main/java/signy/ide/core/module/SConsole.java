@@ -1,8 +1,5 @@
 package signy.ide.core.module;
 
-import static javafx.scene.input.KeyCode.BACK_SPACE;
-import static javafx.scene.input.KeyCode.ENTER;
-import static javafx.scene.input.KeyCode.TAB;
 import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;
 import static org.fxmisc.wellbehaved.event.EventPattern.keyPressed;
 
@@ -39,8 +36,9 @@ public class SConsole {
 	private int logPointer = 0;
 
 	private Thread thread;
+	private RunnableImpl runnableImpl;
 	private Process p;
-	private ProcessBuilder pb;
+	private ProcessBuilder pb = new ProcessBuilder();
 	private ProcessBuilderCommand pbc = null;
 
 	private String workingDir = System.getProperty("user.dir");
@@ -68,11 +66,18 @@ public class SConsole {
 			}
 		});
 
-		this.commandtf = new TextField();
+		this.commandtf = new TextField() {
+			@Override
+			public void copy() {
+				endProcess();
+				consoleArea.println();
+			}
+		};
 		InputMap<Event> prevent = InputMap.consume(
 				anyOf(
 						keyPressed(KeyCode.UP),
-						keyPressed(KeyCode.DOWN)
+						keyPressed(KeyCode.DOWN),
+						keyPressed(KeyCode.ESCAPE)
 				));
 		Nodes.addInputMap(commandtf, prevent);
 
@@ -90,6 +95,7 @@ public class SConsole {
 					String text = commandtf.getText();
 					commandLog.add(text);
 					logPointer = commandLog.size();
+					commandtf.clear();
 
 //					if(pbc.isRun()) {
 //						try {
@@ -128,13 +134,12 @@ public class SConsole {
 					case "killProcess":
 					case "KillProcess":
 					case "EndProc":
-						pbc.stop();
+						endProcess();
 						break;
 					default:
-						runCommand(commandtf.getText());
+						runCommand(text);
 						break;
 					}
-					commandtf.clear();
 
 				} else if (ke.getCode() == KeyCode.UP) {
 					if (logPointer == 0) {
@@ -152,10 +157,22 @@ public class SConsole {
 						commandtf.setText(commandLog.get(++logPointer));
 						commandtf.positionCaret(commandtf.getLength());
 					});
+				} else if (ke.getCode() == KeyCode.ESCAPE) {
+					commandtf.setText("");
 				}
 			}
 		});
 
+		init();
+
+	}
+
+	private void init() {
+		try {
+			pbc = new ProcessBuilderCommand(consoleArea, "cmd");
+		} catch (InterruptedException | IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void requestFocus() {
@@ -165,14 +182,26 @@ public class SConsole {
 	public void runCommand(String Command) {
 
 		try {
-			if (pbc != null && pbc.isRun()) {
-				pbc.stop();
+
+			if (thread != null) {
+				System.out.println("At Main : " + thread.getName() + " will execute "+ "'" + Command + "'");
 			}
+			if (runnableImpl != null) {
+				endProcess();
+			}
+			if (thread != null) {
+				System.out.println("At Main : Before do next command, RunnableThread is alive? " + thread.isAlive());
+			}
+			if (p != null) {
+				System.out.println("At Main : Before do next command, Process is alive? " + p.isAlive());
+			}
+
+			consoleArea.println(workingDir + " > " + Command);
 			pbc = new ProcessBuilderCommand(consoleArea, Command);
 		} catch (InterruptedException | IOException e) {
 			consoleArea.println(" [ERROR] " + e.getMessage());
 		}
-
+		
 	}
 
 	public Tab getTab() {
@@ -203,44 +232,62 @@ public class SConsole {
 			} else {
 				pb = new ProcessBuilder(EnvSearch("cmd"), "/c", Command);
 			}
-			consoleArea.println(workingDir + " > " + Command);
+			pb.redirectErrorStream(true);
 
-			thread = new Thread(new Runnable() {
-				private String line;
-
-				@Override
-				public void run() {
-//					if(terminate == true) {
-//						terminate = false;
-//						return;
+			runnableImpl = new RunnableImpl(p, pb, consoleArea);
+			thread = new Thread(runnableImpl);
+//			thread = new Thread(new Runnable() {
+//				private String line;
+//
+//				@Override
+//				public void run() {
+////					if(terminate == true) {
+////						terminate = false;
+////						return;
+////					}
+//					System.out.println(Thread.currentThread());
+//					try {
+//						line = null;
+//						p = pb.start();
+//
+//						BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+//						while ((line = in.readLine()) != null) {
+//							System.out.println(line);
+//							consoleArea.println("    " + line);
+//						}
+//
+//						BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+//						while ((line = er.readLine()) != null) {
+//							System.out.println(" [ERROR] " + line);
+//							consoleArea.println(" [ERROR] " + line);
+//						}
+//						System.out.println("Fin");
+//						p.waitFor();
+//						state = true;
+//					} catch (IOException | InterruptedException e) {
+//						consoleArea.println(" [ERROR] " + e.getMessage());
+//
+//						state = false;
+//					} finally {
+//						try {
+//							p.getInputStream().close();
+//							System.out.println("In closed");
+//						} catch (IOException e1) {
+//							// TODO Auto-generated catch block
+//							e1.printStackTrace();
+//						}
+//						try {
+//							p.getErrorStream().close();
+//							System.out.println("Err closed");
+//						} catch (IOException e) {
+//							// TODO Auto-generated catch block
+//							e.printStackTrace();
+//						}
 //					}
-					System.out.println(Thread.currentThread());
-					try {
-						line = null;
-						p = pb.start();
-
-						BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
-						while ((line = in.readLine()) != null) {
-							consoleArea.println("    " + line);
-						}
-
-						BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-						while ((line = er.readLine()) != null) {
-							consoleArea.println(" [ERROR] " + line);
-						}
-						p.waitFor();
-//						p.getInputStream().close(); ปิดไป้ปด้วยสัส
-//						p.getErrorStream().close(); ปิดไป้ปด้วยสัส
-						state = true;
-					} catch (IOException | InterruptedException e) {
-						consoleArea.println(" [ERROR] " + e.getMessage());
-
-						state = false;
-					}
-
-				}
-
-			});
+//
+//				}
+//
+//			});
 			thread.start();
 
 		}
@@ -261,6 +308,32 @@ public class SConsole {
 
 	}
 
+	public void netStat() {
+		try {
+			String[] command = {"CMD", "/C", "netstat -ano |findstr :993 |findstr ESTABLISHED"};
+			ProcessBuilder pb = new ProcessBuilder(command);
+			pb.directory(new File("C:/Windows/System32/"));
+			pb.redirectErrorStream(true);
+			System.out.println(Thread.currentThread());
+			Process p = pb.start();
+			String line = null;
+			BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			while ((line = in.readLine()) != null) {
+				consoleArea.println("    " + line);
+			}
+
+			BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+			while ((line = er.readLine()) != null) {
+				consoleArea.println(" [ERROR] " + line);
+			}
+			System.out.println(Thread.currentThread());
+			p.waitFor();
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public ArrayList<String> getEnvPath() {
 		ArrayList<String> envList = new ArrayList<String>();
 		String[] envPaths = System.getenv("path").split(";");
@@ -268,6 +341,40 @@ public class SConsole {
 			envList.add(envPath);
 		}
 		return envList;
+	}
+
+	public void endProcess() {
+		boolean isInterrupted = false;
+		try  {
+			runnableImpl.doStop();
+			while (!runnableImpl.isStop()) {
+				try {
+					System.out.println("Sleep Main for 100L untill " + thread.getName() + " stop. Is it stopped? : " + runnableImpl.isStop());
+					isInterrupted = true;
+		            Thread.sleep(100L);
+		        } catch (InterruptedException e) {
+		            e.printStackTrace();
+		        }
+			}
+			System.out.println(thread.getName() + " Is stop? : " + runnableImpl.isStop());
+		} catch (NullPointerException e) {
+			
+		} finally {
+			try {
+				p.destroy();
+			} catch (NullPointerException e) {
+				
+			}
+			try {
+				thread.stop();
+				thread.destroy();
+			} catch (NullPointerException | NoSuchMethodError e) {
+				
+			}
+		}
+		if (isInterrupted == true) {
+//			consoleArea.println("^C");
+		}
 	}
 
 }
