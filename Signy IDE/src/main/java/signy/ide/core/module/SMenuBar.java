@@ -148,13 +148,8 @@ public class SMenuBar {
 			}
 		});
 		
-		MenuItem FindItem = new MenuItem("Find");
+		MenuItem FindItem = new MenuItem("Find & Replace");
 		FindItem.setOnAction(e -> {
-			System.out.println(e.getSource() + " didn't have any action yet");
-		});
-		
-		MenuItem ReplaceItem = new MenuItem("Replace");
-		ReplaceItem.setOnAction(e -> {
 			System.out.println(e.getSource() + " didn't have any action yet");
 		});
 		
@@ -164,7 +159,7 @@ public class SMenuBar {
 		});
 		
 		editMenu.getItems().addAll(UndoItem, RedoItem, new SeparatorMenuItem(), 
-				CutItem, CopyItem, PasteItem ,new SeparatorMenuItem(), FindItem, ReplaceItem, SearchInWorkspace);
+				CutItem, CopyItem, PasteItem ,new SeparatorMenuItem(), FindItem, SearchInWorkspace);
 		
 		// 3. Selection Menu
 		Menu selectionMenu = new Menu("_Selection");
@@ -183,7 +178,7 @@ public class SMenuBar {
 
 		MenuItem ShrinkSelectItem = new MenuItem("Shrink Select");
 		ShrinkSelectItem.setOnAction(e -> {
-			
+			editor.getCurrentActiveTab().getTextArea().selectWord();
 		});
 		
 		MenuItem CopyLineUp = new MenuItem("Copy Line Up");
@@ -198,7 +193,9 @@ public class SMenuBar {
 		
 		MenuItem MoveLineUp = new MenuItem("Move Line Up");
 		MoveLineUp.setOnAction(e -> {
-			System.out.println(e.getSource() + " didn't have any action yet");
+			editor.getCurrentActiveTab().getTextArea().getParagraphs();
+			editor.getCurrentActiveTab().getTextArea();
+			
 		});
 		
 		MenuItem MoveLineDown = new MenuItem("Move Line Down");
@@ -207,8 +204,7 @@ public class SMenuBar {
 		});
 		
 		selectionMenu.getItems().addAll(SelectAllItem, ExpandSelectItem, 
-				ShrinkSelectItem ,new SeparatorMenuItem(),CopyLineUp, CopyLineDown, MoveLineUp, MoveLineDown,
-				new SeparatorMenuItem());
+				ShrinkSelectItem ,new SeparatorMenuItem(),CopyLineUp, CopyLineDown, MoveLineUp, MoveLineDown);
 		
 		// 4. View Menu
 		Menu viewMenu = new Menu("_View");
