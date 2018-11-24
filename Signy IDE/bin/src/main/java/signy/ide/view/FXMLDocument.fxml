@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import lib.org.eclipse.fx.ui.panes.SashPane?>
+
+<BorderPane fx:id="root" maxHeight="-Infinity"
+	maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+	prefHeight="-Infinity" prefWidth="-Infinity"
+	xmlns="http://javafx.com/javafx/10.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="signy.ide.FXMLDocumentController">
+
+	<center>
+		<BorderPane>
+			<center>
+				<BorderPane fx:id="test">
+					<top>
+						<HBox fx:id="headBar" styleClass="head-bar" maxHeight="30.0" minHeight="30.0"
+							prefHeight="30.0">
+						</HBox>
+					</top>
+					<center>
+						<BorderPane>
+							<top>
+								<HBox fx:id="toolBar" styleClass="tool-bar" maxHeight="0.0" minHeight="0.0"
+									prefHeight="0.0">
+								</HBox>
+							</top>
+							<center>
+								<SashPane fx:id="workspacePane">
+									<items>
+										<AnchorPane fx:id="viewAnchor" />
+										<SashPane fx:id="subWorkspacePane">
+											<items>
+												<AnchorPane fx:id="editorAnchor" />
+												<AnchorPane fx:id="terminalAnchor" />
+											</items>
+										</SashPane>
+									</items>
+								</SashPane>
+							</center>
+						</BorderPane>
+					</center>
+
+
+				</BorderPane>
+			</center>
+			<right>
+				<VBox fx:id="profileBar" maxWidth="30.0" minWidth="30.0"
+					prefWidth="30.0" styleClass="profile-bar">
+
+				</VBox>
+			</right>
+		</BorderPane>
+	</center>
+
+	<bottom>
+		<HBox fx:id="statusBar" maxHeight="20.0" minHeight="20.0"
+			prefHeight="20.0" styleClass="status-bar">
+
+		</HBox>
+	</bottom>
+
+</BorderPane>

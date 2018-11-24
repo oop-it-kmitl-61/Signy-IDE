@@ -1,0 +1,167 @@
+.tab-pane {
+
+
+
+}
+
+.tab-pane:top *.tab-header-area {
+
+    -fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
+    -fx-padding: 0.4em 0.0em 0.0em 0.0em;
+
+}
+
+.tab-pane .tab-header-area .tab-header-background {
+
+    -fx-background-color: #1e1e1e;
+
+}
+
+.tab {
+
+	-fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+    -fx-padding: 0.0em 0.5em 0.3em 1.5em;
+
+	-fx-text-base-color: #838383;
+	-fx-background-radius: 0.0;
+    -fx-background-color: transparent;
+    -fx-border-width: 0.0px 0.0px 1.0px 0.0px;
+    -fx-border-color: #1e1e1e #1e1e1e #1e1e1e #1e1e1e;
+
+}
+
+.tab:hover {
+
+	-fx-text-base-color: white;
+	-fx-border-color: #1e1e1e #1e1e1e #414141 #1e1e1e;
+
+}
+
+.tab:selected  {
+
+    -fx-text-base-color: white;
+    -fx-border-color: #1e1e1e #1e1e1e #7289da #1e1e1e;
+
+}
+
+.tab-label { 
+
+	-fx-font-size: 8.0pt;
+    -fx-padding: 0.0em 0.75em 0.0em 0.0em;
+
+}
+
+.control-buttons-tab {
+
+	-fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
+	-fx-padding: 0.0em 5.0em 0.0em 0.0em;
+
+}
+
+.hbox {
+
+	-fx-background-color: #1e1e1e;
+
+}
+
+.tab-button {
+
+    -fx-border-width: 0.0;
+    -fx-background-radius: 0.0;
+    -fx-background-color: transparent;
+    -fx-content-display: graphic-only;
+
+    -fx-border-width: 0.0px 0.0px 1.0px 0.0px;
+    -fx-border-color: transparent;
+
+}
+
+.tab-button:hover {
+
+	-fx-border-color: #1e1e1e #1e1e1e #414141 #1e1e1e;
+
+}
+
+.tab-button:pressed {
+
+	-fx-border-color: #1e1e1e #1e1e1e #7289da #1e1e1e;
+
+}
+
+.tab-down-button {
+
+
+
+}
+
+.tab-down-button .arrow {
+
+
+
+}
+
+.drop-down-button {
+
+	-fx-background-color: transparent;
+
+}
+
+.drop-down-button .arrow-button .arrow {
+
+	-fx-padding: 0.0;
+
+}
+
+.drop-down-button .context-menu {
+
+	-fx-background-color: #262626;
+	-fx-padding: 0.5em 0em 0.5em 0em;
+
+}
+
+.drop-down-button .context-menu .menu-item {
+
+	-fx-padding: 0.3em 2em 0.3em 2.5em;
+
+}
+
+.drop-down-button .context-menu .menu-item:focused {
+
+     -fx-background-color: #969A9F;
+
+}
+
+.drop-down-button .context-menu .label {
+
+	-fx-text-fill: white;
+
+}
+
+.text-area {
+
+    text-area-background: #1e1e1e;
+    -fx-box-border: text-area-background;
+    -fx-control-inner-background: text-area-background;
+    -fx-background-color: text-area-background;
+    -fx-background-insets: 0.0px, 0.0px, 0.0px, 0.0px;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+
+}
+
+.text-field {
+
+    text-area-background: #262626;
+    -fx-box-border: text-area-background;
+    -fx-control-inner-background: text-area-background;
+    -fx-background-color: text-area-background;
+    -fx-background-insets: 0.0px, 0.0px, 0.0px, 0.0px;
+    -fx-padding: 0.5em 0.5em 0.5em 0.5em;
+
+}
+
+.text-area .content {
+
+    -fx-background-color: text-area-background;
+
+}

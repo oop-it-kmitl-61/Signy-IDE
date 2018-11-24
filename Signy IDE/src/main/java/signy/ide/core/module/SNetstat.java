@@ -37,7 +37,7 @@ public class SNetstat {
 				if (event.getTarget().toString().contains("Update")) {
 					runCommand();
 				}
-				
+
 			}
 		});
 
@@ -66,12 +66,12 @@ public class SNetstat {
 		} catch (IOException | InterruptedException e) {
 			content += e.getMessage();
 		} finally {
-			
+
 			p.destroy();
 			textArea.setText(content);
 		}
 	}
-	
+
 	public Tab getTab() {
 		return this.tab;
 	}

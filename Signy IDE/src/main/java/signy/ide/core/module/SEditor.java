@@ -76,7 +76,8 @@ public class SEditor {
 
 		tabTitle = title;
 		tab.setText(tabTitle);
-		VirtualizedScrollPane<ScaledVirtualized<SCodeArea>> virtualizedScrollPane = new VirtualizedScrollPane<>(scaleVirtualized);
+		VirtualizedScrollPane<ScaledVirtualized<SCodeArea>> virtualizedScrollPane = new VirtualizedScrollPane<>(
+				scaleVirtualized);
 		tab.setContent(virtualizedScrollPane);
 
 	}

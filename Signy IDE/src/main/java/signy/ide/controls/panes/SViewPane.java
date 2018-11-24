@@ -2,11 +2,11 @@ package signy.ide.controls.panes;
 
 import javafx.geometry.Side;
 import javafx.scene.control.TabPane;
+import javafx.scene.control.TabPane.TabClosingPolicy;
 import signy.ide.FXMLDocumentController;
 import signy.ide.core.module.SExplorer;
 import signy.ide.core.module.SOutline;
 import signy.ide.core.module.SSearch;
-import javafx.scene.control.TabPane.TabClosingPolicy;
 
 public class SViewPane {
 

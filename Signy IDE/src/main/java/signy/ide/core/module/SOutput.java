@@ -23,6 +23,7 @@ public class SOutput {
 	public Tab getTab() {
 		return tab;
 	}
+
 	public String getText() {
 		return outputArea.getText();
 	}

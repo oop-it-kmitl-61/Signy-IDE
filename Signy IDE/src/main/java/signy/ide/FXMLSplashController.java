@@ -3,7 +3,6 @@ package signy.ide;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import de.codecentric.centerdevice.javafxsvg.SvgImageLoaderFactory;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -18,8 +17,6 @@ public class FXMLSplashController {
 	public static float pbalLevel = 0.1f;
 
 	public void initialize(URL url, ResourceBundle rb) {
-
-
 
 	}
 
@@ -45,8 +42,6 @@ public class FXMLSplashController {
 	}
 
 	public static void setText(String s) {
-
-		
 
 	}
 

@@ -146,10 +146,10 @@ public class SashPane extends Region {
 			}
 			clearCache();
 		});
-		this.sashWidth.addListener( o -> {
+		this.sashWidth.addListener(o -> {
 			clearCache();
 			requestLayout();
-		} );
+		});
 		pseudoClassStateChanged(HORIZONTAL, true);
 		pseudoClassStateChanged(VERTICAL, false);
 		this.horizontal.addListener((o, ol, ne) -> {
@@ -312,7 +312,7 @@ public class SashPane extends Region {
 				newSize_1 = DRAG_MINIMUM_HORIZONTAL_LEFT;
 			}
 
-			if (newSize_2 < DRAG_MINIMUM_HORIZONTAL_RIGHT ) {
+			if (newSize_2 < DRAG_MINIMUM_HORIZONTAL_RIGHT) {
 				newSize_1 = (long) this.resize_total - DRAG_MINIMUM_HORIZONTAL_RIGHT;
 				newSize_2 = DRAG_MINIMUM_HORIZONTAL_RIGHT;
 			}
@@ -413,10 +413,10 @@ public class SashPane extends Region {
 
 	/**
 	 * <p>
-	 * Specify the relative weight of each child in the {@link SashPane}. This
-	 * will determine what percent of the total width (if {@link SashPane} has
-	 * Horizontal orientation) or total height (if {@link SashPane} has Vertical
-	 * orientation) each control will occupy.
+	 * Specify the relative weight of each child in the {@link SashPane}. This will
+	 * determine what percent of the total width (if {@link SashPane} has Horizontal
+	 * orientation) or total height (if {@link SashPane} has Vertical orientation)
+	 * each control will occupy.
 	 * </p>
 	 * <p>
 	 * The weights must be positive values and there must be an entry for each
@@ -466,8 +466,8 @@ public class SashPane extends Region {
 	 * orientation) each control occupies.
 	 * </p>
 	 * <p>
-	 * The weights are returned in order of the creation of the widgets
-	 * (weight[0] corresponds to the weight of the first child created).
+	 * The weights are returned in order of the creation of the widgets (weight[0]
+	 * corresponds to the weight of the first child created).
 	 * </p>
 	 *
 	 * @return the relative weight of each child
@@ -540,8 +540,7 @@ public class SashPane extends Region {
 	/**
 	 * Set the width of a sash
 	 *
-	 * @param sashWidth
-	 *            the width
+	 * @param sashWidth the width
 	 */
 	public final void setSashWidth(final int sashWidth) {
 		this.sashWidthProperty().set(sashWidth);

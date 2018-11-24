@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+import org.fxmisc.richtext.CodeArea;
 
 import javafx.event.EventHandler;
 import javafx.scene.control.Tab;
@@ -21,7 +22,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import org.fxmisc.richtext.CodeArea;
 import signy.ide.FXMLDocumentController;
 import signy.ide.controls.items.OutlineItem;
 

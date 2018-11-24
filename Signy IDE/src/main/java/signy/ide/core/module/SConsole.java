@@ -3,7 +3,10 @@ package signy.ide.core.module;
 import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;
 import static org.fxmisc.wellbehaved.event.EventPattern.keyPressed;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +15,10 @@ import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.wellbehaved.event.InputMap;
 import org.fxmisc.wellbehaved.event.Nodes;
 
-import javafx.scene.control.*;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
@@ -22,7 +28,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.transform.Scale;
 import signy.ide.FXMLDocumentController;
 import signy.ide.controls.nodes.SConsoleArea;
-import javafx.event.*;
 
 public class SConsole {
 
@@ -73,12 +78,8 @@ public class SConsole {
 				consoleArea.println();
 			}
 		};
-		InputMap<Event> prevent = InputMap.consume(
-				anyOf(
-						keyPressed(KeyCode.UP),
-						keyPressed(KeyCode.DOWN),
-						keyPressed(KeyCode.ESCAPE)
-				));
+		InputMap<Event> prevent = InputMap
+				.consume(anyOf(keyPressed(KeyCode.UP), keyPressed(KeyCode.DOWN), keyPressed(KeyCode.ESCAPE)));
 		Nodes.addInputMap(commandtf, prevent);
 
 		BorderPane p0 = new BorderPane();
@@ -184,7 +185,7 @@ public class SConsole {
 		try {
 
 			if (thread != null) {
-				System.out.println("At Main : " + thread.getName() + " will execute "+ "'" + Command + "'");
+				System.out.println("At Main : " + thread.getName() + " will execute " + "'" + Command + "'");
 			}
 			if (runnableImpl != null) {
 				endProcess();
@@ -201,7 +202,7 @@ public class SConsole {
 		} catch (InterruptedException | IOException e) {
 			consoleArea.println(" [ERROR] " + e.getMessage());
 		}
-		
+
 	}
 
 	public Tab getTab() {
@@ -310,7 +311,7 @@ public class SConsole {
 
 	public void netStat() {
 		try {
-			String[] command = {"CMD", "/C", "netstat -ano |findstr :993 |findstr ESTABLISHED"};
+			String[] command = { "CMD", "/C", "netstat -ano |findstr :993 |findstr ESTABLISHED" };
 			ProcessBuilder pb = new ProcessBuilder(command);
 			pb.directory(new File("C:/Windows/System32/"));
 			pb.redirectErrorStream(true);
@@ -345,31 +346,32 @@ public class SConsole {
 
 	public void endProcess() {
 		boolean isInterrupted = false;
-		try  {
+		try {
 			runnableImpl.doStop();
 			while (!runnableImpl.isStop()) {
 				try {
-					System.out.println("Sleep Main for 100L untill " + thread.getName() + " stop. Is it stopped? : " + runnableImpl.isStop());
+					System.out.println("Sleep Main for 100L untill " + thread.getName() + " stop. Is it stopped? : "
+							+ runnableImpl.isStop());
 					isInterrupted = true;
-		            Thread.sleep(100L);
-		        } catch (InterruptedException e) {
-		            e.printStackTrace();
-		        }
+					Thread.sleep(100L);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
 			}
 			System.out.println(thread.getName() + " Is stop? : " + runnableImpl.isStop());
 		} catch (NullPointerException e) {
-			
+
 		} finally {
 			try {
 				p.destroy();
 			} catch (NullPointerException e) {
-				
+
 			}
 			try {
 				thread.stop();
 				thread.destroy();
 			} catch (NullPointerException | NoSuchMethodError e) {
-				
+
 			}
 		}
 		if (isInterrupted == true) {

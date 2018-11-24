@@ -1,5 +1,21 @@
 package signy.ide.controls.nodes;
 
+import static javafx.scene.input.KeyCode.BACK_SPACE;
+import static javafx.scene.input.KeyCode.DELETE;
+import static javafx.scene.input.KeyCode.DIVIDE;
+import static javafx.scene.input.KeyCode.ENTER;
+import static javafx.scene.input.KeyCode.LEFT;
+import static javafx.scene.input.KeyCode.RIGHT;
+import static javafx.scene.input.KeyCode.SLASH;
+import static javafx.scene.input.KeyCode.TAB;
+import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;
+import static org.fxmisc.wellbehaved.event.EventPattern.keyPressed;
+
+import java.util.Collection;
+import java.util.Stack;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.LineNumberFactory;
 import org.fxmisc.wellbehaved.event.InputMap;
@@ -12,15 +28,6 @@ import javafx.scene.input.KeyCombination;
 import signy.ide.core.dom.JavaDocumentPartitioner;
 import signy.ide.core.module.SOutline;
 import signy.ide.lang.symbols.SymbolsType;
-
-import static javafx.scene.input.KeyCode.*;
-import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;
-import static org.fxmisc.wellbehaved.event.EventPattern.keyPressed;
-
-import java.util.Collection;
-import java.util.Stack;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class SCodeArea extends CodeArea {
 
