@@ -6,20 +6,22 @@ import java.io.InputStreamReader;
 
 import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
+import signy.ide.controls.nodes.SConsoleArea;
 import signy.ide.controls.nodes.SOutputArea;
 
-public class SCompile {
+public class SCompiler {
 	
 	private FXMLDocumentController controller;
 	private String rootDir;
 	private Thread thread;
 	private SOutputArea outputArea;
+	private SConsoleArea carea;
 
-	public SCompile(FXMLDocumentController controller){
+	public SCompiler(FXMLDocumentController controller){
 		this.controller = controller;
 		rootDir = controller.getRootDirectory();
 		outputArea = controller.getTerminalPane().getOutputPane().getOutputArea();
-		
+		carea = controller.getTerminalPane().getConsolePane().getConsoleArea();
 	}
 	public boolean compile(){
 		return compile(rootDir, LoadingController.getPath());
@@ -28,17 +30,45 @@ public class SCompile {
 		return compile(path, LoadingController.getPath());
 	}
 	public boolean compile(String path, String jdkPath){
+		outputArea.clear();
 		Process p = FXMLDocumentController.compile(path);
 		controller.getTerminalPane().getTabPane().getSelectionModel().select(controller.getTerminalPane().getOutputPane().getTab());
-		outputArea.println("Root directory : " + path);
-		outputArea.println("Java directory : " + jdkPath);
+		carea.println("Root directory : " + path);
+		carea.println("Java directory : " + jdkPath);
 		if(p != null){
-			outputArea.println("compiling . . .");
+			carea.println("compiling . . .");
 			thread = new Thread(new JavacStreamController(p, outputArea));
 			thread.start();
 			return true;
 		}
-		outputArea.println("failed");
+		carea.println("failed");
+		return false;
+	}
+	
+	public boolean run(){
+		return run("example");
+	}
+	
+	public boolean run(String mainClass){
+		return run(mainClass, controller.getRootDirectory());
+	}
+	
+	public boolean run(String mainClass, String path){
+		return run(mainClass, path, LoadingController.getPath());
+	}
+	public boolean run(String mainClass, String path, String jdkPath){
+		outputArea.clear();
+		Process p = FXMLDocumentController.run(path, mainClass);
+		
+		carea.println("Root directory : " + path);
+		carea.println("Java directory : " + jdkPath);
+		if(p != null){
+			carea.println("compiling . . .");
+			thread = new Thread(new JavacStreamController(p, outputArea));
+			thread.start();
+			return true;
+		}
+		carea.println("failed");
 		return false;
 	}
 	
@@ -65,11 +95,13 @@ public class SCompile {
 		JavacStreamController(Process p, SOutputArea area) {
 			this.p = p;
 			this.area = area;
+			
 		}
 
 		@Override
 		public void run() {
 			boolean isError = false;
+			controller.getTerminalPane().getTabPane().getSelectionModel().select(controller.getTerminalPane().getOutputPane().getTab());
 			while (keepRunning()) {
 				System.out.println("At run : " + Thread.currentThread().getName() + " is running");
 				try {
@@ -108,7 +140,7 @@ public class SCompile {
 				}
 
 			}
-			outputArea.println((!isError)? "OK" :"Fail");
+			carea.println((!isError)? "OK" :"Fail");
 			System.out.println("At run : " + Thread.currentThread().getName() + " is stopped");
 			isStop = true;
 		}

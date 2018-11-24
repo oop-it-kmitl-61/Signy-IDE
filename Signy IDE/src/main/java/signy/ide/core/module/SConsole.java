@@ -36,7 +36,7 @@ public class SConsole {
 	private Tab tab;
 	private SConsoleArea consoleArea;
 	private TextField commandtf;
-	private SCompile compiler;
+	private SCompiler compiler;
 	private List<String> commandLog = new ArrayList<>();
 	private int logPointer = 0;
 
@@ -47,6 +47,7 @@ public class SConsole {
 	private ProcessBuilderCommand pbc = null;
 
 	private String workingDir;
+	private String mainClass = "example";
 	private ArrayList<String> envPaths;
 
 	public SConsole(FXMLDocumentController controller) {
@@ -91,8 +92,12 @@ public class SConsole {
 		envPaths = getEnvPath();
 		this.tab.setContent(p0);
 		this.tab.setText(title);
+		
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
+				if (compiler == null) {
+					compiler = new SCompiler(controller);
+				}
 				if (ke.getCode() == KeyCode.ENTER) {
 					String text = commandtf.getText();
 					commandLog.add(text);
@@ -136,12 +141,10 @@ public class SConsole {
 						consoleArea.println(LoadingController.getPath());
 						break;
 					case "compile":
-						compiler = new SCompile(controller);
 						compiler.compile(workingDir);
-						
 						break;
 					case "run":
-						FXMLDocumentController.compile("C:\\Users\\Unixcorn\\git\\Signy-IDE\\Signy IDE\\test\\");
+						compiler.run(mainClass, workingDir);
 						break;
 					default:
 						runCommand(text);
@@ -176,6 +179,7 @@ public class SConsole {
 	private void init() {
 		try {
 			pbc = new ProcessBuilderCommand(consoleArea, "cmd");
+			
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}

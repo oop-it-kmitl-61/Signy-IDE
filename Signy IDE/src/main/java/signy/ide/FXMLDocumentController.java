@@ -198,4 +198,18 @@ public class FXMLDocumentController implements Initializable {
 		}
 		return pro;
 	}
+	
+	public static Process run(String projectDirectory, String mainClass) {
+		Process pro = null;
+		try {
+			pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/java " + mainClass, null, new File(projectDirectory+"/bin"));
+			
+		} catch (IOException e) {
+			System.out.println("  Run Failed! print stacktrace  ");
+			for(StackTraceElement a: e.getStackTrace()) {
+				consolePane.getConsoleArea().println("  [ERROR]  " + a.toString());				
+			}
+		}
+		return pro;
+	}
 }
