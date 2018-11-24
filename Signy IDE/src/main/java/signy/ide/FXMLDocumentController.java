@@ -44,7 +44,7 @@ public class FXMLDocumentController implements Initializable {
 
 	private static SConsole consolePane;
 	private static SOutput outputPane;
-	private static String rootDirectory = "C:\\Users\\Unixcorn\\git\\Signy-IDE\\Signy IDE\\test";
+	private static String rootDirectory = System.getProperty("user.dir");
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
