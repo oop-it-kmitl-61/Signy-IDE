@@ -10,7 +10,7 @@ public class SearchItem {
 	public SearchItem(int line ,String show, int l1,int l2) {
 
 		this.line = line+1;
-		toString = "Line : " + this.line + " " + show;
+		toString = "Line : " + this.line + " " + show.trim();
 		this.l1 = l1;
 		this.l2 = l2;
 	}
