@@ -4,6 +4,7 @@ bin/**
 # Compiled class file
 *.class
 
+
 # Log file
 *.log
 
@@ -27,3 +28,6 @@ hs_err_pid*
 
 # test directory
 test/**
+
+# website files
+*.scss
