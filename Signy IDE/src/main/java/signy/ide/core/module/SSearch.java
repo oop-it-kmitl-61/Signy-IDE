@@ -134,6 +134,9 @@ public class SSearch {
 
 			@Override
 			public void handle(ActionEvent event) {
+				if (editor.getCurrentActiveTab() == null) {
+					return;
+				}
 				textFieldSearch.clear();
 				textFieldReplace.clear();
 				// pos.clear(); li.clear();
@@ -146,6 +149,9 @@ public class SSearch {
 		resultView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
+				if (editor.getCurrentActiveTab() == null) {
+					return;
+				}
 				if (mouseEvent.getClickCount() == 1) {
 					SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();
 					if (item == null) {
@@ -178,6 +184,9 @@ public class SSearch {
 	}
 
 	public void Replace() {
+		if (editor.getCurrentActiveTab() == null) {
+			return;
+		}
 		if (textFieldReplace.getText().equals("") || textFieldSearch.getText().equals("")) {
 			return;
 		}
@@ -192,6 +201,9 @@ public class SSearch {
 	}
 	
 	public void Refresh() {
+		if (editor.getCurrentActiveTab() == null) {
+			return;
+		}
 		dataToView.clear();
 		String find = textFieldSearch.getText().trim().toLowerCase();
 		if (editor.getCurrentActiveTab().getTextArea().getText().equals("") || find.equals("")) {
