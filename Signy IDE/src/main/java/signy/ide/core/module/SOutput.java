@@ -45,6 +45,10 @@ public class SOutput {
 	public String getText() {
 		return outputArea.getText();
 	}
+	
+	public SOutputArea getOutputArea() {
+		return outputArea;
+	}
 
 	public void println(String text) {
 		outputArea.appendText(text + "\n");

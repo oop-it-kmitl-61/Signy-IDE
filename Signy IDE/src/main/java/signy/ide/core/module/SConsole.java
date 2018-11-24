@@ -104,6 +104,10 @@ public class SConsole {
 					String[] input = text.split(" ");
 
 					switch (input[0]) {
+					case "cd":
+						workingDir = (new File(text.substring(3))).getAbsolutePath();
+						consoleArea.println(workingDir);
+						break;
 					case "getEnv":
 						for (String envPath : envPaths) {
 							consoleArea.println(envPath);
@@ -135,7 +139,8 @@ public class SConsole {
 						break;
 					case "compile":
 						compiler = new SCompile(controller);
-						compiler.compile();
+						compiler.compile(workingDir);
+						
 						break;
 					case "run":
 						FXMLDocumentController.compile("C:\\Users\\Unixcorn\\git\\Signy-IDE\\Signy IDE\\test\\");
