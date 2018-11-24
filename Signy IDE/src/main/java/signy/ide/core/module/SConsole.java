@@ -27,6 +27,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.transform.Scale;
 import signy.ide.FXMLDocumentController;
+import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
 
 public class SConsole {
@@ -97,7 +98,7 @@ public class SConsole {
 					commandLog.add(text);
 					logPointer = commandLog.size();
 					commandtf.clear();
-					
+
 					String[] input = text.split(" ");
 
 					switch (input[0]) {
@@ -125,6 +126,13 @@ public class SConsole {
 					case "KillProcess":
 					case "EndProc":
 						endProcess();
+						break;
+					case "jdk":
+						FXMLDocumentController.scanJdkInEnvPath();
+						consoleArea.println(LoadingController.getPath());
+						break;
+					case "compile":
+						compile();
 						break;
 					default:
 						runCommand(text);
@@ -247,7 +255,8 @@ public class SConsole {
 			runnableImpl.doStop();
 			while (!runnableImpl.isStop()) {
 				try {
-					System.out.println("Sleep \"Main\" for 100L untill " + thread.getName() + " stop. Is it stopped? : " + runnableImpl.isStop());
+					System.out.println("Sleep \"Main\" for 100L untill " + thread.getName() + " stop. Is it stopped? : "
+							+ runnableImpl.isStop());
 					isInterrupted = true;
 					Thread.sleep(100L);
 				} catch (InterruptedException e) {
@@ -255,7 +264,7 @@ public class SConsole {
 				}
 			}
 			System.out.println(thread.getName() + " Is stop? : " + runnableImpl.isStop());
-			
+
 		} catch (NullPointerException e) {
 
 		} finally {
@@ -270,6 +279,14 @@ public class SConsole {
 			} catch (NullPointerException | NoSuchMethodError e) {
 
 			}
+		}
+	}
+
+	private void compile() {
+		try {
+			Process pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/javac Demo.java", null, new File("C:\\C"));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

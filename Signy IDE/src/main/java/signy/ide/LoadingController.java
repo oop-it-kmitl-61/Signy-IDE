@@ -2,6 +2,8 @@ package signy.ide;
 
 import java.util.HashMap;
 
+import signy.ide.core.SJavaDevelopmentKit;
+
 public final class LoadingController {
 
 	private static String consolePath;
@@ -28,8 +30,15 @@ public final class LoadingController {
 
 	private static String args = "";
 
+	private static Thread backgroundThread;
+
 	public LoadingController() {
 
+	}
+
+	public synchronized static void setJdkPath() {
+		backgroundThread = new Thread(new SJavaDevelopmentKit());
+		backgroundThread.start();
 	}
 
 	public static void setInter(String key, String value) {
@@ -98,6 +107,15 @@ public final class LoadingController {
 
 	public static String getConsole() {
 		return null;
+	}
+
+	public static String getPath() {
+		return jdkPath;
+	}
+
+	public static void setPath(String string) {
+		jdkPath = string;
+
 	}
 
 }

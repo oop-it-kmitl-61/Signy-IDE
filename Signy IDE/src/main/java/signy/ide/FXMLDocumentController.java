@@ -98,10 +98,10 @@ public class FXMLDocumentController implements Initializable {
 
 //		if (LoadingController.isLoadedOneTime() == false) {
 //
-//			outlineUpdate();
+////			outlineUpdate();
 //
 //			if (scanJdkInEnvPath() == true) {
-//				LoadingController.setJdkPathFound(true);
+////				LoadingController.setJdkPathFound(true);
 //			} else {
 //				
 //
@@ -141,48 +141,37 @@ public class FXMLDocumentController implements Initializable {
 		return terminalPane;
 	}
 
-	public boolean scanJdkInEnvPath() {
+	public static boolean scanJdkInEnvPath() {
 		try {
 			LoadingController.setStateProcess(true);
-//			LoadingController.setJdkPath();
-
+			LoadingController.setJdkPath();
 			while (LoadingController.isStateProcessRunning() == true) {
 				try {
 					Thread.sleep(150);
 				} catch (InterruptedException e) {
-
 					e.printStackTrace();
 				} finally {
-
 				}
 			}
-
 			String s[] = LoadingController.getResults().split("\n");
 			String temp = null;
-
 			for (String ss : s) {
 				if (ss.contains("jdk")) {
 					temp = ss;
 				}
 			}
-
 			String t[] = temp.split(" ");
-
 			for (String ss : t) {
 				if (ss.contains("jdk")) {
-//					LoadingController.setPath("C:/Program Files/Java/" + ss);
+					LoadingController.setPath("C:/Program Files/Java/" + ss);
 					return true;
 				}
 			}
-
 		} catch (NullPointerException ex) {
 			return false;
 		} finally {
-
 		}
-
 		return false;
-
 	}
 
 	static void endProcess() {
