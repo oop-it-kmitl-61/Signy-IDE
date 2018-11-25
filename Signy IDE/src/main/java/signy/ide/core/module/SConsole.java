@@ -72,14 +72,15 @@ public class SConsole {
 				zoom.setY(scale);
 			}
 		});
-
-		this.commandtf = new TextField() {
-			@Override
-			public void copy() {
-				endProcess();
-				consoleArea.println();
-			}
-		};
+		
+		this.commandtf = new TextField();
+//		this.commandtf = new TextField() {
+//			@Override
+//			public void copy() {
+//				endProcess();
+//				consoleArea.println();
+//			}
+//		};
 		InputMap<Event> prevent = InputMap
 				.consume(anyOf(keyPressed(KeyCode.UP), keyPressed(KeyCode.DOWN), keyPressed(KeyCode.ESCAPE)));
 		Nodes.addInputMap(commandtf, prevent);
@@ -98,6 +99,10 @@ public class SConsole {
 				if (compiler == null) {
 					compiler = new SCompiler(controller);
 				}
+				if (keyCombineCtrlC.match(ke)) {
+					endProcess();
+					consoleArea.println("\n    Terminated\n");
+				}
 				if (ke.getCode() == KeyCode.ENTER) {
 					String text = commandtf.getText();
 					commandLog.add(text);
@@ -108,8 +113,19 @@ public class SConsole {
 
 					switch (input[0]) {
 					case "cd":
-						workingDir = (new File(text.substring(3))).getAbsolutePath();
-						consoleArea.println(workingDir);
+						try {
+							File f = new File(workingDir + "/" + text.substring(3));
+							if(f.exists()) {
+								workingDir = f.getCanonicalPath();
+								consoleArea.println(workingDir);
+							}else {
+								consoleArea.println("\n  [ERROR]  File or directory does not exists.");
+							}
+							
+						} catch (IOException e) {
+							consoleArea.println(e.getMessage());
+						}
+						
 						break;
 					case "getEnv":
 						for (String envPath : envPaths) {
@@ -144,7 +160,9 @@ public class SConsole {
 						compiler.compile(workingDir);
 						break;
 					case "run":
-						compiler.run(mainClass, workingDir);
+						if(input[1] != null && input[1].length() > 0) {
+							compiler.run(input[1], workingDir);							
+						}
 						break;
 					default:
 						runCommand(text);
@@ -241,7 +259,9 @@ public class SConsole {
 			} else {
 				pb = new ProcessBuilder(EnvSearch("cmd"), "/c", Command);
 			}
-			pb.redirectErrorStream(true); /*-----  DON'T DELETE THIS LINE  -----*/
+			/*-----  DON'T DELETE THIS LINE  -----*/
+			pb.redirectErrorStream(true);
+			
 			pb.directory(new File(workingDir));
 			streamController = new StreamController(p, pb, consoleArea);
 			thread = new Thread(streamController);
