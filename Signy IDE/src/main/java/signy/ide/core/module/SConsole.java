@@ -122,8 +122,12 @@ public class SConsole {
 								consoleArea.println("\n  [ERROR]  File or directory does not exists.");
 							}
 							
-						} catch (IOException e) {
-							consoleArea.println(e.getMessage());
+						} catch (Exception e) {
+							if(e.toString().contains("String index out of range")) {
+								consoleArea.println("Please enter following this command cd [path]");
+							}else {
+								consoleArea.println(e.getMessage());
+							}
 						}
 						
 						break;
