@@ -202,7 +202,7 @@ public class SSearch {
 		editor.getCurrentActiveTab().getTextArea().requestFocus();
 		ta = "";
 	}
-	
+
 	public void Refresh() {
 		if (editor.getCurrentActiveTab() == null) {
 			return;

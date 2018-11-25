@@ -153,13 +153,9 @@ public class SMenuBar {
 			System.out.println(e.getSource() + " didn't have any action yet");
 		});
 		
-		MenuItem SearchInWorkspace = new MenuItem("Search In Workspace");
-		SearchInWorkspace.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
-		});
 		
 		editMenu.getItems().addAll(UndoItem, RedoItem, new SeparatorMenuItem(), 
-				CutItem, CopyItem, PasteItem ,new SeparatorMenuItem(), FindItem, SearchInWorkspace);
+				CutItem, CopyItem, PasteItem ,new SeparatorMenuItem(), FindItem);
 		
 		// 3. Selection Menu
 		Menu selectionMenu = new Menu("_Selection");
@@ -193,8 +189,18 @@ public class SMenuBar {
 		
 		MenuItem MoveLineUp = new MenuItem("Move Line Up");
 		MoveLineUp.setOnAction(e -> {
-			editor.getCurrentActiveTab().getTextArea().getParagraphs();
-			editor.getCurrentActiveTab().getTextArea();
+			if (editor.getCurrentActiveTab().getTextArea().getCurrentParagraph() != 0) {
+				String ta = editor.getCurrentActiveTab().getTextArea().getParagraph(
+						editor.getCurrentActiveTab().getTextArea().getCurrentParagraph()-1).getText();
+				;
+				editor.getCurrentActiveTab().getTextArea().selectParagraph();
+				editor.getCurrentActiveTab().getTextArea().replaceSelection(ta);
+				System.out.println(ta);
+			}	
+//			System.out.println(editor.getCurrentActiveTab().getTextArea().getCaretPosition());
+//			System.out.println(editor.getCurrentActiveTab().getTextArea().getCurrentParagraph());
+//			
+//			
 			
 		});
 		
