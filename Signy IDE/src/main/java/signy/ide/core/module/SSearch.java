@@ -45,8 +45,8 @@ public class SSearch {
 	private ListView<SearchItem> resultView;
 	private ObservableList<SearchItem> dataToView;
 
-	ArrayList<Integer> pos = new ArrayList<Integer>();
-	ArrayList<Integer> li = new ArrayList<Integer>();
+//	ArrayList<Integer> pos = new ArrayList<Integer>();
+//	ArrayList<Integer> li = new ArrayList<Integer>();
 
 	public SSearch(FXMLDocumentController controller) {
 
@@ -139,7 +139,6 @@ public class SSearch {
 				}
 				textFieldSearch.clear();
 				textFieldReplace.clear();
-				// pos.clear(); li.clear();
 				dataToView.clear();
 				
 			}
@@ -149,11 +148,15 @@ public class SSearch {
 		resultView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
+//<<<<<<< HEAD
 				if (editor.getCurrentActiveTab() == null) {
 					return;
 				}
-				if (mouseEvent.getClickCount() == 1) {
+//=======
+				if (mouseEvent.getClickCount() == 1 && resultView.getSelectionModel().getSelectedItem().getLine() >= 0) {
+	//				>>>>>>> branch 'master' of https://github.com/KurokoChu/Signy-IDE
 					SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();
+
 					if (item == null) {
 						return;
 					}
@@ -218,8 +221,6 @@ public class SSearch {
 			if (editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText().indexOf(find, index) != -1) {
 				index = editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText().toLowerCase().indexOf(find, index);
 				l1 = editor.getCurrentActiveTab().getTextArea().getText().toLowerCase().indexOf(find, l1);
-				pos.add(l1);
-				li.add(line);
 				// line start at 1 when used need to -1
 				
 				String t = editor.getCurrentActiveTab().getTextArea().getParagraph(line).getText();
@@ -235,6 +236,9 @@ public class SSearch {
 				index = 0;
 				line += 1;
 			}
+		}
+		if(dataToView.size() <= 0) {
+			dataToView.add(new SearchItem(-1, "Null", 0, 0));
 		}
 	}
 	

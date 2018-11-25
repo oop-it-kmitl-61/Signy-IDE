@@ -92,7 +92,7 @@ public class SConsole {
 		envPaths = getEnvPath();
 		this.tab.setContent(p0);
 		this.tab.setText(title);
-		
+
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
 				if (compiler == null) {
@@ -179,7 +179,7 @@ public class SConsole {
 	private void init() {
 		try {
 			pbc = new ProcessBuilderCommand(consoleArea, "cmd");
-			
+
 		} catch (InterruptedException | IOException e) {
 			e.printStackTrace();
 		}
@@ -241,6 +241,7 @@ public class SConsole {
 			} else {
 				pb = new ProcessBuilder(EnvSearch("cmd"), "/c", Command);
 			}
+			pb.redirectErrorStream(true); /*-----  DON'T DELETE THIS LINE  -----*/
 			pb.directory(new File(workingDir));
 			streamController = new StreamController(p, pb, consoleArea);
 			thread = new Thread(streamController);

@@ -4,6 +4,7 @@ import java.io.File;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -71,9 +72,18 @@ public class SExplorer {
 		tab.setText("Explorer");
 		ImageView img = new ImageView(new Image("signy/ide/resources/icons/explorer.png", 14, 16, false, false));
 		tab.setGraphic(img);
+		
+		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				getTreeView(path);
+			}
+			
+		});
 
 	}
-
+	
 	public TreeView<File> getTreeView(String path) {
 		TreeItem<File> root = createNode(new File(path));
 		root.setExpanded(true);
