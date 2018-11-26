@@ -183,7 +183,14 @@ public class SMenuBar {
 		
 		MenuItem CopyLineUp = new MenuItem("Copy Line Up");
 		CopyLineUp.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
+			int currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
+			
+			if (currentCaret == 0) { // line 0 not have any action
+				return;
+			}
+			else {
+				
+			}
 		});
 		
 		MenuItem CopyLineDown = new MenuItem("Copy Line Down");
@@ -247,8 +254,8 @@ public class SMenuBar {
 				Paragraph<Collection<String>, String, Collection<String>> after 
 					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret+1);
 				String text_1 = after.getText(); // after current
-				int max_char_before = editor.getCurrentActiveTab().getTextArea().getParagraph(max_line-1).length();
-				int max_char_after = editor.getCurrentActiveTab().getTextArea().getParagraph(max_line-1).length();
+				int max_char_before = editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret).length();
+				int max_char_after = editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret+1).length();
 				// length of char of current and after
 				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret, 0, currentCaret, max_char_before, text_1);
 				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret+1, 0, currentCaret+1, max_char_after, text);
