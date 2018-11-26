@@ -148,11 +148,11 @@ public class SSearch {
 		resultView.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent mouseEvent) {
-//<<<<<<< HEAD
+
 				if (editor.getCurrentActiveTab() == null) {
 					return;
 				}
-//=======
+
 				if (mouseEvent.getClickCount() == 1 && resultView.getSelectionModel().getSelectedItem().getLine() >= 0) {
 	//				>>>>>>> branch 'master' of https://github.com/KurokoChu/Signy-IDE
 					SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();

@@ -14,6 +14,9 @@ import javafx.scene.input.KeyCombination;
 import signy.ide.FXMLDocumentController;
 import signy.ide.Main;
 import signy.ide.controls.panes.SEditorPane;
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
 
 public class SMenuBar {
 
@@ -185,17 +188,45 @@ public class SMenuBar {
 		CopyLineUp.setOnAction(e -> {
 			int currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
 			
-			if (currentCaret == 0) { // line 0 not have any action
-				return;
+			if (currentCaret == 0) { // copy itself
+				Paragraph<Collection<String>, String, Collection<String>> current 
+					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret);
+				// get paragraph
+				String text = current.getText(); // current Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret+1, 0, ""); // move cursor
 			}
 			else {
-				
+				Paragraph<Collection<String>, String, Collection<String>> current 
+				= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret-1);
+				// get paragraph-1
+				String text = current.getText(); // current Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret+1, 0, ""); // move cursor
 			}
 		});
 		
 		MenuItem CopyLineDown = new MenuItem("Copy Line Down");
 		CopyLineDown.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
+			int currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
+			int max_line = editor.getCurrentActiveTab().getTextArea().getText().split("\n").length;
+			
+			if (currentCaret == max_line-1) { // copy itself
+				Paragraph<Collection<String>, String, Collection<String>> current 
+					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret);
+				// get paragraph
+				String text = current.getText(); // current Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // move cursor
+			}
+			else {
+				Paragraph<Collection<String>, String, Collection<String>> current 
+				= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret+1);
+				// get paragraph+1
+				String text = current.getText(); // current Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret+1, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // move cursor
+			}
 		});
 		
 		MenuItem MoveLineUp = new MenuItem("Move Line Up");
@@ -297,7 +328,14 @@ public class SMenuBar {
 		
 		MenuItem About = new MenuItem("About");
 		About.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
+			Runtime rt = Runtime.getRuntime();
+			String url = "https://kurokochu.github.io/Signy-IDE/";
+			try {
+				rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		
 		MenuItem Document = new MenuItem("Documentation");
