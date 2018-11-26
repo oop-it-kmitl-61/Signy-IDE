@@ -193,20 +193,51 @@ public class SMenuBar {
 		
 		MenuItem MoveLineUp = new MenuItem("Move Line Up");
 		MoveLineUp.setOnAction(e -> {
-
 			int currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
 			// caret's current paragraph
-			
-			Paragraph<Collection<String>, String, Collection<String>> a 
+			Paragraph<Collection<String>, String, Collection<String>> current 
 				= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret);
-			
-			// a b is paragraph
-			String text = a.getText(); // current Text
-
+			// get paragraph
+			String text = current.getText(); // current Text
 			// max line
 			int max_line = editor.getCurrentActiveTab().getTextArea().getText().split("\n").length;
+			
+			if (currentCaret == 0) { // line 0 not have any action
+				return;
+			}
+			else if (currentCaret > 0 && currentCaret < max_line-1) {
+				Paragraph<Collection<String>, String, Collection<String>> before 
+					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret-1);
+				String text_1 = before.getText(); // before Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret-1, 0, currentCaret, 0);
+				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret, 0, currentCaret+1, 0);
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text_1 + "\n");
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // set cursor
+			}
+			else if (currentCaret == max_line-1) {
+				Paragraph<Collection<String>, String, Collection<String>> before 
+					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret-1);
+				String text_1 = before.getText(); // before Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret-1, 0, currentCaret, 0);
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // move cursor
+				int max_char = editor.getCurrentActiveTab().getTextArea().getParagraph(max_line-1).length(); // length at last line
+				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret, 0, currentCaret, max_char, text_1);
+				
+			}
+			
+		});
+		
+		MenuItem MoveLineDown = new MenuItem("Move Line Down");
+		MoveLineDown.setOnAction(e -> {
+			int currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
+			Paragraph<Collection<String>, String, Collection<String>> a 
+				= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret);
+			String text = a.getText(); // current Text
+			int max_line = editor.getCurrentActiveTab().getTextArea().getText().split("\n").length;
 
-			if (currentCaret == 0) { // line 1 not have any action
+			if (currentCaret == max_line-1) { // line 1 not have any action
 				return;
 			}
 			else if (currentCaret > 0 && currentCaret < max_line-1) {
@@ -232,12 +263,6 @@ public class SMenuBar {
 				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret, 0, currentCaret, max_char, text_1);
 				
 			}
-			
-		});
-		
-		MenuItem MoveLineDown = new MenuItem("Move Line Down");
-		MoveLineDown.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
 		});
 		
 		selectionMenu.getItems().addAll(SelectAllItem, ExpandSelectItem, 
