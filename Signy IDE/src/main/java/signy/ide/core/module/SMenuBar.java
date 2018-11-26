@@ -218,7 +218,7 @@ public class SMenuBar {
 			else if (currentCaret == max_line-1) {
 				Paragraph<Collection<String>, String, Collection<String>> before 
 					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret-1);
-				String text_1 = before.getText(); // before Text
+				String text_1 = before.getText(); // before current
 				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
 				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret-1, 0, currentCaret, 0);
 				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // move cursor
@@ -239,7 +239,7 @@ public class SMenuBar {
 			String text = current.getText(); // current Text
 			// max line
 			int max_line = editor.getCurrentActiveTab().getTextArea().getText().split("\n").length;
-			System.out.println(currentCaret);
+			
 			if (currentCaret == max_line-1) { // last line don't take any action
 				return;
 			}
@@ -247,10 +247,9 @@ public class SMenuBar {
 				Paragraph<Collection<String>, String, Collection<String>> after 
 					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret+1);
 				String text_1 = after.getText(); // after current
-				currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
 				int max_char_before = editor.getCurrentActiveTab().getTextArea().getParagraph(max_line-1).length();
 				int max_char_after = editor.getCurrentActiveTab().getTextArea().getParagraph(max_line-1).length();
-				// length of char
+				// length of char of current and after
 				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret, 0, currentCaret, max_char_before, text_1);
 				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret+1, 0, currentCaret+1, max_char_after, text);
 
