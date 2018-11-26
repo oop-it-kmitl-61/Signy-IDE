@@ -1,5 +1,9 @@
 package signy.ide.core.module;
 
+import java.util.Collection;
+
+import org.fxmisc.richtext.model.Paragraph;
+
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -189,18 +193,45 @@ public class SMenuBar {
 		
 		MenuItem MoveLineUp = new MenuItem("Move Line Up");
 		MoveLineUp.setOnAction(e -> {
-			if (editor.getCurrentActiveTab().getTextArea().getCurrentParagraph() != 0) {
-				String ta = editor.getCurrentActiveTab().getTextArea().getParagraph(
-						editor.getCurrentActiveTab().getTextArea().getCurrentParagraph()-1).getText();
-				;
-				editor.getCurrentActiveTab().getTextArea().selectParagraph();
-				editor.getCurrentActiveTab().getTextArea().replaceSelection(ta);
-				System.out.println(ta);
-			}	
-//			System.out.println(editor.getCurrentActiveTab().getTextArea().getCaretPosition());
-//			System.out.println(editor.getCurrentActiveTab().getTextArea().getCurrentParagraph());
-//			
-//			
+
+			int currentCaret = editor.getCurrentActiveTab().getTextArea().getCurrentParagraph();
+			// caret's current paragraph
+			
+			Paragraph<Collection<String>, String, Collection<String>> a 
+				= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret);
+			
+			// a b is paragraph
+			String text = a.getText(); // current Text
+
+			// max line
+			int max_line = editor.getCurrentActiveTab().getTextArea().getText().split("\n").length;
+
+			if (currentCaret == 0) { // line 1 not have any action
+				return;
+			}
+			else if (currentCaret > 0 && currentCaret < max_line-1) {
+				Paragraph<Collection<String>, String, Collection<String>> b 
+					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret-1);
+				String text_1 = b.getText(); // before Text
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret-1, 0, currentCaret, 0);
+				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret, 0, currentCaret+1, 0);
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text_1 + "\n");
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // set cursor
+			}
+			else if (currentCaret == max_line-1) {
+				System.out.println("ERROR0");
+				Paragraph<Collection<String>, String, Collection<String>> b 
+					= editor.getCurrentActiveTab().getTextArea().getParagraph(currentCaret-1);
+				String text_1 = b.getText(); // before Text
+				System.out.println("CurrentCaret : " + currentCaret + " " + text + " " + text_1);
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, text + "\n");
+				editor.getCurrentActiveTab().getTextArea().deleteText(currentCaret-1, 0, currentCaret, 0);
+				editor.getCurrentActiveTab().getTextArea().insertText(currentCaret, 0, ""); // move cursor
+				int max_char = editor.getCurrentActiveTab().getTextArea().getParagraph(max_line-1).length();
+				editor.getCurrentActiveTab().getTextArea().replaceText(currentCaret, 0, currentCaret, max_char, text_1);
+				
+			}
 			
 		});
 		
