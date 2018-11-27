@@ -43,7 +43,10 @@ public class FXMLDocumentController implements Initializable {
 	private static SViewPane viewPane;
 	private static SEditorPane editorPane;
 	private static STerminalPane terminalPane;
-
+	
+	private boolean check_Side_Panel = true;
+	private boolean check_Bottom_Panel = true;
+	
 	private static SConsole consolePane;
 	private static SOutput outputPane;
 	private static String rootDirectory = System.getProperty("user.dir");
@@ -118,6 +121,22 @@ public class FXMLDocumentController implements Initializable {
 //
 //		}
 
+	}
+	
+	public boolean getCheckSide() {
+		return check_Side_Panel;
+	}
+	
+	public void setCheckSide(boolean setPanel) {
+		this.check_Side_Panel = setPanel;
+	}
+	
+	public boolean getCheckBottom() {
+		return check_Bottom_Panel;
+	}
+	
+	public void setCheckBottom(boolean setPanel) {
+		this.check_Bottom_Panel = setPanel;
 	}
 
 	static void init() {

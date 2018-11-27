@@ -71,4 +71,5 @@ public class ResizeButton extends Button {
 			setStage(false);
 		}
 	}
+	
 }

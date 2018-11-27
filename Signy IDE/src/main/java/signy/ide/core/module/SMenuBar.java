@@ -134,7 +134,6 @@ public class SMenuBar {
 				TempItem = editor.getCurrentActiveTab().getTextArea().getSelectedText();
 				editor.getCurrentActiveTab().getTextArea().replaceSelection("");;
 			}
-			//System.out.println(editor.getCurrentActiveTab().getTextArea().getText());
 		});
 		
 		MenuItem CopyItem = new MenuItem("Copy");
@@ -300,9 +299,16 @@ public class SMenuBar {
 		// 4. View Menu
 		Menu viewMenu = new Menu("_View");
 
-		MenuItem Files = new MenuItem("Files");
+		MenuItem Files = new MenuItem("Explorer");
 		Files.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
+			if (controller.getCheckSide()) {
+				controller.getWorkspacePane().setWeights(new int[] { 0 , 1 });
+				controller.setCheckSide(false);
+			}
+			else {
+				controller.getWorkspacePane().setWeights(new int[] { 2, 8 });
+				controller.setCheckSide(true);
+			}
 		});
 		
 		MenuItem Search = new MenuItem("Search");
@@ -312,7 +318,16 @@ public class SMenuBar {
 		
 		MenuItem ToggleBottomPanel = new MenuItem("Toggle Bottom Panels");
 		ToggleBottomPanel.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
+			if (controller.getCheckBottom()) {
+				controller.getSubWorkspacePane().setWeights(new int[] { 1 , 0 });
+				controller.setCheckBottom(false);
+				
+			}
+			else {
+				controller.getSubWorkspacePane().setWeights(new int[] { 65 , 35});
+				controller.setCheckBottom(true);
+
+			}
 		});
 		
 		MenuItem CollaspeAllsidePanel = new MenuItem("Collaspe All Side Panels");
@@ -340,7 +355,14 @@ public class SMenuBar {
 		
 		MenuItem Document = new MenuItem("Documentation");
 		Document.setOnAction(e -> {
-			System.out.print(e.getSource() + " didn't have any action yet");
+			Runtime rt = Runtime.getRuntime();
+			String url = "https://docs.oracle.com/javase/specs/jls/se10/jls10.pdf";
+			try {
+				rt.exec("rundll32 url.dll,FileProtocolHandler " + url);
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 		});
 		
 		helpMenu.getItems().addAll(About,Document);
