@@ -16,6 +16,8 @@ import javafx.scene.control.Tab;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 import signy.ide.controls.nodes.SCodeArea;
+import signy.ide.core.resources.Project;
+import signy.ide.utils.Utils;
 
 public class SEditor {
 
@@ -23,6 +25,7 @@ public class SEditor {
 	private String tabTitle;
 	private SCodeArea textArea;
 
+	private Project project;
 	private File file;
 	private String fileName;
 	private Path path;
@@ -33,20 +36,21 @@ public class SEditor {
 
 	public SEditor() {
 
-		this("Untitled", "", null, ".*");
+		this(null, "Untitled", "", null, ".*");
 
 	}
 
-	public SEditor(File file) {
+	public SEditor(Project project, File file) {
 
-		this(file.getName(), fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
+		this(project, file.getName(), Utils.fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
 				file.getName().substring(file.getName().lastIndexOf(".")));
 		this.file = file;
 
 	}
 
-	SEditor(String title, String content, Path path, String fileExtension) {
+	SEditor(Project project, String title, String content, Path path, String fileExtension) {
 
+		this.project = project;
 		fileName = title;
 		this.path = path;
 		this.fileExtension = "*" + fileExtension;
@@ -86,8 +90,12 @@ public class SEditor {
 		return this.tab;
 	}
 
-	public CodeArea getTextArea() {
+	public SCodeArea getTextArea() {
 		return this.textArea;
+	}
+
+	public Project getProjectRoot() {
+		return project;
 	}
 
 	public File getFile() {
@@ -142,18 +150,6 @@ public class SEditor {
 		this.fileExtension = "*" + file.getName().substring(file.getName().lastIndexOf("."));
 		this.tabTitle = file.getName();
 		setModified(false);
-	}
-
-	private static String fileToString(String path, Charset encoding) {
-		String content = "";
-		try {
-			byte[] encoded = Files.readAllBytes(Paths.get(path));
-			content = new String(encoded, encoding);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return content;
 	}
 
 }

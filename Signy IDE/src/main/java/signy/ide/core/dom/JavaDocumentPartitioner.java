@@ -56,7 +56,7 @@ public class JavaDocumentPartitioner {
 							: matcher.group("STRING") != null ? "string"
 									: matcher.group("ANNOTATION") != null ? "annotation"
 											: matcher.group("PAREN") != null ? "paren"
-													: matcher.group("BRACE") != null ? "brace"
+//													: matcher.group("BRACE") != null ? "brace"
 															: matcher.group("BRACKET") != null ? "bracket"
 																	: matcher.group("SEMICOLON") != null ? "semicolon"
 																			: matcher.group("COMMENT") != null

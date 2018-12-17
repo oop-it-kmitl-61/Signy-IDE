@@ -11,8 +11,8 @@ public class ShowReplaceButton extends Button {
 
 	private BorderPane root, child;
 
-	private String pathExtend = "signy/ide/resources/icons/replace_extend.png";
-	private String pathCollapse = "signy/ide/resources/icons/replace_collapse.png";
+	private String pathExtend = "icons/replace_extend.png";
+	private String pathCollapse = "icons/replace_collapse.png";
 
 	ImageView iconExtend, iconCollapse;
 

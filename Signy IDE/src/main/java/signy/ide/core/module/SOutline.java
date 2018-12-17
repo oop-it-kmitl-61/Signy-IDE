@@ -5,10 +5,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Stack;
 
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
@@ -26,6 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import signy.ide.FXMLDocumentController;
+import signy.ide.LoadingController;
 import signy.ide.controls.items.OutlineItem;
 
 public class SOutline {
@@ -80,7 +83,7 @@ public class SOutline {
 		outlinePane.setCenter(treeView);
 		tab.setText("Outline");
 		tab.setContent(outlinePane);
-		ImageView img = new ImageView(new Image("signy/ide/resources/icons/outline.png", 14, 16, false, false));
+		ImageView img = new ImageView(new Image("icons/outline.png", 14, 16, false, false));
 		tab.setGraphic(img);
 
 	}
@@ -99,14 +102,22 @@ public class SOutline {
 		}
 
 		ASTParser parser = ASTParser.newParser(AST.JLS10);
+
+//		parser.setResolveBindings(true);
 		parser.setKind(ASTParser.K_COMPILATION_UNIT);
+		parser.setBindingsRecovery(true);
+		parser.setCompilerOptions(JavaCore.getOptions());
+
+//		parser.setUnitName(nameOfJavaFile);
+//		parser.setEnvironment(LoadingController.getPath(), null, new String[] { "UTF-8" }, true);
 		parser.setSource(input.toCharArray());
-		ASTNode cu = parser.createAST(null);
+
+		CompilationUnit cu = (CompilationUnit) parser.createAST(null);
+
+//		if (cu.getAST().hasResolvedBindings()) {
 
 		Stack<PackageDeclaration> stackPackage = new Stack<PackageDeclaration>();
 		Stack<TypeDeclaration> stackType = new Stack<TypeDeclaration>();
-//		Queue<OutlineItem> queue = new LinkedList<>();
-//		Queue<OutlineItem> queueStatic = new LinkedList<>();
 
 		cu.accept(new ASTVisitor() {
 
@@ -147,39 +158,8 @@ public class SOutline {
 				super.endVisit(node);
 			}
 
-//			@Override
-//			public boolean visit(FieldDeclaration node) {
-//				for (Object v : node.fragments()) {
-//					if (v instanceof VariableDeclarationFragment) {
-//						VariableDeclarationFragment vdf = (VariableDeclarationFragment) v;
-//						String o = vdf.getName().getFullyQualifiedName();
-//						OutlineItem<VariableDeclarationFragment> item = new OutlineItem<VariableDeclarationFragment>(
-//								vdf);
-//						if (isStaticDeclaration(node.modifiers())) {
-//							queueStatic.add(item);
-//						} else {
-//							queue.add(item);
-//						}
-//
-//					}
-//				}
-//				return super.visit(node);
-//			}
-
-//			@Override
-//			public boolean visit(MethodDeclaration node) {
-//				String o = node.getName().getFullyQualifiedName();
-//				OutlineItem item = new OutlineItem(node);
-//				if (isStaticDeclaration(node.modifiers())) {
-//					queueStatic.add(item);
-//				} else {
-//					queue.add(item);
-//				}
-//
-//				return super.visit(node);
-//			}
-
 		});
+//		}
 
 	}
 
@@ -210,3 +190,56 @@ public class SOutline {
 //	}
 
 }
+
+//class SASTVisitor extends ASTVisitor{
+//
+//	private Stack stackPackage;
+//	private Stack stackType;
+//	private TreeItem treeRoot;
+//
+//	SASTVisitor(Stack stackPackage, Stack stackType, TreeItem treeRoot) {
+//
+//		this.stackPackage = stackPackage;
+//		this.stackType = stackType;
+//		this.treeRoot = treeRoot;
+//
+//	}
+//
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public boolean visit(PackageDeclaration node) {
+//		stackPackage.push(node);
+//		OutlineItem packageItem = new OutlineItem(node);
+//		treeRoot.getChildren().add(packageItem);
+//		return super.visit(node);
+//	}
+//
+//	@Override
+//	public boolean visit(TypeDeclaration node) {
+//		stackType.push(node);
+//		return super.visit(node);
+//	}
+//
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public void endVisit(TypeDeclaration node) {
+//		for (TypeDeclaration rootClass : stackType) {
+//			OutlineItem rootClassItem = new OutlineItem(rootClass);
+//			for (FieldDeclaration field : rootClass.getFields()) {
+//				OutlineItem nodeClass = new OutlineItem(field);
+//				rootClassItem.getChildren().add(nodeClass);
+//			}
+//
+//			for (MethodDeclaration method : rootClass.getMethods()) {
+//				OutlineItem nodeClass = new OutlineItem(method);
+//				rootClassItem.getChildren().add(nodeClass);
+//			}
+//
+//			treeRoot.getChildren().add(rootClassItem);
+//			rootClassItem.setExpanded(true);
+//
+//		}
+//		super.endVisit(node);
+//	}
+//
+//}

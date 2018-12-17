@@ -32,7 +32,7 @@ public class SOutput {
 
 		VirtualizedScrollPane<ScaledVirtualized<SOutputArea>> virtualizedScrollPane = new VirtualizedScrollPane<>(
 				scaleVirtualized);
-		tab.setContent(new VirtualizedScrollPane<>(virtualizedScrollPane));
+		tab.setContent(virtualizedScrollPane);
 
 	}
 
@@ -43,7 +43,7 @@ public class SOutput {
 	public String getText() {
 		return outputArea.getText();
 	}
-	
+
 	public SOutputArea getOutputArea() {
 		return outputArea;
 	}

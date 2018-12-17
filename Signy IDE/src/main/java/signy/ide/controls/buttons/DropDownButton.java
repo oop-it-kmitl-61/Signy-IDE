@@ -13,7 +13,7 @@ public class DropDownButton extends MenuButton {
 
 	private TabPane root;
 
-	private String pathDropdown = "signy/ide/resources/icons/dropdown.png";
+	private String pathDropdown = "icons/dropdown.png";
 	ImageView iconDropdown;
 
 	private MenuItem itemConsole;

@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import signy.ide.lang.Lang;
+import signy.ide.settings.PropertySetting;
 
 /**
  * Hello world!
@@ -32,7 +34,7 @@ public class Main extends Application {
 
 	static {
 
-		FXMLSplashController.showSplashScreen();
+		FXMLSplashController.splashScreen();
 
 	}
 
@@ -40,6 +42,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 
 		try {
+
+			LoadingController.setStage(primaryStage);
 
 			mainApp = this;
 
@@ -53,7 +57,7 @@ public class Main extends Application {
 			height = (int) dim.getHeight() - 65;
 
 			scene = new Scene(root, width, height);
-			scene.getStylesheets().add(getClass().getResource("css/application.css").toExternalForm());
+			scene.getStylesheets().add("css/application.css");
 
 			stage = primaryStage;
 			primaryStage.initStyle(StageStyle.DECORATED);
@@ -61,12 +65,11 @@ public class Main extends Application {
 			primaryStage.sizeToScene();
 			primaryStage.setMinWidth(235);
 			primaryStage.setMinHeight(155);
-		  	primaryStage.getIcons().add(new Image("signy/ide/resources/icons/logo.png"));
+			primaryStage.getIcons().add(new Image("icons/logo.png"));
 			setTitle(null);
 			primaryStage.show();
 
-			FXMLDocumentController controller = new FXMLDocumentController();
-			FXMLDocumentController.init();
+//			FXMLDocumentController.init();
 
 			FXMLSplashController.hideSplashScreen();
 
@@ -90,16 +93,16 @@ public class Main extends Application {
 	}
 
 	public Stage getStage() {
-		return this.stage;
+		return stage;
 
 	}
 
 	public Scene getScene() {
-		return this.scene;
+		return scene;
 	}
 
 	String getAppName() {
-		return this.APP_NAME;
+		return APP_NAME;
 	}
 
 	public void exit() {
@@ -117,7 +120,10 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 
+		Arguments.check(args);
+		Internal.init();
 		launch(args);
+		PropertySetting.writeProperty();
 
 		System.out.println("Hello World!");
 

@@ -22,7 +22,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 import signy.ide.FXMLDocumentController;
+import signy.ide.LoadingController;
 import signy.ide.controls.panes.SEditorPane;
+import signy.ide.core.resources.Project;
 
 public class SExplorer {
 
@@ -70,20 +72,20 @@ public class SExplorer {
 		explorerPane.setCenter(getTreeView(path));
 		tab.setContent(explorerPane);
 		tab.setText("Explorer");
-		ImageView img = new ImageView(new Image("signy/ide/resources/icons/explorer.png", 14, 16, false, false));
+		ImageView img = new ImageView(new Image("icons/explorer.png", 14, 16, false, false));
 		tab.setGraphic(img);
-		
+
 		buttonRefresh.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				getTreeView(path);
 			}
-			
+
 		});
 
 	}
-	
+
 	public TreeView<File> getTreeView(String path) {
 		TreeItem<File> root = createNode(new File(path));
 		root.setExpanded(true);
@@ -110,7 +112,18 @@ public class SExplorer {
 			public void handle(MouseEvent event) {
 				TreeItem<File> tmp = (TreeItem<File>) treeView.getSelectionModel().getSelectedItem();
 				if (event.getClickCount() == 2 && tmp.getValue().isFile() && !tmp.getValue().isDirectory()) {
-					editor.createNewEditorTab(tmp.getValue());
+					File file = tmp.getValue();
+					boolean isCreate = false;
+					for (Project project : LoadingController.getAllProjects()) {
+						if (project.getFilesSystem().contains(file)) {
+							editor.createNewEditorTab(project, file);
+							isCreate = true;
+							break;
+						}
+					}
+					if (!isCreate) {
+						editor.createNewEditorTab(null, file);
+					}
 				}
 
 			}

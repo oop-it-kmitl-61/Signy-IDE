@@ -13,7 +13,7 @@ public class CloseButton extends Button {
 	private SashPane root;
 	private ResizeButton buttonResize;
 
-	private String pathClose = "signy/ide/resources/icons/close.png";
+	private String pathClose = "icons/close.png";
 
 	private ImageView iconClose;
 

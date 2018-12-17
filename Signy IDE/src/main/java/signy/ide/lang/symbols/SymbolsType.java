@@ -14,4 +14,5 @@ public enum SymbolsType {
 	public String toString() {
 		return text;
 	}
+
 }

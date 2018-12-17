@@ -24,9 +24,12 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.transform.Scale;
+import javafx.stage.Stage;
 import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
+import signy.ide.core.resources.Project;
+import signy.ide.lang.Lang;
 
 public class SConsole {
 
@@ -72,7 +75,7 @@ public class SConsole {
 				zoom.setY(scale);
 			}
 		});
-		
+
 		this.commandtf = new TextField();
 //		this.commandtf = new TextField() {
 //			@Override
@@ -115,21 +118,21 @@ public class SConsole {
 					case "cd":
 						try {
 							File f = new File(workingDir + "/" + text.substring(3));
-							if(f.exists()) {
+							if (f.exists()) {
 								workingDir = f.getCanonicalPath();
 								consoleArea.println(workingDir);
-							}else {
+							} else {
 								consoleArea.println("\n  [ERROR]  File or directory does not exists.");
 							}
-							
+
 						} catch (Exception e) {
-							if(e.toString().contains("String index out of range")) {
+							if (e.toString().contains("String index out of range")) {
 								consoleArea.println("Please enter following this command cd [path]");
-							}else {
+							} else {
 								consoleArea.println(e.getMessage());
 							}
 						}
-						
+
 						break;
 					case "getEnv":
 						for (String envPath : envPaths) {
@@ -161,11 +164,12 @@ public class SConsole {
 						consoleArea.println(LoadingController.getPath());
 						break;
 					case "compile":
-						compiler.compile(workingDir);
+						System.out.println(LoadingController.getCurrentProject());
+						compiler.compile(workingDir + "/" + LoadingController.getCurrentProject().getTitle());
 						break;
 					case "run":
-						if(input[1] != null && input[1].length() > 0) {
-							compiler.run(input[1], workingDir);							
+						if (input[1] != null && input[1].length() > 0) {
+							compiler.run(input[1], workingDir + "/" + LoadingController.getCurrentProject().getTitle());
 						}
 						break;
 					default:
@@ -265,7 +269,7 @@ public class SConsole {
 			}
 			/*-----  DON'T DELETE THIS LINE  -----*/
 			pb.redirectErrorStream(true);
-			
+
 			pb.directory(new File(workingDir));
 			streamController = new StreamController(p, pb, consoleArea);
 			thread = new Thread(streamController);

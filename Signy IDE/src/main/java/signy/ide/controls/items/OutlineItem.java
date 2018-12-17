@@ -10,6 +10,7 @@ import org.eclipse.jdt.core.dom.VariableDeclarationFragment;
 
 import javafx.scene.Node;
 import javafx.scene.control.TreeItem;
+import signy.ide.utils.Utils;
 
 public class OutlineItem<T> extends TreeItem<T> {
 
@@ -37,15 +38,15 @@ public class OutlineItem<T> extends TreeItem<T> {
 		if (node instanceof PackageDeclaration) {
 			toString = KEYWORD_PACKAGE + " " + ((PackageDeclaration) node).getName().getFullyQualifiedName();
 		} else if (node instanceof TypeDeclaration) {
-			toString = listToString(((TypeDeclaration) node).modifiers()) + " " + KEYWORD_CLASS + " "
+			toString = Utils.listToString(((TypeDeclaration) node).modifiers()) + " " + KEYWORD_CLASS + " "
 					+ ((TypeDeclaration) node).getName().getFullyQualifiedName();
 		} else if (node instanceof FieldDeclaration) {
-			toString = listToString(((FieldDeclaration) node).modifiers()) + " "
-					+ listToString(((FieldDeclaration) node).fragments()) + " : " + ((FieldDeclaration) node).getType();
+			toString = Utils.listToString(((FieldDeclaration) node).modifiers()) + " "
+					+ Utils.listToString(((FieldDeclaration) node).fragments()) + " : " + ((FieldDeclaration) node).getType();
 		} else if (node instanceof MethodDeclaration) {
-			toString = listToString(((MethodDeclaration) node).modifiers()) + " "
+			toString = Utils.listToString(((MethodDeclaration) node).modifiers()) + " "
 					+ ((MethodDeclaration) node).getName().getFullyQualifiedName() + "("
-					+ listToString(((MethodDeclaration) node).parameters()) + ")" + " : "
+					+ Utils.listToString(((MethodDeclaration) node).parameters()) + ")" + " : "
 					+ ((MethodDeclaration) node).getReturnType2();
 		} else if (node instanceof VariableDeclarationFragment) {
 			toString = ((VariableDeclarationFragment) node).toString();
@@ -64,14 +65,6 @@ public class OutlineItem<T> extends TreeItem<T> {
 	@Override
 	public String toString() {
 		return this.toString;
-	}
-
-	private String listToString(List<?> list) {
-		String result = "";
-		for (int i = 0; i < list.size(); ++i) {
-			result += list.get(i) + " ";
-		}
-		return result.trim();
 	}
 
 }

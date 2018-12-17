@@ -13,8 +13,8 @@ public class ResizeButton extends Button {
 	private SashPane root;
 	private int[] oldWeight;
 
-	private String pathMaximize = "signy/ide/resources/icons/maximize.png";
-	private String pathMinimize = "signy/ide/resources/icons/minimize.png";
+	private String pathMaximize = "icons/maximize.png";
+	private String pathMinimize = "icons/minimize.png";
 
 	private ImageView iconMaximize, iconMinimize;
 

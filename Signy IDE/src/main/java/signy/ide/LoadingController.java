@@ -1,10 +1,27 @@
 package signy.ide;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.HashMap;
 
+import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import signy.ide.core.SJavaDevelopmentKit;
+import signy.ide.core.resources.Project;
+import signy.ide.settings.PropertySetting;
 
 public final class LoadingController {
+
+	private static Path workspacePath;
+
+	private static ArrayList<Project> projects = new ArrayList<>();
+
+	private static Project currentProject;
+
+	private static Stage stage;
 
 	private static String consolePath;
 
@@ -33,7 +50,35 @@ public final class LoadingController {
 	private static Thread backgroundThread;
 
 	public LoadingController() {
-		
+
+	}
+
+	public static void setWorkspacePath(Path path) {
+		workspacePath = path;
+	}
+
+	public static Path getWorkspacePath() {
+		return workspacePath;
+	}
+
+	public static ArrayList<Project> getAllProjects() {
+		return projects;
+	}
+
+	public synchronized static void setCurrentProject(Project project) {
+		currentProject = project;
+	}
+
+	public synchronized static Project getCurrentProject() {
+		return currentProject;
+	}
+
+	public synchronized static Stage getStage() {
+		return stage;
+	}
+
+	public synchronized static void setStage(Stage stage) {
+		LoadingController.stage = stage;
 	}
 
 	public synchronized static void setJdkPath() {
@@ -110,7 +155,7 @@ public final class LoadingController {
 	}
 
 	public static String getPath() {
-		if(jdkPath == null) {
+		if (jdkPath == null) {
 			FXMLDocumentController.scanJdkInEnvPath();
 		}
 		return jdkPath;
