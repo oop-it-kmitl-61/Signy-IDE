@@ -232,3 +232,17 @@ BorderPane, AnchorPane {
     -fx-text-base-color: white;
 
 }
+
+.button {
+
+	-fx-text-fill: #bbbbbb;
+	-fx-background-color: transparent;
+
+}
+
+.button:hover {
+
+	-fx-text-fill: #bbbbbb;
+	-fx-background-color: #3c3c3c;
+
+}

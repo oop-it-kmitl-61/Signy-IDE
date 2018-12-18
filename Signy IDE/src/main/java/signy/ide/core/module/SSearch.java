@@ -38,7 +38,7 @@ public class SSearch {
 	private HBox menuBox;
 	private Label labelSearch;
 	private ShowReplaceButton buttonShowReplace;
-	private Button button2, buttonRefresh, buttonClear;
+	private Button btnReplace, buttonRefresh, buttonClear;
 	private TextField textFieldSearch, textFieldReplace;
 	private ListView<SearchItem> resultView;
 	private ObservableList<SearchItem> dataToView;
@@ -90,9 +90,10 @@ public class SSearch {
 
 		textFieldReplace = new TextField();
 		textFieldReplace.setPromptText("Replace");
-		button2 = new Button("H");
+		btnReplace = new Button();
+		btnReplace.setGraphic(new ImageView(new Image("icons/go.png", 12, 12, false, true)));
 		replaceBox.setCenter(textFieldReplace);
-		replaceBox.setRight(button2);
+		replaceBox.setRight(btnReplace);
 
 		subSearchBox.setCenter(textFieldSearch);
 
@@ -121,7 +122,7 @@ public class SSearch {
 
 		});
 
-		button2.setOnAction(new EventHandler<ActionEvent>() {
+		btnReplace.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {

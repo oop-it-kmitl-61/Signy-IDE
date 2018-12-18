@@ -7,9 +7,12 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.image.Image;
@@ -63,6 +66,18 @@ public class FXMLDocumentController implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 
 		LoadingController.setController(this);
+
+		Button btnBuild = new Button();
+		btnBuild.setGraphic(new ImageView(new Image("icons/go.png", 12, 12, true, false)));
+		btnBuild.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				consolePane.getCompiler().compile(LoadingController.getCurrentProject());
+			}
+
+		});
+		profileBar.getChildren().add(btnBuild);
 
 		rootDirectory = LoadingController.getWorkspacePath().toString();
 		this.mainApp = Main.getMainApp();

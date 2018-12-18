@@ -325,6 +325,10 @@ public class SConsole {
 		return this.consoleArea;
 	}
 
+	public SCompiler getCompiler() {
+		return compiler;
+	}
+
 	public String getAllJavaFilePath() {
 		String result = null;
 		LoadingController.setResults("");
