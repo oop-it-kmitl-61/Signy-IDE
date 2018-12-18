@@ -20,12 +20,12 @@ import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTParser;
 import org.eclipse.jdt.core.dom.ASTVisitor;
 import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
-import signy.ide.controls.items.OutlineItem;
+import javafx.stage.DirectoryChooser;
+import signy.ide.LoadingController;
 import signy.ide.core.resources.SProject;
 
 public class Utils {
@@ -60,6 +60,22 @@ public class Utils {
 			result += list.get(i) + " ";
 		}
 		return result.trim();
+	}
+
+	public static void copyProject() {
+		DirectoryChooser dirChooser = new DirectoryChooser();
+		dirChooser.setInitialDirectory(LoadingController.getWorkspacePath().toFile());
+		File selectedDir = dirChooser.showDialog(null);
+
+		if (selectedDir == null) {
+			return;
+		}
+		System.out.println(selectedDir.getAbsolutePath());
+
+		LoadingController.getController().getTerminalPane().getConsolePane()
+				.runCommand("xcopy \"" + selectedDir.getAbsolutePath() + "\"\\*.* \""
+						+ LoadingController.getWorkspacePath().toFile().getAbsolutePath() + "\"\\"
+						+ selectedDir.getName() + "\\ /e /y");
 	}
 
 	public static ArrayList<File> scanMainClass(SProject project) {

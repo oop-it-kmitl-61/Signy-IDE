@@ -19,6 +19,7 @@ import signy.ide.controls.panes.dialogs.NewClassDialog;
 import signy.ide.controls.panes.dialogs.NewFileDialog;
 import signy.ide.controls.panes.dialogs.NewJavaPackageDialog;
 import signy.ide.controls.panes.dialogs.NewJavaProjectDialog;
+import signy.ide.utils.Utils;
 
 public class SMenuBar {
 
@@ -68,9 +69,9 @@ public class SMenuBar {
 			this.editor.handleOpenFiles();
 		});
 
-		MenuItem openProjectsMnItem = new MenuItem("Open Projects...");
+		MenuItem openProjectsMnItem = new MenuItem("Import Project to workspace ...");
 		openProjectsMnItem.setOnAction(e -> {
-			System.out.println(e.getSource() + " didn't have any action yet");
+			Utils.copyProject();
 		});
 
 		MenuItem saveMnItem = new MenuItem("_Save");
