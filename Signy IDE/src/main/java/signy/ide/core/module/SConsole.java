@@ -163,7 +163,7 @@ public class SConsole {
 						break;
 					case "run":
 						if (input[1] != null && input[1].length() > 0) {
-							compiler.run(input[1], workingDir + "/" + LoadingController.getCurrentProject().getTitle());
+//							compiler.run(input[1], workingDir + "/" + LoadingController.getCurrentProject());
 						}
 						break;
 					default:

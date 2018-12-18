@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
 import javafx.collections.FXCollections;
@@ -176,7 +177,9 @@ public class FileUtil extends ExceptionUtils {
 			if (child.isDirectory()) {
 				traverse(results, child);
 			} else {
-				results.add(child);
+				if (FilenameUtils.getExtension(child.getName()).equals("java")) {
+					results.add(child);
+				}
 			}
 		}
 		return results;

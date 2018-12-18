@@ -48,21 +48,17 @@ public class SCompiler {
 		return false;
 	}
 
-	public boolean run() {
-		return run("example");
+	public boolean run(SProject project) {
+		return run(project, controller.getRootDirectory());
 	}
 
-	public boolean run(String mainClass) {
-		return run(mainClass, controller.getRootDirectory());
+	public boolean run(SProject project, String path) {
+		return run(project, path, LoadingController.getPath());
 	}
 
-	public boolean run(String mainClass, String path) {
-		return run(mainClass, path, LoadingController.getPath());
-	}
-
-	public boolean run(String mainClass, String path, String jdkPath) {
+	public boolean run(SProject project, String path, String jdkPath) {
 		LoadingController.getController().getTerminalPane().getOutputPane().getOutputArea().clear();
-		Process p = FXMLDocumentController.run(path, mainClass);
+		Process p = FXMLDocumentController.run(path, project);
 
 		SConsoleArea carea = LoadingController.getController().getTerminalPane().getConsolePane().getConsoleArea();
 		carea.println("Root directory : " + path);

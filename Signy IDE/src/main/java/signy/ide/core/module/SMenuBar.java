@@ -1,20 +1,10 @@
 package signy.ide.core.module;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Collection;
 
 import org.fxmisc.richtext.model.Paragraph;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -22,9 +12,6 @@ import javafx.scene.control.SeparatorMenuItem;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import signy.ide.FXMLDocumentController;
 import signy.ide.Main;
 import signy.ide.controls.panes.SEditorPane;
@@ -32,8 +19,6 @@ import signy.ide.controls.panes.dialogs.NewClassDialog;
 import signy.ide.controls.panes.dialogs.NewFileDialog;
 import signy.ide.controls.panes.dialogs.NewJavaPackageDialog;
 import signy.ide.controls.panes.dialogs.NewJavaProjectDialog;
-import signy.ide.controls.panes.dialogs.SLauncherDialog;
-import signy.ide.settings.PropertySetting;
 import signy.ide.utils.Utils;
 
 public class SMenuBar {

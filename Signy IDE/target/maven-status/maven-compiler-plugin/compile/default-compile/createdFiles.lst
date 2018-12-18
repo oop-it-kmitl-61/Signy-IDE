@@ -17,7 +17,6 @@ signy\ide\core\module\SMenuBar.class
 signy\ide\lang\symbols\DocumentType.class
 signy\ide\core\JavacStream.class
 signy\ide\core\module\SOutline$2.class
-signy\ide\core\resources\Project.class
 signy\ide\core\module\autocomplete\EditWord.class
 signy\ide\core\module\autocomplete\CollectorAutocompleteText.class
 signy\ide\core\module\SSearch$3.class
@@ -50,7 +49,6 @@ signy\ide\controls\buttons\CloseButton$1.class
 signy\ide\controls\buttons\ShowReplaceButton$1.class
 signy\ide\core\module\SSearch$4.class
 signy\ide\core\module\autocomplete\JavaAutocompleteAnalyser.class
-signy\ide\FXMLSplashController$1.class
 signy\ide\core\module\SOutline.class
 lib\org\eclipse\fx\ui\panes\SashPane.class
 signy\ide\LoadingController.class
