@@ -102,6 +102,7 @@ public class NewClassDialog {
 		rbPublic.setSelected(true);
 		RadioButton rbPackage = new RadioButton("package");
 		rbPackage.setToggleGroup(group);
+		rbPackage.setDisable(true);
 		RadioButton rbPrivate = new RadioButton("private");
 		rbPrivate.setToggleGroup(group);
 		rbPrivate.setDisable(true);
@@ -176,6 +177,10 @@ public class NewClassDialog {
 			if (group.getSelectedToggle() != null) {
 				switch (((RadioButton) group.getSelectedToggle()).getText()) {
 				case "public":
+					if (!textFieldPackage.getText().trim().isEmpty()) {
+						content += ModifiersType.KEYWORDS.get()[1] + " " + textFieldPackage.getText().trim() + " ;"
+								+ System.lineSeparator() + System.lineSeparator();
+					}
 					content += ModifiersType.KEYWORDS.get()[0] + " " + ModifiersType.TYPES.get()[0] + " " + config
 							+ " {" + System.lineSeparator() + System.lineSeparator();
 					if (cbMedthod1.isSelected()) {

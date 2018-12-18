@@ -30,7 +30,7 @@ public class SProject extends File {
 
 		files = new ArrayList<>();
 		Path pathBin = Paths.get(path.toString(), "bin");
-		Path pathSrc = Paths.get(path.toString(), "src", "main", "java");
+		Path pathSrc = Paths.get(path.toString(), "src");
 
 		this.name = name;
 		this.path = path;
