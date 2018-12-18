@@ -11,7 +11,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -20,7 +22,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import lib.org.eclipse.fx.ui.panes.SashPane;
 import signy.ide.controls.nodes.SWelcomeView;
 import signy.ide.controls.panes.SEditorPane;
@@ -73,11 +78,16 @@ public class FXMLDocumentController implements Initializable {
 
 			@Override
 			public void handle(ActionEvent event) {
-				consolePane.getCompiler().compile(LoadingController.getCurrentProject());
+				if (LoadingController.getCurrentProject() != null) {
+					consolePane.getCompiler().compile(LoadingController.getCurrentProject());
+				}
 			}
 
 		});
-		profileBar.getChildren().add(btnBuild);
+
+		Region gap = new Region();
+		gap.setPadding(new Insets(16, 0, 0, 0));
+		profileBar.getChildren().addAll(gap, btnBuild);
 
 		rootDirectory = LoadingController.getWorkspacePath().toString();
 		this.mainApp = Main.getMainApp();
