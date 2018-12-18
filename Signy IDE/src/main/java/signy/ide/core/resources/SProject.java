@@ -16,6 +16,7 @@ public class SProject extends File {
 	private Path pathProperties;
 	private Path pathBin;
 	private Path pathSrc;
+	private ArrayList<File> mainClass;
 	private ArrayList<File> files;
 
 	private boolean isOpen;
@@ -76,6 +77,14 @@ public class SProject extends File {
 
 	public Path getPathBin() {
 		return pathBin;
+	}
+
+	public void setMainClass(ArrayList<File> mainClass) {
+		this.mainClass = mainClass;
+	}
+
+	public ArrayList<File> getMainClass() {
+		return mainClass;
 	}
 
 }

@@ -8,6 +8,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import org.apache.commons.io.FilenameUtils;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -35,6 +37,7 @@ import signy.ide.core.module.SOutput;
 import signy.ide.core.resources.SProject;
 import signy.ide.lang.Lang;
 import signy.ide.utils.FileUtil;
+import signy.ide.utils.Utils;
 
 public class FXMLDocumentController implements Initializable {
 
@@ -83,9 +86,22 @@ public class FXMLDocumentController implements Initializable {
 
 		});
 
+		Button btnRun = new Button();
+		btnRun.setGraphic(new ImageView(new Image("icons/go.png", 12, 12, true, false)));
+		btnRun.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				if (LoadingController.getCurrentProject() != null) {
+					consolePane.getCompiler().run(LoadingController.getCurrentProject());
+				}
+			}
+
+		});
+
 		Region gap = new Region();
 		gap.setPadding(new Insets(16, 0, 0, 0));
-		profileBar.getChildren().addAll(gap, btnBuild);
+		profileBar.getChildren().addAll(gap, btnBuild, btnRun);
 
 		rootDirectory = LoadingController.getWorkspacePath().toString();
 		this.mainApp = Main.getMainApp();
@@ -269,6 +285,7 @@ public class FXMLDocumentController implements Initializable {
 	}
 
 	public static Process compile(SProject project) {
+		project.setMainClass(Utils.scanMainClass(project));
 		FileUtil.createFolder(project.getPathBin());
 		Process pro = null;
 		try {
@@ -285,16 +302,26 @@ public class FXMLDocumentController implements Initializable {
 				consolePane.getConsoleArea().println("  [ERROR]  " + a.toString());
 			}
 		}
+		for (File main : project.getMainClass()) {
+			System.out.println(main);
+		}
 		return pro;
 	}
 
-	public static Process run(String projectDirectory, String mainClass) {
+	public static Process run(String projectDirectory, SProject project) {
 		Process pro = null;
 		try {
-			pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/java " + mainClass, null,
-					new File(projectDirectory + "/bin"));
+			String tmp = (project.getMainClass().get(0).getAbsolutePath().substring(
+					(project.getPathBin().toString().length() + 1),
+					project.getMainClass().get(0).getCanonicalPath().length() - 5))
+							.replaceAll(File.separator + File.separator, ".");
+			System.out.println(tmp);
+			pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/java " + tmp, null,
+					new File(project.getAbsolutePath() + "/bin"));
+			System.out.println(pro);
 
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println("  Run Failed! print stacktrace  ");
 			for (StackTraceElement a : e.getStackTrace()) {
 				consolePane.getConsoleArea().println("  [ERROR]  " + a.toString());
