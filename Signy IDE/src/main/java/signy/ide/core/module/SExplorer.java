@@ -38,6 +38,7 @@ import signy.ide.LoadingController;
 import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.dialogs.NewClassDialog;
 import signy.ide.controls.panes.dialogs.NewFileDialog;
+import signy.ide.controls.panes.dialogs.NewJavaPackageDialog;
 import signy.ide.controls.panes.dialogs.NewJavaProjectDialog;
 import signy.ide.core.resources.SFile;
 import signy.ide.core.resources.SProject;
@@ -116,18 +117,20 @@ public class SExplorer {
 			new NewJavaProjectDialog();
 		});
 		MenuItem newPackageMnItem = new MenuItem("Package");
+		newPackageMnItem.setOnAction(e -> {
+			new NewJavaPackageDialog();
+		});
 		MenuItem newClassMnItem = new MenuItem("Class");
 		newClassMnItem.setOnAction(e -> {
 			new NewClassDialog();
 		});
-		MenuItem newInfMnItem = new MenuItem("Interface");
 		MenuItem newFolderMnItem = new MenuItem("Folder");
 		MenuItem newFileMnItem = new MenuItem("File");
 		newFileMnItem.setOnAction(e -> {
 			new NewFileDialog();
 		});
 
-		newMenu.getItems().addAll(newJavaProjectMnItem, newPackageMnItem, newClassMnItem, newInfMnItem, newFolderMnItem,
+		newMenu.getItems().addAll(newJavaProjectMnItem, newPackageMnItem, newClassMnItem, newFolderMnItem,
 				newFileMnItem);
 
 		MenuItem deleteMnItem = new MenuItem("Delete");

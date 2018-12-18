@@ -11,12 +11,12 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -30,7 +30,8 @@ import signy.ide.core.resources.SProject;
 
 public class NewJavaProjectDialog {
 
-	private String iconLogo = "icons/logo.png";
+	private String iconLogo = "icons/logo512-16.png";
+	private String iconContent = "icons/project128.png";
 	private Path temp;
 
 	public NewJavaProjectDialog() {
@@ -42,7 +43,7 @@ public class NewJavaProjectDialog {
 		stage.getIcons().add(new Image(iconLogo));
 		dialog.setTitle("New Java Project");
 		dialog.setHeaderText("Create a Java Project\nEnter a project name.");
-		dialog.setGraphic(new ImageView(new Image(iconLogo, 50, 50, false, true)));
+		dialog.setGraphic(new ImageView(new Image(iconContent, 50, 50, false, true)));
 
 		Path needed = LoadingController.getWorkspacePath();
 		File folder = needed.toFile();

@@ -9,21 +9,16 @@ import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
 import signy.ide.controls.nodes.SOutputArea;
 import signy.ide.core.resources.SProject;
-import signy.ide.utils.FileUtil;
 
 public class SCompiler {
 
 	private FXMLDocumentController controller;
 	private String rootDir;
 	private Thread thread;
-	private SOutputArea outputArea;
-	private SConsoleArea carea;
 
 	public SCompiler(FXMLDocumentController controller) {
 		this.controller = controller;
 		rootDir = controller.getRootDirectory();
-		outputArea = controller.getTerminalPane().getOutputPane().getOutputArea();
-		carea = controller.getTerminalPane().getConsolePane().getConsoleArea();
 	}
 
 	public boolean compile() {
@@ -35,7 +30,8 @@ public class SCompiler {
 	}
 
 	public boolean compile(SProject project, String jdkPath) {
-		outputArea.clear();
+		LoadingController.getController().getTerminalPane().getOutputPane().getOutputArea().clear();
+		SConsoleArea carea = LoadingController.getController().getTerminalPane().getConsolePane().getConsoleArea();
 		Process p = FXMLDocumentController.compile(project);
 		controller.getTerminalPane().getTabPane().getSelectionModel()
 				.select(controller.getTerminalPane().getOutputPane().getTab());
@@ -43,7 +39,8 @@ public class SCompiler {
 		carea.println("Java directory : " + jdkPath);
 		if (p != null) {
 			carea.println("compiling . . .");
-			thread = new Thread(new JavacStreamController(p, outputArea));
+			thread = new Thread(new JavacStreamController(p,
+					LoadingController.getController().getTerminalPane().getOutputPane().getOutputArea()));
 			thread.start();
 			return true;
 		}
@@ -64,14 +61,16 @@ public class SCompiler {
 	}
 
 	public boolean run(String mainClass, String path, String jdkPath) {
-		outputArea.clear();
+		LoadingController.getController().getTerminalPane().getOutputPane().getOutputArea().clear();
 		Process p = FXMLDocumentController.run(path, mainClass);
 
+		SConsoleArea carea = LoadingController.getController().getTerminalPane().getConsolePane().getConsoleArea();
 		carea.println("Root directory : " + path);
 		carea.println("Java directory : " + jdkPath);
 		if (p != null) {
 			carea.println("compiling . . .");
-			thread = new Thread(new JavacStreamController(p, outputArea));
+			thread = new Thread(new JavacStreamController(p,
+					LoadingController.getController().getTerminalPane().getOutputPane().getOutputArea()));
 			thread.start();
 			return true;
 		}
@@ -107,6 +106,8 @@ public class SCompiler {
 
 		@Override
 		public void run() {
+
+			SConsoleArea carea = LoadingController.getController().getTerminalPane().getConsolePane().getConsoleArea();
 			boolean isError = false;
 			controller.getTerminalPane().getTabPane().getSelectionModel()
 					.select(controller.getTerminalPane().getOutputPane().getTab());
@@ -148,6 +149,7 @@ public class SCompiler {
 				}
 
 			}
+
 			carea.println((!isError) ? "OK" : "Fail");
 			System.out.println("At run : " + Thread.currentThread().getName() + " is stopped");
 			isStop = true;

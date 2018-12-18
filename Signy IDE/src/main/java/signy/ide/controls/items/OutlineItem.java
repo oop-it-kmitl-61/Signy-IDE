@@ -1,7 +1,5 @@
 package signy.ide.controls.items;
 
-import java.util.List;
-
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
@@ -42,7 +40,8 @@ public class OutlineItem<T> extends TreeItem<T> {
 					+ ((TypeDeclaration) node).getName().getFullyQualifiedName();
 		} else if (node instanceof FieldDeclaration) {
 			toString = Utils.listToString(((FieldDeclaration) node).modifiers()) + " "
-					+ Utils.listToString(((FieldDeclaration) node).fragments()) + " : " + ((FieldDeclaration) node).getType();
+					+ Utils.listToString(((FieldDeclaration) node).fragments()) + " : "
+					+ ((FieldDeclaration) node).getType();
 		} else if (node instanceof MethodDeclaration) {
 			toString = Utils.listToString(((MethodDeclaration) node).modifiers()) + " "
 					+ ((MethodDeclaration) node).getName().getFullyQualifiedName() + "("

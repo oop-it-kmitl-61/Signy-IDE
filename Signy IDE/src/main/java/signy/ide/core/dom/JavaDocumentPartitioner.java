@@ -57,13 +57,12 @@ public class JavaDocumentPartitioner {
 									: matcher.group("ANNOTATION") != null ? "annotation"
 											: matcher.group("PAREN") != null ? "paren"
 //													: matcher.group("BRACE") != null ? "brace"
-															: matcher.group("BRACKET") != null ? "bracket"
-																	: matcher.group("SEMICOLON") != null ? "semicolon"
-																			: matcher.group("COMMENT") != null
-																					? "comment"
-																					: matcher.group("NUMBERS") != null
-																							? "numbers"
-																							: null;
+													: matcher.group("BRACKET") != null ? "bracket"
+															: matcher.group("SEMICOLON") != null ? "semicolon"
+																	: matcher.group("COMMENT") != null ? "comment"
+																			: matcher.group("NUMBERS") != null
+																					? "numbers"
+																					: null;
 			spansBuilder.add(Collections.emptyList(), matcher.start() - lastKwEnd);
 			spansBuilder.add(Collections.singleton(styleClass), matcher.end() - matcher.start());
 			lastKwEnd = matcher.end();

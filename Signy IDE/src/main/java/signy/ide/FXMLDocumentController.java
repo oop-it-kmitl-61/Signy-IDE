@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -22,10 +22,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 import lib.org.eclipse.fx.ui.panes.SashPane;
 import signy.ide.controls.nodes.SWelcomeView;
 import signy.ide.controls.panes.SEditorPane;
@@ -274,10 +272,10 @@ public class FXMLDocumentController implements Initializable {
 		FileUtil.createFolder(project.getPathBin());
 		Process pro = null;
 		try {
-			String[] results = terminalPane.getConsolePane().getAllJavaFilePath().split(System.lineSeparator());
+			ArrayList<File> results = FileUtil.traverse(new ArrayList<File>(), project.getPathSource().toFile());
 			String needed = LoadingController.getPath() + "/bin/javac -d bin ";
-			for (String result : results) {
-				needed += " " + result;
+			for (File result : results) {
+				needed += " " + result.getAbsolutePath();
 			}
 			pro = Runtime.getRuntime().exec(needed, null, project);
 

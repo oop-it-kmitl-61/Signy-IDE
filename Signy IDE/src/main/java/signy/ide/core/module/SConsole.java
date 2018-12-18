@@ -24,12 +24,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.transform.Scale;
-import javafx.stage.Stage;
 import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
-import signy.ide.core.resources.SProject;
-import signy.ide.lang.Lang;
 
 public class SConsole {
 
@@ -99,9 +96,6 @@ public class SConsole {
 
 		commandtf.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent ke) {
-				if (compiler == null) {
-					compiler = new SCompiler(controller);
-				}
 				if (keyCombineCtrlC.match(ke)) {
 					endProcess();
 					consoleArea.println("\n    Terminated\n");
@@ -203,6 +197,7 @@ public class SConsole {
 	}
 
 	private void init() {
+		compiler = new SCompiler(controller);
 		try {
 			pbc = new ProcessBuilderCommand(consoleArea, "cmd");
 
@@ -332,7 +327,7 @@ public class SConsole {
 	public String getAllJavaFilePath() {
 		String result = null;
 		LoadingController.setResults("");
-		runCommand("dir " + LoadingController.getCurrentProject().getAbsolutePath() + " /s /B *.java");
+		runCommand("dir " + " /s /B *.java");
 		result = LoadingController.getResults();
 		return result;
 	}

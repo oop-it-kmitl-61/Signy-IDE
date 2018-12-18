@@ -79,6 +79,7 @@
 
 .tab-button:hover {
 
+	-fx-background-color: transparent;
 	-fx-border-color: #1e1e1e #1e1e1e #414141 #1e1e1e;
 
 }

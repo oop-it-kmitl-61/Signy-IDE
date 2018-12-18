@@ -43,5 +43,5 @@ public class CloseButton extends Button {
 			sash.setMouseTransparent(false);
 		}
 	}
-	
+
 }

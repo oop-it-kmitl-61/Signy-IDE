@@ -1,19 +1,19 @@
 package signy.ide.core.module.autocomplete;
 
-import javafx.geometry.Bounds;
-import javafx.stage.Stage;
-import signy.ide.lang.symbols.DocumentType;
-import signy.ide.lang.symbols.SymbolsType;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.PlainTextChange;
 
 import com.github.javaparser.ParseProblemException;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import javafx.geometry.Bounds;
+import javafx.stage.Stage;
+import signy.ide.lang.symbols.DocumentType;
+import signy.ide.lang.symbols.SymbolsType;
 
 public class JavaAutocomplete extends Autocomplete {
 

@@ -3,13 +3,9 @@ package signy.ide.controls.nodes;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -28,7 +24,7 @@ public class SWelcomeView {
 		grid.setVgap(16);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		ImageView im = new ImageView(new Image("icons/logo512-14.png", 250, 250, false, false));   
+		ImageView im = new ImageView(new Image("icons/logo512-14.png", 250, 250, false, false));
 		grid.add(im, 0, 0, 2, 1);
 
 		Text sceneHelp00 = new Text("New Project");
@@ -37,7 +33,7 @@ public class SWelcomeView {
 		grid.add(sceneHelp00, 0, 1);
 		GridPane.setHalignment(sceneHelp00, HPos.RIGHT);
 
-		Text sceneHelp01 = new Text("Alt+Shift+N");
+		Text sceneHelp01 = new Text("Ctrl+Shift+N");
 		sceneHelp01.setFill(Color.web("#838383"));
 		sceneHelp01.setFont(Font.font("Segoe UI", FontWeight.SEMI_BOLD, 14));
 		grid.add(sceneHelp01, 1, 1);

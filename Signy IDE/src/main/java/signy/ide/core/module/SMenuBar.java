@@ -1,5 +1,6 @@
 package signy.ide.core.module;
 
+import java.io.IOException;
 import java.util.Collection;
 
 import org.fxmisc.richtext.model.Paragraph;
@@ -16,11 +17,8 @@ import signy.ide.Main;
 import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.dialogs.NewClassDialog;
 import signy.ide.controls.panes.dialogs.NewFileDialog;
+import signy.ide.controls.panes.dialogs.NewJavaPackageDialog;
 import signy.ide.controls.panes.dialogs.NewJavaProjectDialog;
-
-import java.awt.Desktop;
-import java.io.IOException;
-import java.net.URI;
 
 public class SMenuBar {
 
@@ -46,27 +44,24 @@ public class SMenuBar {
 		newJavaProjectMnItem.setOnAction(e -> {
 			new NewJavaProjectDialog();
 		});
+		newJavaProjectMnItem.setAccelerator(
+				new KeyCodeCombination(KeyCode.N, KeyCombination.SHIFT_DOWN, KeyCombination.CONTROL_DOWN));
 		MenuItem newPackageMnItem = new MenuItem("Package");
+		newPackageMnItem.setOnAction(e -> {
+			new NewJavaPackageDialog();
+		});
 		MenuItem newClassMnItem = new MenuItem("Class");
 		newClassMnItem.setOnAction(e -> {
 			new NewClassDialog();
 		});
-		MenuItem newInfMnItem = new MenuItem("Interface");
 		MenuItem newFolderMnItem = new MenuItem("Folder");
 		MenuItem newFileMnItem = new MenuItem("File");
 		newFileMnItem.setOnAction(e -> {
 			new NewFileDialog();
 		});
 
-		newMenu.getItems().addAll(newJavaProjectMnItem, newPackageMnItem, newClassMnItem, newInfMnItem, newFolderMnItem,
+		newMenu.getItems().addAll(newJavaProjectMnItem, newPackageMnItem, newClassMnItem, newFolderMnItem,
 				newFileMnItem);
-
-		MenuItem newWindowMnItem = new MenuItem("New Window");
-		newWindowMnItem.setAccelerator(
-				new KeyCodeCombination(KeyCode.N, KeyCombination.SHIFT_DOWN, KeyCombination.SHORTCUT_DOWN));
-		newWindowMnItem.setOnAction(e -> {
-			System.out.println(e.getSource() + " didn't have any action yet");
-		});
 
 		MenuItem openFileMnItem = new MenuItem("Open File...");
 		openFileMnItem.setOnAction(e -> {
@@ -75,11 +70,6 @@ public class SMenuBar {
 
 		MenuItem openProjectsMnItem = new MenuItem("Open Projects...");
 		openProjectsMnItem.setOnAction(e -> {
-			System.out.println(e.getSource() + " didn't have any action yet");
-		});
-
-		MenuItem openRecentMnItem = new MenuItem("Open Recent");
-		openRecentMnItem.setOnAction(e -> {
 			System.out.println(e.getSource() + " didn't have any action yet");
 		});
 
@@ -114,20 +104,14 @@ public class SMenuBar {
 			System.out.println(e.getSource() + " didn't have any action yet");
 		});
 
-		MenuItem restartMnItem = new MenuItem("Restart");
-		restartMnItem.setOnAction(e -> {
-			System.out.println(e.getSource() + " didn't have any action yet");
-		});
-
 		MenuItem exitMnItem = new MenuItem("E_xit");
 		exitMnItem.setOnAction(e -> {
 			mainApp.exit();
 		});
 
-		fileMenu.getItems().addAll(newMenu, newWindowMnItem, new SeparatorMenuItem(), openFileMnItem,
-				openProjectsMnItem, openRecentMnItem, new SeparatorMenuItem(), saveMnItem, saveAsMnItem, saveAllMnItem,
-				new SeparatorMenuItem(), closeMnItem, closeAllMnItem, new SeparatorMenuItem(), restartMnItem,
-				exitMnItem);
+		fileMenu.getItems().addAll(newMenu, new SeparatorMenuItem(), openFileMnItem, openProjectsMnItem,
+				new SeparatorMenuItem(), saveMnItem, saveAsMnItem, saveAllMnItem, new SeparatorMenuItem(), closeMnItem,
+				closeAllMnItem, new SeparatorMenuItem(), exitMnItem);
 
 		// 2. Edit Menu
 		Menu editMenu = new Menu("_Edit");
@@ -314,11 +298,14 @@ public class SMenuBar {
 		Menu viewMenu = new Menu("_View");
 
 		MenuItem Files = new MenuItem("Explorer");
+		Files.setAccelerator(new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN));
 		Files.setOnAction(e -> {
 			if (controller.getCheckSide()) {
 				controller.getWorkspacePane().setWeights(new int[] { 0, 1 });
 				controller.setCheckSide(false);
 			} else {
+				controller.getViewPane().getTabPane().getSelectionModel()
+						.select(controller.getViewPane().getExplorerTab().getTab());
 				controller.getWorkspacePane().setWeights(new int[] { 2, 8 });
 				controller.setCheckSide(true);
 			}

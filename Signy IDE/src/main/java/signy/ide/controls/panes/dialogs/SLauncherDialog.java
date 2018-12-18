@@ -13,12 +13,12 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -35,7 +35,7 @@ public class SLauncherDialog {
 		Dialog<Path> dialog = new Dialog<>();
 		Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
 
-		stage.getIcons().add(new Image("icons/logo.png"));
+		stage.getIcons().add(new Image("icons/logo512-16.png"));
 		dialog.setTitle("Signy Launcher");
 		dialog.setHeaderText(
 				"Select a directory as workspace\nSigny IDE uses the workspace directory to store its preferences and development artifacts.");

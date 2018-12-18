@@ -6,6 +6,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -29,16 +30,14 @@ public class FXMLSplashController {
 		root = new AnchorPane();
 		Scene scene = new Scene(root, 300, 350);
 
-//		image = new Image("com/protectsoft/ide/assets/logomed.png");
-//
-//		imageview = new ImageView();
-//
-//		imageview.setImage(image);
-//
-//		root.getChildren().add(imageview);
+		Image image = new Image("icons/splash.png");
+		ImageView imageview = new ImageView();
+		imageview.setImage(image);
+
+		root.getChildren().add(imageview);
 
 		stage = new Stage();
-		stage.getIcons().add(new Image("icons/logo512-01.png"));
+		stage.getIcons().add(new Image("icons/logo512-16.png"));
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.setScene(scene);
 		stage.show();

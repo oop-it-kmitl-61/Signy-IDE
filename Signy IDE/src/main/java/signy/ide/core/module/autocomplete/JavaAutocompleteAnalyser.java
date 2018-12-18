@@ -1,17 +1,18 @@
 package signy.ide.core.module.autocomplete;
 
-import org.fxmisc.richtext.CodeArea;
-
-import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParserConfiguration;
-import signy.ide.utils.Utils;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
+
+import org.fxmisc.richtext.CodeArea;
+
+import com.github.javaparser.JavaParser;
+import com.github.javaparser.ParserConfiguration;
+
+import signy.ide.utils.Utils;
 
 public class JavaAutocompleteAnalyser extends AutocompleteAnalyser {
 

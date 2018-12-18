@@ -9,13 +9,13 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +23,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
-import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
 import signy.ide.core.module.SExplorer;
 import signy.ide.core.resources.SFile;
@@ -32,7 +31,8 @@ import signy.ide.utils.FileUtil;
 
 public class NewFileDialog {
 
-	private String iconLogo = "icons/logo.png";
+	private String iconLogo = "icons/logo512-16.png";
+	private String iconContent = "icons/open-file128.png";
 	private Path temp;
 
 	public NewFileDialog() {
@@ -44,7 +44,7 @@ public class NewFileDialog {
 		stage.getIcons().add(new Image(iconLogo));
 		dialog.setTitle("New File");
 		dialog.setHeaderText("File\nCreate a new file.");
-		dialog.setGraphic(new ImageView(new Image(iconLogo, 50, 50, false, true)));
+		dialog.setGraphic(new ImageView(new Image(iconContent, 50, 50, false, true)));
 
 		Path needed = LoadingController.getWorkspacePath();
 		File folder = needed.toFile();

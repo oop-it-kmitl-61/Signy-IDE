@@ -28,7 +28,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import signy.ide.FXMLDocumentController;
-import signy.ide.LoadingController;
 import signy.ide.controls.items.OutlineItem;
 
 public class SOutline {

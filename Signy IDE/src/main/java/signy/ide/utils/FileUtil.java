@@ -13,8 +13,6 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeCell;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.util.Callback;
 
 public class FileUtil extends ExceptionUtils {
@@ -171,6 +169,17 @@ public class FileUtil extends ExceptionUtils {
 			}
 		}
 		return null;
+	}
+
+	public static ArrayList<File> traverse(ArrayList<File> results, File root) {
+		for (File child : root.listFiles()) {
+			if (child.isDirectory()) {
+				traverse(results, child);
+			} else {
+				results.add(child);
+			}
+		}
+		return results;
 	}
 
 }
