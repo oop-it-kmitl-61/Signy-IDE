@@ -13,10 +13,10 @@
  - Integrated console
 
 #### APPLICATION PREVIEW
- ![Signy IDE Preview]("./Website/img/1.png")
- ![Signy IDE Preview]("./Website/img/2.png")
- ![Signy IDE Preview]("./Website/img/3.png")
- ![Signy IDE Preview]("./Website/img/4.png")
- ![Signy IDE Preview]("./Website/img/5.png")
- ![Signy IDE Preview]("./Website/img/6.png")
+ ![Signy IDE Preview](./Website/img/1.png)
+ ![Signy IDE Preview](./Website/img/2.png)
+ ![Signy IDE Preview](./Website/img/3.png)
+ ![Signy IDE Preview](./Website/img/4.png)
+ ![Signy IDE Preview](./Website/img/5.png)
+ ![Signy IDE Preview](./Website/img/6.png)
  
