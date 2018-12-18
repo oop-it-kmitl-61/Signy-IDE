@@ -28,7 +28,7 @@ import javafx.stage.Stage;
 import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
-import signy.ide.core.resources.Project;
+import signy.ide.core.resources.SProject;
 import signy.ide.lang.Lang;
 
 public class SConsole {
@@ -165,7 +165,7 @@ public class SConsole {
 						break;
 					case "compile":
 						System.out.println(LoadingController.getCurrentProject());
-						compiler.compile(workingDir + "/" + LoadingController.getCurrentProject().getTitle());
+						compiler.compile(LoadingController.getCurrentProject());
 						break;
 					case "run":
 						if (input[1] != null && input[1].length() > 0) {
@@ -323,6 +323,14 @@ public class SConsole {
 
 	public SConsoleArea getConsoleArea() {
 		return this.consoleArea;
+	}
+
+	public String getAllJavaFilePath() {
+		String result = null;
+		LoadingController.setResults("");
+		runCommand("dir " + LoadingController.getCurrentProject().getAbsolutePath() + " /s /B *.java");
+		result = LoadingController.getResults();
+		return result;
 	}
 
 }

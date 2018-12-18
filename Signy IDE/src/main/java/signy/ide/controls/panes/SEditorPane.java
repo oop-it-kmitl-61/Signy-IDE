@@ -14,6 +14,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.SingleSelectionModel;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
@@ -22,7 +25,7 @@ import signy.ide.LoadingController;
 import signy.ide.Main;
 import signy.ide.core.module.SEditor;
 import signy.ide.core.module.SOutline;
-import signy.ide.core.resources.Project;
+import signy.ide.core.resources.SProject;
 import signy.ide.lang.Lang;
 import signy.ide.lang.symbols.SymbolsType;
 
@@ -51,17 +54,24 @@ public class SEditorPane {
 
 		tabPane = new TabPane();
 		tabPane.setTabClosingPolicy(TabPane.TabClosingPolicy.ALL_TABS);
+		AnchorPane.setTopAnchor(tabPane, 0.0);
+		AnchorPane.setRightAnchor(tabPane, 0.0);
+		AnchorPane.setBottomAnchor(tabPane, 0.0);
+		AnchorPane.setLeftAnchor(tabPane, 0.0);
+
+		ImageView image = new ImageView(new Image("icons/logo.png"));
 
 		tabPane.getSelectionModel().selectedItemProperty().addListener((observable, oldTab, newTab) -> {
 			if (newTab != null) {
+				controller.getEditorAnchor().getChildren().clear();
+				controller.getEditorAnchor().getChildren().add(this.getTabPane());
 				currentActiveTab.set((SEditor) newTab.getUserData());
 				mainApp.setTitle(currentActiveTab.get().getPath());
 
 				LoadingController.setCurrentProject(currentActiveTab.get().getProjectRoot());
 				Lang.autocompleteAnalyser.getFilesCache().clear();
 				if (currentActiveTab.get().getProjectRoot() != null) {
-					Lang.autocompleteAnalyser
-							.listFilesForFolder(currentActiveTab.get().getProjectRoot().getPath().toFile());
+					Lang.autocompleteAnalyser.listFilesForFolder(currentActiveTab.get().getProjectRoot());
 				}
 				if (currentActiveTab.get().getFileExtension().equals("*.java")) {
 					SOutline.createOutline(currentActiveTab.get().getText());
@@ -73,6 +83,8 @@ public class SEditorPane {
 				currentActiveTab.set(null);
 				mainApp.setTitle(null);
 				SOutline.createOutline(null);
+				controller.getEditorAnchor().getChildren().clear();
+				controller.getEditorAnchor().getChildren().add(controller.getWelcomeView().getContentPane());
 			}
 		});
 
@@ -128,9 +140,9 @@ public class SEditorPane {
 
 		boolean isCreated = false;
 		for (File file : selectedFiles) {
-			for (Project project : LoadingController.getAllProjects()) {
-				if (project.getFilesSystem().contains(file)) {
-					createNewEditorTab(project, file);
+			for (SProject sProject : LoadingController.getAllProjects()) {
+				if (sProject.getFilesSystem().contains(file)) {
+					createNewEditorTab(sProject, file);
 					isCreated = true;
 					break;
 				}
@@ -167,12 +179,12 @@ public class SEditorPane {
 		closeFile(getCurrentActiveTab());
 	}
 
-	public void createNewEditorTab(Project project, File file) {
+	public void createNewEditorTab(SProject sProject, File file) {
 		if (file == null) {
 			sEditor = new SEditor();
 		} else {
 
-			sEditor = new SEditor(project, file);
+			sEditor = new SEditor(sProject, file);
 
 		}
 

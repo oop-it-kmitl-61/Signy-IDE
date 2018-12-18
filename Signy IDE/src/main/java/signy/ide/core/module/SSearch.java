@@ -1,7 +1,5 @@
 package signy.ide.core.module;
 
-import java.util.ArrayList;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -146,23 +144,24 @@ public class SSearch {
 
 			@Override
 			public void handle(MouseEvent mouseEvent) {
+
 				if (editor.getCurrentActiveTab() == null) {
 					return;
 				}
-				if (mouseEvent.getClickCount() == 1 && resultView.getSelectionModel().getSelectedItem() != null) {
-					if (resultView.getSelectionModel().getSelectedItem().getLine() >= 0) {
-						SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();
 
-						if (item == null) {
-							return;
-						}
-						editor.getCurrentActiveTab().getTextArea().selectRange(item.getIndex(),
-								item.getIndex() + item.getLength());
+				if (mouseEvent.getClickCount() == 1
+						&& resultView.getSelectionModel().getSelectedItem().getLine() >= 0) {
+					SearchItem item = (SearchItem) resultView.getSelectionModel().getSelectedItem();
 
-						editor.getCurrentActiveTab().getTextArea().requestFollowCaret();
-						editor.getCurrentActiveTab().getTextArea().requestFocus();
-
+					if (item == null) {
+						return;
 					}
+					editor.getCurrentActiveTab().getTextArea().selectRange(item.getIndex(),
+							item.getIndex() + item.getLength());
+
+					editor.getCurrentActiveTab().getTextArea().requestFollowCaret();
+					editor.getCurrentActiveTab().getTextArea().requestFocus();
+
 				}
 			}
 

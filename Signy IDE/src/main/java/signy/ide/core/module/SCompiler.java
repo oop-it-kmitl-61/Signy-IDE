@@ -8,34 +8,40 @@ import signy.ide.FXMLDocumentController;
 import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
 import signy.ide.controls.nodes.SOutputArea;
+import signy.ide.core.resources.SProject;
+import signy.ide.utils.FileUtil;
 
 public class SCompiler {
-	
+
 	private FXMLDocumentController controller;
 	private String rootDir;
 	private Thread thread;
 	private SOutputArea outputArea;
 	private SConsoleArea carea;
 
-	public SCompiler(FXMLDocumentController controller){
+	public SCompiler(FXMLDocumentController controller) {
 		this.controller = controller;
 		rootDir = controller.getRootDirectory();
 		outputArea = controller.getTerminalPane().getOutputPane().getOutputArea();
 		carea = controller.getTerminalPane().getConsolePane().getConsoleArea();
 	}
-	public boolean compile(){
-		return compile(rootDir, LoadingController.getPath());
+
+	public boolean compile() {
+		return compile(LoadingController.getCurrentProject(), LoadingController.getPath());
 	}
-	public boolean compile(String path){
-		return compile(path, LoadingController.getPath());
+
+	public boolean compile(SProject project) {
+		return compile(project, LoadingController.getPath());
 	}
-	public boolean compile(String path, String jdkPath){
+
+	public boolean compile(SProject project, String jdkPath) {
 		outputArea.clear();
-		Process p = FXMLDocumentController.compile(path);
-		controller.getTerminalPane().getTabPane().getSelectionModel().select(controller.getTerminalPane().getOutputPane().getTab());
-		carea.println("Root directory : " + path);
+		Process p = FXMLDocumentController.compile(project);
+		controller.getTerminalPane().getTabPane().getSelectionModel()
+				.select(controller.getTerminalPane().getOutputPane().getTab());
+		carea.println("Root directory : " + project.getPath().toString());
 		carea.println("Java directory : " + jdkPath);
-		if(p != null){
+		if (p != null) {
 			carea.println("compiling . . .");
 			thread = new Thread(new JavacStreamController(p, outputArea));
 			thread.start();
@@ -44,25 +50,26 @@ public class SCompiler {
 		carea.println("failed");
 		return false;
 	}
-	
-	public boolean run(){
+
+	public boolean run() {
 		return run("example");
 	}
-	
-	public boolean run(String mainClass){
+
+	public boolean run(String mainClass) {
 		return run(mainClass, controller.getRootDirectory());
 	}
-	
-	public boolean run(String mainClass, String path){
+
+	public boolean run(String mainClass, String path) {
 		return run(mainClass, path, LoadingController.getPath());
 	}
-	public boolean run(String mainClass, String path, String jdkPath){
+
+	public boolean run(String mainClass, String path, String jdkPath) {
 		outputArea.clear();
 		Process p = FXMLDocumentController.run(path, mainClass);
-		
+
 		carea.println("Root directory : " + path);
 		carea.println("Java directory : " + jdkPath);
-		if(p != null){
+		if (p != null) {
 			carea.println("compiling . . .");
 			thread = new Thread(new JavacStreamController(p, outputArea));
 			thread.start();
@@ -71,7 +78,7 @@ public class SCompiler {
 		carea.println("failed");
 		return false;
 	}
-	
+
 	private class JavacStreamController implements Runnable {
 
 		private boolean isStop = false;
@@ -95,13 +102,14 @@ public class SCompiler {
 		JavacStreamController(Process p, SOutputArea area) {
 			this.p = p;
 			this.area = area;
-			
+
 		}
 
 		@Override
 		public void run() {
 			boolean isError = false;
-			controller.getTerminalPane().getTabPane().getSelectionModel().select(controller.getTerminalPane().getOutputPane().getTab());
+			controller.getTerminalPane().getTabPane().getSelectionModel()
+					.select(controller.getTerminalPane().getOutputPane().getTab());
 			while (keepRunning()) {
 				System.out.println("At run : " + Thread.currentThread().getName() + " is running");
 				try {
@@ -140,7 +148,7 @@ public class SCompiler {
 				}
 
 			}
-			carea.println((!isError)? "OK" :"Fail");
+			carea.println((!isError) ? "OK" : "Fail");
 			System.out.println("At run : " + Thread.currentThread().getName() + " is stopped");
 			isStop = true;
 		}

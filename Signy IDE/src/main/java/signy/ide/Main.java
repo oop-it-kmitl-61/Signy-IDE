@@ -13,7 +13,6 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import signy.ide.lang.Lang;
 import signy.ide.settings.PropertySetting;
 
 /**
@@ -115,7 +114,6 @@ public class Main extends Application {
 		} else {
 			stage.setTitle("signy-workspace - " + path + " - " + getAppName() + " [" + USERNAME + "]");
 		}
-
 	}
 
 	public static void main(String[] args) {

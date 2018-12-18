@@ -112,19 +112,6 @@
 
 }
 
-.tree-view {
-
-	-fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
-    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
-
-}
-
-.tree-view:focused {
-
-
-
-}
-
 .list-view .list-cell {
 
     -fx-background-color: #1e1e1e;

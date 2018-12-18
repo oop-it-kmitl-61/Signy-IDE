@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import signy.ide.LoadingController;
 import signy.ide.controls.nodes.SConsoleArea;
 
 class StreamController implements Runnable {
@@ -45,6 +46,7 @@ class StreamController implements Runnable {
 				BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
 				while ((line = in.readLine()) != null && keepRunning()) {
 					area.println("    " + line);
+					LoadingController.appendResults(line + System.lineSeparator());
 				}
 
 				BufferedReader er = new BufferedReader(new InputStreamReader(p.getErrorStream()));

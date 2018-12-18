@@ -16,7 +16,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Scale;
 import signy.ide.controls.nodes.SCodeArea;
-import signy.ide.core.resources.Project;
+import signy.ide.core.resources.SProject;
 import signy.ide.utils.Utils;
 
 public class SEditor {
@@ -25,7 +25,7 @@ public class SEditor {
 	private String tabTitle;
 	private SCodeArea textArea;
 
-	private Project project;
+	private SProject sProject;
 	private File file;
 	private String fileName;
 	private Path path;
@@ -40,17 +40,17 @@ public class SEditor {
 
 	}
 
-	public SEditor(Project project, File file) {
+	public SEditor(SProject sProject, File file) {
 
-		this(project, file.getName(), Utils.fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
+		this(sProject, file.getName(), Utils.fileToString(file.getPath(), StandardCharsets.UTF_8), file.toPath(),
 				file.getName().substring(file.getName().lastIndexOf(".")));
 		this.file = file;
 
 	}
 
-	SEditor(Project project, String title, String content, Path path, String fileExtension) {
+	SEditor(SProject sProject, String title, String content, Path path, String fileExtension) {
 
-		this.project = project;
+		this.sProject = sProject;
 		fileName = title;
 		this.path = path;
 		this.fileExtension = "*" + fileExtension;
@@ -94,8 +94,8 @@ public class SEditor {
 		return this.textArea;
 	}
 
-	public Project getProjectRoot() {
-		return project;
+	public SProject getProjectRoot() {
+		return sProject;
 	}
 
 	public File getFile() {

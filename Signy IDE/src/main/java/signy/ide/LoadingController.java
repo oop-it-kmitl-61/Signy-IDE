@@ -1,25 +1,22 @@
 package signy.ide;
 
-import java.io.File;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import signy.ide.core.SJavaDevelopmentKit;
-import signy.ide.core.resources.Project;
-import signy.ide.settings.PropertySetting;
+import signy.ide.core.resources.SProject;
 
 public final class LoadingController {
 
+	private static FXMLDocumentController controller;
+
 	private static Path workspacePath;
 
-	private static ArrayList<Project> projects = new ArrayList<>();
+	private static ArrayList<SProject> sProjects = new ArrayList<>();
 
-	private static Project currentProject;
+	private static SProject currentProject;
 
 	private static Stage stage;
 
@@ -53,6 +50,14 @@ public final class LoadingController {
 
 	}
 
+	public static void setController(FXMLDocumentController controller) {
+		LoadingController.controller = controller;
+	}
+
+	public static FXMLDocumentController getController() {
+		return controller;
+	}
+
 	public static void setWorkspacePath(Path path) {
 		workspacePath = path;
 	}
@@ -61,15 +66,15 @@ public final class LoadingController {
 		return workspacePath;
 	}
 
-	public static ArrayList<Project> getAllProjects() {
-		return projects;
+	public static ArrayList<SProject> getAllProjects() {
+		return sProjects;
 	}
 
-	public synchronized static void setCurrentProject(Project project) {
-		currentProject = project;
+	public synchronized static void setCurrentProject(SProject sProject) {
+		currentProject = sProject;
 	}
 
-	public synchronized static Project getCurrentProject() {
+	public synchronized static SProject getCurrentProject() {
 		return currentProject;
 	}
 

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -20,18 +18,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.DirectoryChooser;
-import javafx.stage.Stage;
 import lib.org.eclipse.fx.ui.panes.SashPane;
+import signy.ide.controls.nodes.SWelcomeView;
 import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.STerminalPane;
 import signy.ide.controls.panes.SViewPane;
 import signy.ide.core.module.SConsole;
 import signy.ide.core.module.SMenuBar;
 import signy.ide.core.module.SOutput;
-import signy.ide.core.resources.Project;
+import signy.ide.core.resources.SProject;
 import signy.ide.lang.Lang;
-import signy.ide.settings.PropertySetting;
 import signy.ide.utils.FileUtil;
 
 public class FXMLDocumentController implements Initializable {
@@ -54,6 +50,11 @@ public class FXMLDocumentController implements Initializable {
 	private static SEditorPane editorPane;
 	private static STerminalPane terminalPane;
 
+	private static SWelcomeView sWelcomeView;
+
+	private boolean check_Side_Panel = true;
+	private boolean check_Bottom_Panel = true;
+
 	private static SConsole consolePane;
 	private static SOutput outputPane;
 	private static String rootDirectory = System.getProperty("user.dir");
@@ -61,12 +62,16 @@ public class FXMLDocumentController implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		LoadingController.setController(this);
+
 		rootDirectory = LoadingController.getWorkspacePath().toString();
 		this.mainApp = Main.getMainApp();
 
 		editorPane = new SEditorPane(this);
 		viewPane = new SViewPane(this);
 		terminalPane = new STerminalPane(this);
+
+		sWelcomeView = new SWelcomeView();
 
 		viewAnchor.getStylesheets().add("css/tree-view.css");
 		viewAnchor.getChildren().add(viewPane.getTabPane());
@@ -77,11 +82,11 @@ public class FXMLDocumentController implements Initializable {
 
 		editorAnchor.getStylesheets().add("css/editor.css");
 		editorAnchor.getStylesheets().add("css/document.css");
-		editorAnchor.getChildren().add(editorPane.getTabPane());
-		AnchorPane.setTopAnchor(editorPane.getTabPane(), 0.0);
-		AnchorPane.setRightAnchor(editorPane.getTabPane(), 0.0);
-		AnchorPane.setBottomAnchor(editorPane.getTabPane(), 0.0);
-		AnchorPane.setLeftAnchor(editorPane.getTabPane(), 0.0);
+		editorAnchor.getChildren().add(sWelcomeView.getContentPane());
+		AnchorPane.setTopAnchor(sWelcomeView.getContentPane(), 0.0);
+		AnchorPane.setRightAnchor(sWelcomeView.getContentPane(), 0.0);
+		AnchorPane.setBottomAnchor(sWelcomeView.getContentPane(), 0.0);
+		AnchorPane.setLeftAnchor(sWelcomeView.getContentPane(), 0.0);
 
 		terminalAnchor.getStylesheets().add("css/terminal.css");
 		terminalAnchor.getChildren().add(terminalPane.getTerminalPane());
@@ -100,8 +105,7 @@ public class FXMLDocumentController implements Initializable {
 		headBar.setAlignment(Pos.CENTER_LEFT);
 
 		Label label = new Label("Signy IDE");
-		headBar.getChildren()
-				.addAll(new ImageView(new Image("icons/top-logo.png", 64, 32, false, true)));
+		headBar.getChildren().addAll(new ImageView(new Image("icons/top-logo.png", 64, 32, false, true)));
 		headBar.getChildren().addAll(label);
 
 		menuBar = new SMenuBar(this).getMenuBar();
@@ -128,9 +132,9 @@ public class FXMLDocumentController implements Initializable {
 
 		for (final File projectEntry : LoadingController.getWorkspacePath().toFile().listFiles()) {
 			if (Files.exists(Paths.get(projectEntry.getAbsolutePath(), ".project"))) {
-				Project project = new Project(projectEntry.getName(), projectEntry.toPath());
-				LoadingController.getAllProjects().add(project);
-				scanProject(project, projectEntry);
+				SProject sProject = new SProject(projectEntry.getName(), projectEntry.toPath());
+				LoadingController.getAllProjects().add(sProject);
+				scanProject(sProject, projectEntry);
 			}
 		}
 
@@ -139,15 +143,31 @@ public class FXMLDocumentController implements Initializable {
 
 	}
 
-	private void scanProject(Project project, File entry) {
+	public boolean getCheckSide() {
+		return check_Side_Panel;
+	}
+
+	public void setCheckSide(boolean setPanel) {
+		this.check_Side_Panel = setPanel;
+	}
+
+	public boolean getCheckBottom() {
+		return check_Bottom_Panel;
+	}
+
+	public void setCheckBottom(boolean setPanel) {
+		this.check_Bottom_Panel = setPanel;
+	}
+
+	private void scanProject(SProject sProject, File entry) {
 		if (entry.listFiles() == null) {
 			return;
 		}
 		for (final File fileEntry : entry.listFiles()) {
 			if (fileEntry.isDirectory()) {
-				scanProject(project, fileEntry);
+				scanProject(sProject, fileEntry);
 			} else {
-				project.getFilesSystem().add(fileEntry);
+				sProject.getFilesSystem().add(fileEntry);
 			}
 		}
 	}
@@ -164,6 +184,10 @@ public class FXMLDocumentController implements Initializable {
 		return subWorkspacePane;
 	}
 
+	public AnchorPane getEditorAnchor() {
+		return editorAnchor;
+	}
+
 	public SViewPane getViewPane() {
 		return viewPane;
 	}
@@ -174,6 +198,10 @@ public class FXMLDocumentController implements Initializable {
 
 	public STerminalPane getTerminalPane() {
 		return terminalPane;
+	}
+
+	public SWelcomeView getWelcomeView() {
+		return sWelcomeView;
 	}
 
 	public String getRootDirectory() {
@@ -217,11 +245,16 @@ public class FXMLDocumentController implements Initializable {
 		consolePane.endProcess();
 	}
 
-	public static Process compile(String projectDirectory) {
+	public static Process compile(SProject project) {
+		FileUtil.createFolder(project.getPathBin());
 		Process pro = null;
 		try {
-			pro = Runtime.getRuntime().exec(LoadingController.getPath() + "/bin/javac -d bin src/*.java", null,
-					new File(projectDirectory));
+			String[] results = terminalPane.getConsolePane().getAllJavaFilePath().split(System.lineSeparator());
+			String needed = LoadingController.getPath() + "/bin/javac -d bin ";
+			for (String result : results) {
+				needed += " " + result;
+			}
+			pro = Runtime.getRuntime().exec(needed, null, project);
 
 		} catch (IOException e) {
 			System.out.println("  Compile Failed! print stacktrace  ");

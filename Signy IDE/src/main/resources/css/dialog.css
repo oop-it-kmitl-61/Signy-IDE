@@ -1,0 +1,308 @@
+.root {
+
+	header-panel-color: #2e2e2e;
+	content-panel-color: #1e1e1e;
+	highlight-color: #7289da;
+	background-color: #3c3c3c;
+	mark-color: #c5c5c5;
+	text-header-color: white;
+	text-color: #bbbbbb;
+
+	tree-cell-color: #2a2d2e;
+	arrow-color-1: #838383;
+	arrow-color-2: #e0e0e0;
+
+}
+
+.header-panel {
+
+    -fx-background-color: header-panel-color;
+
+}
+
+.header-panel .label {
+
+    -fx-text-fill: text-header-color;
+
+}
+
+.content-panel {
+
+	-fx-background-color: content-panel-color;
+
+}
+
+.button-bar {
+
+	-fx-background-color: content-panel-color;
+
+}
+
+.label {
+
+    -fx-text-fill: text-color;
+
+}
+
+.text-field {
+
+	-fx-background-radius: 0.0;
+	-fx-background-insets: 0.0;
+
+	-fx-background-color: background-color;
+	-fx-border-color: background-color;
+	-fx-prompt-text-fill: #a6a6a6;
+	-fx-text-fill: #cccccc;
+
+}
+
+.text-field:focused {
+
+	-fx-border-color: highlight-color;
+
+}
+
+.button {
+
+	-fx-background-radius: 0.0;
+	-fx-background-insets: 0.0;
+
+	-fx-background-color: transparent;
+	-fx-border-color: content-panel-color;
+	-fx-text-fill: text-header-color;
+
+}
+
+.button:hover {
+
+	-fx-background-color: background-color;
+
+}
+
+.button:focused {
+
+	-fx-border-color: highlight-color;
+
+}
+
+.confirm-button {
+
+	-fx-background-color: background-color;
+	-fx-text-fill: text-header-color;
+
+}
+
+.confirm-button:hover {
+
+	-fx-background-color: highlight-color;
+
+}
+
+.check-box {
+
+	-fx-text-fill: text-color;
+
+}
+
+.check-box .box {
+
+	-fx-background-radius: 0.0;
+	-fx-background-insets: 0.0;
+
+	-fx-background-color: background-color;
+	-fx-border-color: content-panel-color;
+
+}
+
+.check-box .mark {
+
+	-fx-shape: "M14.596,2.055L12.455,0C9.687,2.884,6.011,6.714,5.158,7.602L2.055,4.624L0,6.765l5.242,5.037l0.003-0.004
+	l0.003,0.004L14.596,2.055z";
+
+}
+
+.check-box:selected .mark {
+
+	-fx-background-color: mark-color;
+
+}
+
+.check-box:focused .box {
+
+	-fx-border-color: highlight-color;
+
+}
+
+.radio-button {
+
+	-fx-text-fill: text-color;
+
+}
+
+.radio-button .radio {
+
+    -fx-border-color: transparent;
+    -fx-background-color: background-color;
+    -fx-background-image: null;
+    -fx-border-radius: 15.0px;
+    -fx-padding: 4.0px;
+
+}
+
+.radio-button:focused .radio {
+
+	-fx-border-color: highlight-color;
+
+}
+
+.radio-button:selected .dot {
+
+	-fx-background-color: mark-color;
+    -fx-background-radius: 15.0px;
+    -fx-padding: 4.0px;
+
+}
+
+.tree-view {
+
+	-fx-background-insets: 0.0px 0.0px 0.0px 0.0px;
+    -fx-padding: 0.0em 0.0em 0.0em 0.0em;
+
+	-fx-border-color: content-panel-color;
+
+}
+
+.tree-view:focused {
+
+	-fx-border-color: highlight-color;
+
+}
+
+.tree-view .tree-cell {
+
+    -fx-background-color: content-panel-color;
+    -fx-text-fill: white;
+
+}
+
+.tree-view .tree-cell:filled:hover {
+
+	-fx-background-color: tree-cell-color;
+
+}
+
+.tree-view .tree-cell:selected {
+
+	-fx-background-color: tree-cell-color;
+
+}
+
+.tree-cell > .tree-disclosure-node > .arrow,
+.tree-table-row-cell > .tree-disclosure-node > .arrow {
+
+	-fx-background-color: arrow-color-1;
+    -fx-rotate: 0.0;
+
+}
+
+.tree-cell:expanded > .tree-disclosure-node > .arrow,
+.tree-table-row-cell:expanded > .tree-disclosure-node > .arrow {
+
+	-fx-background-color: arrow-color-2;
+    -fx-rotate: 90.0;
+
+}
+
+.scroll-bar {
+
+	-fx-background-color: #1e1e1e;
+	-fx-background-radius: 0.0em;
+
+}
+
+.corner {
+
+	-fx-background-color: transparent;
+
+}
+
+.scroll-bar:horizontal .track,
+.scroll-bar:vertical .track {
+
+	 -fx-background-color: transparent;
+	 -fx-border-color:transparent;
+	 -fx-background-radius: 0.0em;
+
+}
+
+.scroll-bar:vertical .track-background,
+.scroll-bar:horizontal .track-background {
+
+	-fx-background-color: transparent;
+	-fx-background-insets: 0.0;
+	-fx-background-radius: 0.0em;
+
+}
+
+.scroll-bar:horizontal .thumb {
+
+	-fx-background-color: rgb(205.0,205.0,205.0);
+    -fx-background-insets: 2.0 0.0 2.0 0.0;
+    -fx-background-radius: 0.0em;
+    -fx-opacity: 0.2;
+
+}
+
+.scroll-bar:vertical .thumb {
+	
+ 	-fx-background-color: rgb(205.0,205.0,205.0);
+    -fx-background-insets: 0.0 0.0 0.0 1.0;
+    -fx-background-radius: 0.0em;
+    -fx-opacity: 0.2;
+
+}
+
+.scroll-bar:horizontal .thumb:hover,
+.scroll-bar:vertical .thumb:hover {
+
+	-fx-background-color: rgb(255.0,255.0,255.0);
+
+}
+
+.scroll-bar:horizontal .thumb:pressed,
+.scroll-bar:vertical .thumb:pressed {
+
+ 	-fx-background-color: rgb(255.0,255.0,255.0);
+    -fx-opacity: 0.3;
+
+}
+
+.scroll-bar .increment-arrow, .scroll-bar .decrement-arrow {
+
+	-fx-shape: "";
+	-fx-padding: 0.0;
+
+}
+
+.scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button {
+
+    -fx-background-color:transparent;  
+    -fx-background-radius: 0.0em;
+    -fx-padding: 1.0 7.5 1.0 7.5;
+
+}
+
+.scroll-bar:horizontal .increment-button, .scroll-bar:horizontal .decrement-button {
+
+     -fx-background-color:transparent; 
+     -fx-background-radius: 0.0em;
+     -fx-padding: 7.5 1.0 7.5 1.0;
+
+}
+
+.scroll-bar:vertical:focused,
+.scroll-bar:horizontal:focused {
+
+    -fx-background-color: -fx-box-border, -fx-box-border, white;
+
+}

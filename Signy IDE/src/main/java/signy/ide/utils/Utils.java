@@ -1,8 +1,10 @@
 package signy.ide.utils;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
 
@@ -22,6 +24,14 @@ public class Utils {
 		}
 
 		return content;
+	}
+
+	public static void writeToFile(String fileContent, Path path) {
+		try (BufferedWriter writer = Files.newBufferedWriter(path)) {
+			writer.write(fileContent, 0, fileContent.length());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static String listToString(List<?> list) {

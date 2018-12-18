@@ -1,6 +1,6 @@
 .root {
 
-	
+
 
 }
 
@@ -157,7 +157,7 @@ BorderPane, AnchorPane {
 
 .scroll-bar:vertical .increment-button, .scroll-bar:vertical .decrement-button {
 
-    -fx-background-color:transparent;  
+    -fx-background-color: transparent;  
     -fx-background-radius: 0.0em;
     -fx-padding: 1.0 7.5 1.0 7.5;
 
@@ -175,5 +175,60 @@ BorderPane, AnchorPane {
 .scroll-bar:horizontal:focused {
 
     -fx-background-color: -fx-box-border,-fx-box-border,white;
+
+}
+
+.menu-bar {
+
+	-fx-background-color: #2e2e2e;
+
+}
+
+.menu:hover, .menu:showing {
+
+	-fx-background-color: #7289da;
+
+}
+
+.menu-item , .context-menu {
+
+	-fx-background-color: #262626;
+
+}
+
+.context-menu {
+
+	-fx-padding: 0.5em 0em 0.5em 0em;
+
+}
+
+.menu-item {
+
+	-fx-padding: 0.3em 2em 0.3em 2.5em;
+
+}
+
+.menu-item:focused {
+
+     -fx-background-color: #969A9F;
+
+}
+
+.context-menu .separator {
+
+	-fx-padding: 0.25em 1em 0.25em 1em;
+	-fx-opacity: 0.3;
+
+}
+
+.label {
+
+	-fx-text-fill: white;
+
+}
+
+.mnemonic-underline {
+
+    -fx-text-base-color: white;
 
 }
