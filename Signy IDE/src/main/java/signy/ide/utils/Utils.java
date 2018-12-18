@@ -1,12 +1,18 @@
 package signy.ide.utils;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import signy.ide.LoadingController;
+import signy.ide.core.resources.SProject;
 
 public class Utils {
 
@@ -40,6 +46,19 @@ public class Utils {
 			result += list.get(i) + " ";
 		}
 		return result.trim();
+	}
+	
+	public static void copyProject() {
+		DirectoryChooser dirChooser = new DirectoryChooser();
+		dirChooser.setInitialDirectory(LoadingController.getWorkspacePath().toFile());
+		File selectedDir = dirChooser.showDialog(null);
+
+		if (selectedDir == null) {
+			return;
+		}
+		System.out.println(selectedDir.getAbsolutePath());
+		
+		LoadingController.getController().getTerminalPane().getConsolePane().runCommand("xcopy \"" + selectedDir.getAbsolutePath() + "\"\\*.* \"" + LoadingController.getWorkspacePath().toFile().getAbsolutePath() + "\"\\" + selectedDir.getName() + "\\ /e /y");
 	}
 
 }
