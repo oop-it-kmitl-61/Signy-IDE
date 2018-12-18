@@ -38,7 +38,7 @@ public class FXMLSplashController {
 //		root.getChildren().add(imageview);
 
 		stage = new Stage();
-		stage.getIcons().add(new Image("icons/logo.png"));
+		stage.getIcons().add(new Image("icons/logo512-01.png"));
 		stage.initStyle(StageStyle.UNDECORATED);
 		stage.setScene(scene);
 		stage.show();

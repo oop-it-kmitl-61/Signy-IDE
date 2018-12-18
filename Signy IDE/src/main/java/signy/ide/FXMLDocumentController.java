@@ -105,7 +105,7 @@ public class FXMLDocumentController implements Initializable {
 		headBar.setAlignment(Pos.CENTER_LEFT);
 
 		Label label = new Label("Signy IDE");
-		headBar.getChildren().addAll(new ImageView(new Image("icons/top-logo.png", 64, 32, false, true)));
+		headBar.getChildren().addAll(new ImageView(new Image("icons/logo512-17.png", 64, 32, false, true)));
 		headBar.getChildren().addAll(label);
 
 		menuBar = new SMenuBar(this).getMenuBar();

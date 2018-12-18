@@ -2,8 +2,6 @@ package signy.ide.core.module.autocomplete;
 
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.IntStream;
-
 import org.fxmisc.flowless.VirtualizedScrollPane;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.PlainTextChange;
@@ -14,13 +12,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.Event;
 import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.ScrollEvent;
 import javafx.stage.Popup;
 import javafx.stage.Stage;
-import signy.ide.controls.items.SearchItem;
-
 import static javafx.scene.input.KeyCode.LEFT;
 import static javafx.scene.input.KeyCode.RIGHT;
 import static org.fxmisc.wellbehaved.event.EventPattern.anyOf;

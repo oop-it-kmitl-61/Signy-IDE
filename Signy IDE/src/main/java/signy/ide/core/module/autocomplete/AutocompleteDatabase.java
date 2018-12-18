@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import signy.ide.lang.symbols.DocumentType;
-import signy.ide.lang.symbols.SymbolsType;
 
 public class AutocompleteDatabase {
 

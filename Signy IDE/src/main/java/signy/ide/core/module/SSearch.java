@@ -62,8 +62,10 @@ public class SSearch {
 		menuBox = new HBox();
 		menuBox.getStyleClass().add("menu-box");
 		Region region = new Region();
-		buttonRefresh = new Button("R");
-		buttonClear = new Button("C");
+		buttonRefresh = new Button();
+		buttonRefresh.setGraphic(new ImageView(new Image("icons/reffresh64.png", 16, 16, true, false)));
+		buttonClear = new Button();
+		buttonClear.setGraphic(new ImageView(new Image("icons/clear64.png", 16, 16, true, false)));
 		menuBox.getChildren().addAll(labelSearch, region, buttonRefresh, buttonClear);
 		HBox.setHgrow(region, Priority.ALWAYS);
 

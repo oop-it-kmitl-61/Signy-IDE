@@ -8,7 +8,6 @@ import signy.ide.lang.symbols.SymbolsType;
 import org.fxmisc.richtext.CodeArea;
 import org.fxmisc.richtext.model.PlainTextChange;
 
-import com.github.javaparser.JavaParser;
 import com.github.javaparser.ParseProblemException;
 
 import java.util.Arrays;

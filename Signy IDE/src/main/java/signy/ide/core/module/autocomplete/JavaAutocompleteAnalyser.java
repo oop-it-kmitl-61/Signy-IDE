@@ -3,18 +3,7 @@ package signy.ide.core.module.autocomplete;
 import org.fxmisc.richtext.CodeArea;
 
 import com.github.javaparser.JavaParser;
-import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.ParserConfiguration;
-import com.github.javaparser.Position;
-import com.github.javaparser.Range;
-import com.github.javaparser.ast.Node;
-import com.github.javaparser.ast.body.FieldDeclaration;
-import com.github.javaparser.ast.body.MethodDeclaration;
-
-import io.github.classgraph.ClassGraph;
-import io.github.classgraph.ClassInfoList;
-import io.github.classgraph.ScanResult;
-import signy.ide.controls.items.OutlineItem;
 import signy.ide.utils.Utils;
 
 import java.io.File;
@@ -23,7 +12,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
-import java.util.Stack;
 
 public class JavaAutocompleteAnalyser extends AutocompleteAnalyser {
 

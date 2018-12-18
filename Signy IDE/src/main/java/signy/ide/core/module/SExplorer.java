@@ -81,7 +81,8 @@ public class SExplorer {
 		menuBox.getStyleClass().add("menu-box");
 		labelExplorer = new Label("EXPLORER");
 		Region region = new Region();
-		buttonRefresh = new Button("R");
+		buttonRefresh = new Button();
+		buttonRefresh.setGraphic(new ImageView(new Image("icons/reffresh64.png", 16, 16, true, false)));
 		menuBox.getChildren().addAll(labelExplorer, region, buttonRefresh);
 		HBox.setHgrow(region, Priority.ALWAYS);
 

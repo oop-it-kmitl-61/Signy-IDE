@@ -28,7 +28,7 @@ public class SWelcomeView {
 		grid.setVgap(16);
 		grid.setPadding(new Insets(25, 25, 25, 25));
 
-		ImageView im = new ImageView(new Image("icons/logo.png", 229, 259, false, true));   
+		ImageView im = new ImageView(new Image("icons/logo512-14.png", 250, 250, false, false));   
 		grid.add(im, 0, 0, 2, 1);
 
 		Text sceneHelp00 = new Text("New Project");
