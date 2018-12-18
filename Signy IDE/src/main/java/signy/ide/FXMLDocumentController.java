@@ -13,10 +13,14 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.NodeOrientation;
 import javafx.geometry.Pos;
+import javafx.geometry.Side;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitMenuButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -25,13 +29,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import lib.org.eclipse.fx.ui.panes.SashPane;
+import signy.ide.controls.items.SMenuItem;
 import signy.ide.controls.nodes.SWelcomeView;
 import signy.ide.controls.panes.SEditorPane;
 import signy.ide.controls.panes.STerminalPane;
 import signy.ide.controls.panes.SViewPane;
+import signy.ide.controls.panes.dialogs.NewJavaProjectDialog;
 import signy.ide.core.module.SConsole;
 import signy.ide.core.module.SMenuBar;
 import signy.ide.core.module.SOutput;
+import signy.ide.core.resources.SFile;
 import signy.ide.core.resources.SProject;
 import signy.ide.lang.Lang;
 import signy.ide.utils.FileUtil;
@@ -66,13 +73,15 @@ public class FXMLDocumentController implements Initializable {
 	private static SOutput outputPane;
 	private static String rootDirectory = System.getProperty("user.dir");
 
+	private static SplitMenuButton btnBuild;
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
 		LoadingController.setController(this);
 
-		Button btnBuild = new Button();
-		btnBuild.setGraphic(new ImageView(new Image("icons/go.png", 12, 12, true, false)));
+		btnBuild = new SplitMenuButton();
+		btnBuild.setGraphic(new ImageView(new Image("icons/build-run.png", 16, 16, false, true)));
 		btnBuild.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -84,22 +93,9 @@ public class FXMLDocumentController implements Initializable {
 
 		});
 
-		Button btnRun = new Button();
-		btnRun.setGraphic(new ImageView(new Image("icons/go.png", 12, 12, true, false)));
-		btnRun.setOnAction(new EventHandler<ActionEvent>() {
-
-			@Override
-			public void handle(ActionEvent event) {
-				if (LoadingController.getCurrentProject() != null) {
-					consolePane.getCompiler().run(LoadingController.getCurrentProject());
-				}
-			}
-
-		});
-
 		Region gap = new Region();
 		gap.setPadding(new Insets(16, 0, 0, 0));
-		profileBar.getChildren().addAll(gap, btnBuild, btnRun);
+		profileBar.getChildren().addAll(gap);
 
 		rootDirectory = LoadingController.getWorkspacePath().toString();
 		this.mainApp = Main.getMainApp();
@@ -148,6 +144,7 @@ public class FXMLDocumentController implements Initializable {
 		menuBar = new SMenuBar(this).getMenuBar();
 		headBar.getChildren().add(menuBar);
 		menuBar.getStylesheets().add("css/menu-bar.css");
+		headBar.getChildren().add(btnBuild);
 
 		consolePane = terminalPane.getConsolePane();
 		outputPane = terminalPane.getOutputPane();
@@ -245,6 +242,10 @@ public class FXMLDocumentController implements Initializable {
 		return rootDirectory;
 	}
 
+	public SplitMenuButton getBtnBuild() {
+		return btnBuild;
+	}
+
 	public static boolean scanJdkInEnvPath() {
 		try {
 			LoadingController.setStateProcess(true);
@@ -283,7 +284,16 @@ public class FXMLDocumentController implements Initializable {
 	}
 
 	public static Process compile(SProject project) {
+		btnBuild.getItems().clear();
 		project.setMainClass(Utils.scanMainClass(project));
+		for (File main : project.getMainClass()) {
+			SMenuItem item = new SMenuItem(main);
+			item.setOnAction(e -> {
+				LoadingController.setMainToCompile(((SFile) item.getFile()));
+				consolePane.getCompiler().run(((SFile) item.getFile()).getRootProject());
+			});
+			btnBuild.getItems().add(item);
+		}
 		FileUtil.createFolder(project.getPathBin());
 		Process pro = null;
 		try {
@@ -309,7 +319,7 @@ public class FXMLDocumentController implements Initializable {
 	public static Process run(String projectDirectory, SProject project) {
 		Process pro = null;
 		try {
-			String tmp = (project.getMainClass().get(0).getAbsolutePath().substring(
+			String tmp = (LoadingController.getMainToCompile().getAbsolutePath().substring(
 					(project.getPathBin().toString().length() + 1),
 					project.getMainClass().get(0).getCanonicalPath().length() - 5))
 							.replaceAll(File.separator + File.separator, ".");

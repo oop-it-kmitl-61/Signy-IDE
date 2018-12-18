@@ -26,6 +26,7 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import javafx.stage.DirectoryChooser;
 import signy.ide.LoadingController;
+import signy.ide.core.resources.SFile;
 import signy.ide.core.resources.SProject;
 
 public class Utils {
@@ -79,22 +80,22 @@ public class Utils {
 	}
 
 	public static ArrayList<File> scanMainClass(SProject project) {
-		ArrayList<File> results = traverse(new ArrayList<File>(), project);
+		ArrayList<File> results = traverse(new ArrayList<File>(), project, project);
 		return results;
 	}
 
-	public static ArrayList<File> traverse(ArrayList<File> results, File root) {
+	public static ArrayList<File> traverse(ArrayList<File> results, File root, SProject project) {
 		for (File child : root.listFiles()) {
 			if (child.isDirectory()) {
-				traverse(results, child);
+				traverse(results, child, project);
 			} else if (FilenameUtils.getExtension(child.getName()).equals("java")) {
-				createAST(results, child);
+				createAST(results, child, project);
 			}
 		}
 		return results;
 	}
 
-	public static void createAST(ArrayList<File> results, File input) {
+	public static void createAST(ArrayList<File> results, File input, SProject project) {
 		if (input == null) {
 			return;
 		}
@@ -132,7 +133,7 @@ public class Utils {
 				for (TypeDeclaration rootClass : stackType) {
 					for (MethodDeclaration method : rootClass.getMethods()) {
 						if (method.getName().getFullyQualifiedName().equals("main")) {
-							results.add(input);
+							results.add(new SFile(project, input.toPath()));
 						}
 					}
 				}

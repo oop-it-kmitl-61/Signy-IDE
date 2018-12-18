@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import javafx.stage.Stage;
 import signy.ide.core.SJavaDevelopmentKit;
+import signy.ide.core.resources.SFile;
 import signy.ide.core.resources.SProject;
 
 public final class LoadingController {
@@ -45,6 +46,8 @@ public final class LoadingController {
 	private static String args = "";
 
 	private static Thread backgroundThread;
+
+	private static SFile mainToCompile;
 
 	public LoadingController() {
 
@@ -168,6 +171,15 @@ public final class LoadingController {
 
 	public static void setPath(String string) {
 		jdkPath = string;
+
+	}
+
+	public static SFile getMainToCompile() {
+		return mainToCompile;
+	}
+
+	public static void setMainToCompile(SFile file) {
+		mainToCompile = file;
 
 	}
 
